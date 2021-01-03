@@ -1,0 +1,55 @@
+{
+  "Entities": [
+    {
+      "EntityType": "TestDraw",
+      "Properties": {
+        "Name": "TestDraw",
+        "Texture": "Sprites/Schedule"
+      },
+      "Bindings": []
+    },
+    {
+      "EntityType": "Test",
+      "Properties": {
+        "Name": "Test",
+      },
+      "Bindings": []
+    },
+    {
+      "EntityType": "Update",
+      "Properties": {
+        "Name": "Update"
+      },
+      "Bindings": [
+        {
+          "Event": "OnUpdate",
+          "EntityName": "Print",
+          "ActionName": "Print",
+          "OverrideParam": true,
+          "ParamOverride": "DeltaTime:"
+        },
+        {
+          "Event": "OnUpdate",
+          "EntityName": "Print",
+          "ActionName": "Print",
+          "OverrideParam": false,
+          "ParamOverride": ""
+        },
+        {
+          "Event": "OnUpdate",
+          "EntityName": "Print",
+          "ActionName": "Print",
+          "OverrideParam": true,
+          "ParamOverride": "\n"
+        }
+      ]
+    },
+    {
+      "EntityType": "Print",
+      "Properties": {
+        "Name": "Print"
+      },
+      "Bindings": []
+    }
+  ]
+}

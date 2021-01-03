@@ -1,0 +1,33 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin
+/intermediateDir:obj
+/platform:Windows
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+/reference:..\..\Src2D.Content\bin\Src2D.Content.dll
+
+#---------------------------------- Content ---------------------------------#
+
+#begin Maps/TestMap.srcmap
+/importer:SrcMapImporter
+/processor:SrcMapProcessor
+/build:Maps/TestMap.srcmap
+
+#begin Sprites/gordon.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/gordon.jpg
+

@@ -1,0 +1,12 @@
+{
+  "Name": "ExampleGame",
+  "ContentFolder": "Content",
+  "StartingMap": "Maps/TestMap",
+  "DataSheetDirectory":"Data",
+  "BuildConfigurations": [
+    {
+      "Name": "Debug",
+      "DLL": "Source/bin/Debug/netstandard2.0/ExampleGame.dll"
+    }
+  ]
+}
