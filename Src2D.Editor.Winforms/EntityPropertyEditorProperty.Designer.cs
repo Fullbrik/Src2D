@@ -50,7 +50,7 @@ namespace Src2D.Editor.Winforms
             this.PropertyValueEditor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PropertyValueEditor.Location = new System.Drawing.Point(55, 0);
             this.PropertyValueEditor.Name = "PropertyValueEditor";
-            this.PropertyValueEditor.Size = new System.Drawing.Size(445, 20);
+            this.PropertyValueEditor.Size = new System.Drawing.Size(1245, 20);
             this.PropertyValueEditor.TabIndex = 1;
             // 
             // EntityPropertyEditorProperty
@@ -60,7 +60,7 @@ namespace Src2D.Editor.Winforms
             this.Controls.Add(this.PropertyValueEditor);
             this.Controls.Add(this.PropetyLabel);
             this.Name = "EntityPropertyEditorProperty";
-            this.Size = new System.Drawing.Size(500, 20);
+            this.Size = new System.Drawing.Size(1300, 20);
             this.Load += new System.EventHandler(this.EntityPropertyEditorProperty_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

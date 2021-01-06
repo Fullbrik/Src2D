@@ -66,9 +66,10 @@ namespace Src2D.Editor.Winforms
             DatasheetBuilderCaller.Call(fileName, "Debug");
 
             ToolLauncher launcher = new ToolLauncher(fileName);
+            ShowInTaskbar = false;
+            Hide();
             launcher.ShowDialog();
             Close();
-            //Close();
         }
     }
 }

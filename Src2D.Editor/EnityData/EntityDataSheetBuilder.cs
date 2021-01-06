@@ -83,6 +83,7 @@ namespace Src2D.Editor.EnityData
 
                     property.Description = srcProp.Description;
                     property.PropertyType = SrcPropertyAttribute.GetSrcPropertyTypeFor(prop);
+                    property.DefaultValue = srcProp.DefaultValue?? SrcPropertyAttribute.GetDefaultValueFor(property.PropertyType);
 
                     retVal.Add(name, property);
                 }

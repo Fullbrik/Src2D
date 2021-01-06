@@ -84,11 +84,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BufferedTableLayout.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ColorEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ColorEditor.Designer.cs">
+      <DependentUpon>ColorEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="ContentBrowser.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ContentBrowser.Designer.cs">
       <DependentUpon>ContentBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ContentBrowserDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ContentBrowserDialog.Designer.cs">
+      <DependentUpon>ContentBrowserDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="DatasheetBuilderCaller.cs" />
     <Compile Include="EditorPreviewControl.cs">
@@ -100,11 +115,23 @@
     <Compile Include="EntityPropertyEditor.Designer.cs">
       <DependentUpon>EntityPropertyEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="EntityPropertyEditorAsset.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EntityPropertyEditorAsset.Designer.cs">
+      <DependentUpon>EntityPropertyEditorAsset.cs</DependentUpon>
+    </Compile>
     <Compile Include="EntityPropertyEditorProperty.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="EntityPropertyEditorProperty.Designer.cs">
       <DependentUpon>EntityPropertyEditorProperty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImageViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImageViewer.Designer.cs">
+      <DependentUpon>ImageViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Launcher.cs">
       <SubType>Form</SubType>
@@ -132,11 +159,11 @@
       <DependentUpon>ToolLauncher.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools.cs" />
-    <Compile Include="Vector3.cs">
+    <Compile Include="Vector3Editor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Vector3.Designer.cs">
-      <DependentUpon>Vector3.cs</DependentUpon>
+    <Compile Include="Vector3Editor.Designer.cs">
+      <DependentUpon>Vector3Editor.cs</DependentUpon>
     </Compile>
     <Compile Include="Vector2Editor.cs">
       <SubType>UserControl</SubType>
@@ -144,14 +171,26 @@
     <Compile Include="Vector2Editor.Designer.cs">
       <DependentUpon>Vector2Editor.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ColorEditor.resx">
+      <DependentUpon>ColorEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ContentBrowser.resx">
       <DependentUpon>ContentBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ContentBrowserDialog.resx">
+      <DependentUpon>ContentBrowserDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EntityPropertyEditor.resx">
       <DependentUpon>EntityPropertyEditor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EntityPropertyEditorAsset.resx">
+      <DependentUpon>EntityPropertyEditorAsset.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EntityPropertyEditorProperty.resx">
       <DependentUpon>EntityPropertyEditorProperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImageViewer.resx">
+      <DependentUpon>ImageViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Launcher.resx">
       <DependentUpon>Launcher.cs</DependentUpon>
@@ -172,8 +211,8 @@
     <EmbeddedResource Include="ToolLauncher.resx">
       <DependentUpon>ToolLauncher.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vector3.resx">
-      <DependentUpon>Vector3.cs</DependentUpon>
+    <EmbeddedResource Include="Vector3Editor.resx">
+      <DependentUpon>Vector3Editor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vector2Editor.resx">
       <DependentUpon>Vector2Editor.cs</DependentUpon>
@@ -203,6 +242,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ColorDialog_16x.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="FolderBottomPanel_16x.png" />
     <Content Include="FolderClosed_16x.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -16,6 +16,7 @@ using Src2D.Editor.EnityData;
 
 namespace Src2D.Editor.Winforms
 {
+    [Tool("Map Editor", SrcAssetType.Map)]
     public partial class MapEditor : Form
     {
         private MapEditorPreveiw preview;
@@ -54,7 +55,11 @@ namespace Src2D.Editor.Winforms
                 MessageBox.Show(error, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+            PropertyEditor.Preview = preview;
+            PropertyEditor.ContentFile = content;
+
             ReloadEntityList();
+            UpdateUndoAndRedoButtons();
         }
 
         public void ReloadEntityList()
@@ -80,6 +85,51 @@ namespace Src2D.Editor.Winforms
             if(e.Node.Tag is MapEditorEntity entity)
             {
                 PropertyEditor.Entity = entity;
+            }
+        }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            preview.Undo();
+        }
+
+        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            preview.Redo();
+        }
+
+        private void MapPreview_OnAction(object sender, EventArgs e)
+        {
+            UpdateUndoAndRedoButtons();
+        }
+
+        private void MapPreview_OnUndoOrRedo(object sender, EventArgs e)
+        {
+            PropertyEditor.Entity = PropertyEditor.Entity;
+            UpdateUndoAndRedoButtons();
+        }
+
+        private void UpdateUndoAndRedoButtons()
+        {
+            undoToolStripMenuItem.Enabled = preview.CanUndo;
+            redoToolStripMenuItem.Enabled = preview.CanRedo;
+        }
+
+        private void MapEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Modifiers == Keys.Control)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.Y:
+                        preview.Redo();
+                        break;
+                    case Keys.Z:
+                        preview.Undo();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }

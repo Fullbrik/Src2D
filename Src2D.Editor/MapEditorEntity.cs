@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json.Linq;
 using Src2D.Data;
 using Src2D.Editor.EnityData;
 using System;
@@ -28,11 +29,22 @@ namespace Src2D.Editor
         public Dictionary<string, MapPreviewEntityProperty> OtherProperties
             = new Dictionary<string, MapPreviewEntityProperty>();
 
-        public MapEditorEntity(MapEntity entity, ContentManager content)
+        public Dictionary<string, MapPreviewAsset> Assets
+            = new Dictionary<string, MapPreviewAsset>();
+
+        private MapEditorPreveiw preveiw;
+
+        public MapEditorEntity(MapEditorPreveiw preveiw, MapEntity entity, ContentManager content)
         {
+            this.preveiw = preveiw;
+
             EntityType = entity.EntityType;
+
             Data = EntityDataSheetManager.CurrentSheet.Entities[entity.EntityType];
+
             PopulateProperties(entity.Properties);
+            PopulateAssets(entity.Assets);
+
             if (!string.IsNullOrWhiteSpace(Data.Sprite))
             {
                 try
@@ -102,8 +114,17 @@ namespace Src2D.Editor
 
                 if (doDefault)
                 {
-                    object value = properties.ContainsKey(prop.Key) ?
-                        properties[prop.Key] : default;
+                    object value = prop.Value.DefaultValue;
+
+                    if (properties.ContainsKey(prop.Key))
+                        value = properties[prop.Key];
+
+                    if (value is JObject jObject)
+                        value = SrcPropertyAttribute
+                            .PropertyFromJObject(jObject, prop.Value.PropertyType);
+                    else if (value is string str)
+                        value = SrcPropertyAttribute
+                            .PropertyFromString(str, prop.Value.PropertyType);
 
                     OtherProperties.Add(prop.Key,
                         new MapPreviewEntityProperty(
@@ -111,6 +132,20 @@ namespace Src2D.Editor
                             prop.Value.Description,
                             value));
                 }
+            }
+        }
+
+        private void PopulateAssets(Dictionary<string, string> assets)
+        {
+            foreach (var asset in Data.Assets)
+            {
+                string assetName = "";
+                if (assets.ContainsKey(asset.Key))
+                {
+                    assetName = assets[asset.Key];
+                }
+
+                Assets.Add(asset.Key, new MapPreviewAsset(asset.Value.AssetType, asset.Value.Description, assetName));
             }
         }
 
@@ -129,34 +164,80 @@ namespace Src2D.Editor
                 case "Origin":
                     return Origin;
                 default:
-                    return OtherProperties[name].Value;
+                    object value = OtherProperties[name].Value;
+                    if (value is long l) value = (int)l;
+                    return value;
             }
         }
 
         public void SetProperty(string name, object value)
         {
-            switch (name)
+            var old = GetProperty(name);
+
+            preveiw.DoAction(() =>
             {
-                case "Name":
-                    Name = (string)value;
-                    OnNameChanged?.Invoke(Name);
-                    break;
-                case "Position":
-                    Position = (Vector2)value;
-                    break;
-                case "Rotation":
-                    Rotation = (float)value;
-                    break;
-                case "Scale":
-                    Scale = (Vector2)value;
-                    break;
-                case "Origin":
-                    Origin = (Vector2)value;
-                    break;
-                default:
-                    OtherProperties[name].Value = value;
-                    break;
-            }
+                switch (name)
+                {
+                    case "Name":
+                        Name = (string)value;
+                        OnNameChanged?.Invoke(Name);
+                        break;
+                    case "Position":
+                        Position = (Vector2)value;
+                        break;
+                    case "Rotation":
+                        Rotation = (float)value;
+                        break;
+                    case "Scale":
+                        Scale = (Vector2)value;
+                        break;
+                    case "Origin":
+                        Origin = (Vector2)value;
+                        break;
+                    default:
+                        OtherProperties[name].Value = value;
+                        break;
+                }
+            },
+            () =>
+            {
+                switch (name)
+                {
+                    case "Name":
+                        Name = (string)old;
+                        OnNameChanged?.Invoke(Name);
+                        break;
+                    case "Position":
+                        Position = (Vector2)old;
+                        break;
+                    case "Rotation":
+                        Rotation = (float)old;
+                        break;
+                    case "Scale":
+                        Scale = (Vector2)old;
+                        break;
+                    case "Origin":
+                        Origin = (Vector2)old;
+                        break;
+                    default:
+                        OtherProperties[name].Value = old;
+                        break;
+                }
+            });
+        }
+
+        public string GetAsset(string name)
+        {
+            return Assets[name].AssetName;
+        }
+
+        public void SetAsset(string name, string assetName)
+        {
+            var old = GetAsset(name);
+
+            preveiw.DoAction(
+                () => Assets[name].AssetName = assetName,
+                () => Assets[name].AssetName = old);
         }
     }
 
@@ -171,6 +252,20 @@ namespace Src2D.Editor
             PropertType = propertType;
             Description = description;
             Value = value;
+        }
+    }
+
+    public class MapPreviewAsset
+    {
+        public SrcAssetType AssetType { get; }
+        public string Description { get; }
+        public string AssetName { get; set; }
+
+        public MapPreviewAsset(SrcAssetType assetType, string description, string assetName)
+        {
+            AssetType = assetType;
+            Description = description;
+            AssetName = assetName;
         }
     }
 }

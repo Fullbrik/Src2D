@@ -32,6 +32,10 @@ namespace Src2D.Editor.Winforms
             this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.EntityList = new System.Windows.Forms.TreeView();
@@ -59,7 +63,8 @@ namespace Src2D.Editor.Winforms
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.editToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1130, 24);
@@ -68,9 +73,41 @@ namespace Src2D.Editor.Winforms
             // 
             // fileToolStripMenuItem
             // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Enabled = false;
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.undoToolStripMenuItem,
+            this.redoToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // undoToolStripMenuItem
+            // 
+            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.undoToolStripMenuItem.Text = "Undo";
+            this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
+            // 
+            // redoToolStripMenuItem
+            // 
+            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.redoToolStripMenuItem.Text = "Redo";
+            this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -124,6 +161,7 @@ namespace Src2D.Editor.Winforms
             this.PropertyEditor.Entity = null;
             this.PropertyEditor.Location = new System.Drawing.Point(0, 0);
             this.PropertyEditor.Name = "PropertyEditor";
+            this.PropertyEditor.Preview = null;
             this.PropertyEditor.Size = new System.Drawing.Size(215, 264);
             this.PropertyEditor.TabIndex = 0;
             // 
@@ -154,6 +192,8 @@ namespace Src2D.Editor.Winforms
             this.MapPreview.Size = new System.Drawing.Size(911, 418);
             this.MapPreview.TabIndex = 0;
             this.MapPreview.Text = "map";
+            this.MapPreview.OnAction += new System.EventHandler(this.MapPreview_OnAction);
+            this.MapPreview.OnUndoOrRedo += new System.EventHandler(this.MapPreview_OnUndoOrRedo);
             // 
             // ContentBrowser
             // 
@@ -191,6 +231,7 @@ namespace Src2D.Editor.Winforms
             this.Name = "MapEditor";
             this.Text = "LevelEditor";
             this.Load += new System.EventHandler(this.LevelEditor_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -223,5 +264,9 @@ namespace Src2D.Editor.Winforms
         private System.Windows.Forms.ContextMenuStrip EntityListContextMenu;
         private System.Windows.Forms.ToolStrip GizmoSelector;
         private EntityPropertyEditor PropertyEditor;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
     }
 }

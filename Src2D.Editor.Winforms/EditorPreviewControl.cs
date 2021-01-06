@@ -12,6 +12,9 @@ namespace Src2D.Editor.Winforms
     public abstract class EditorPreviewControl<T> : MonoGameControl
         where T : EditorPreveiw, new()
     {
+        public event EventHandler OnAction;
+        public event EventHandler OnUndoOrRedo;
+
         public T EditorPreveiw { get => editorPreveiw; }
         private T editorPreveiw = new T();
 
@@ -19,6 +22,8 @@ namespace Src2D.Editor.Winforms
         {
             base.Initialize();
             editorPreveiw.ContentManager = Editor.Content;
+            editorPreveiw.OnAction += () => OnAction?.Invoke(this, EventArgs.Empty);
+            editorPreveiw.OnUndoOrRedo += () => OnUndoOrRedo?.Invoke(this, EventArgs.Empty);
             EditorPreveiw.Start();
         }
 

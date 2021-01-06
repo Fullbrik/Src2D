@@ -25,9 +25,14 @@ namespace ExampleGame
             base.Start();
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Update(float deltaTime)
         {
-            base.Draw(spriteBatch);
+            base.Update(deltaTime);
+        }
+
+        public override void End()
+        {
+            base.End();
         }
     }
 }

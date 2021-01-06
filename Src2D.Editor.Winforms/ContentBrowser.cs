@@ -20,6 +20,9 @@ namespace Src2D.Editor.Winforms
         public event EventHandler<ContentItemSelectEventArgs> OnSelectFile;
         public event EventHandler<ContentItemSelectEventArgs> OnDoubleClickFile;
 
+        public bool UseFilter { get; set; }
+        public SrcAssetType[] AllowedTypes { get; set; }
+
         public ContentBrowser()
         {
             InitializeComponent();
@@ -87,21 +90,35 @@ namespace Src2D.Editor.Winforms
 
             foreach (var item in folder.Items)
             {
-                var lvi = new ListViewItem(item.Name, GetIconIndexFor(item))
+                if (!UseFilter ||
+                    AllowedTypes.Contains(
+                        SrcAssetAttribute.GetSrcAssetTypeFor(
+                            Path.GetExtension(item.FileName))))
                 {
-                    Tag = item
-                };
+                    var lvi = new ListViewItem(item.Name, GetIconIndexFor(item))
+                    {
+                        Tag = item
+                    };
 
-                FilesView.Items.Add(lvi);
+                    FilesView.Items.Add(lvi);
+                }
+
             }
         }
 
         private int GetIconIndexFor(ContentItem item)
         {
-            if(item.Importer == "TextureImporter") return 3;
-            if(item.Importer == "SrcMapImporter") return 4;
-
-            return 0;
+            switch (SrcAssetAttribute.GetSrcAssetTypeFor(Path.GetExtension(item.FileName)))
+            {
+                case SrcAssetType.None:
+                    return 0;
+                case SrcAssetType.Texture2D:
+                    return 3;
+                case SrcAssetType.Map:
+                    return 4;
+                default:
+                    return 0;
+            }
         }
 
         private void FilesView_SelectedIndexChanged(object sender, EventArgs e)
@@ -109,7 +126,7 @@ namespace Src2D.Editor.Winforms
             if (FilesView.SelectedItems.Count > 0)
             {
                 var selected = FilesView.SelectedItems[0];
-                if(selected.Tag is ContentItem item)
+                if (selected.Tag is ContentItem item)
                 {
                     OnSelectFile?.Invoke(this, new ContentItemSelectEventArgs(item));
                 }
@@ -126,7 +143,7 @@ namespace Src2D.Editor.Winforms
                 {
                     SelectFolder(folder);
                 }
-                else if(selected.Tag is ContentItem item)
+                else if (selected.Tag is ContentItem item)
                 {
                     OnDoubleClickFile?.Invoke(this, new ContentItemSelectEventArgs(item));
                 }

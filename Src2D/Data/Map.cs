@@ -14,6 +14,7 @@ namespace Src2D.Data
         public string EntityType;
 
         public Dictionary<string, object> Properties;
+        public Dictionary<string, string> Assets;
 
         public MapBinding[] Bindings;
     }

@@ -13,6 +13,7 @@ namespace Src2D.Editor
     public class MapEditorPreveiw : EditorPreveiw
     {
         public readonly List<MapEditorEntity> Entities = new List<MapEditorEntity>();
+        public string[] EntityNames { get => Entities.Select(e => e.Name).ToArray(); }
 
         public bool IsLoaded { get => isLoaded; }
         private bool isLoaded;
@@ -43,8 +44,8 @@ namespace Src2D.Editor
                             null,
                             Color.White,
                             MathHelper.ToRadians(entity.Rotation),
-                            entity.Origin * spriteSize, 
-                            entity.Scale, 
+                            entity.Origin * spriteSize,
+                            entity.Scale,
                             SpriteEffects.None,
                             0);
                     }
@@ -78,7 +79,7 @@ namespace Src2D.Editor
 
                 if (EntityDataSheetManager.CurrentSheet.Entities.ContainsKey(entity.EntityType))
                 {
-                    Entities.Add(new MapEditorEntity(entity, ContentManager));
+                    Entities.Add(new MapEditorEntity(this, entity, ContentManager));
                 }
                 else
                 {

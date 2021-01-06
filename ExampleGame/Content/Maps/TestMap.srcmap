@@ -1,18 +1,11 @@
 {
   "Entities": [
     {
-      "EntityType": "TestDraw",
-      "Properties": {
-        "Name": "TestDraw",
-        "Texture": "Sprites/Schedule"
-      },
-      "Bindings": []
-    },
-    {
       "EntityType": "Test",
       "Properties": {
         "Name": "Test",
       },
+      "Assets":{},
       "Bindings": []
     },
     {
@@ -20,6 +13,7 @@
       "Properties": {
         "Name": "Update"
       },
+      "Assets":{},
       "Bindings": [
         {
           "Event": "OnUpdate",
@@ -49,6 +43,7 @@
       "Properties": {
         "Name": "Print"
       },
+      "Assets":{},
       "Bindings": []
     }
   ]

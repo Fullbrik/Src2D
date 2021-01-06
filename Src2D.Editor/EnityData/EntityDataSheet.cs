@@ -27,6 +27,7 @@ namespace Src2D.Editor.EnityData
     {
         public SrcPropertType PropertyType;
         public string Description;
+        public object DefaultValue;
     }
 
     public struct DataSheetAsset

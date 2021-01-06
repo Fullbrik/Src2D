@@ -9,7 +9,8 @@ namespace Src2D
     public enum SrcAssetType
     {
         None = -1,
-        Texture2D
+        Texture2D,
+        Map
     }
 
     [AttributeUsage(AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
@@ -31,6 +32,8 @@ namespace Src2D
 
         public string Description { get; set; } = "";
 
+
+
         public static SrcAssetType GetSrcAssetTypeFor(FieldInfo property)
         {
             return GetSrcAssetTypeFor(property.FieldType);
@@ -38,9 +41,27 @@ namespace Src2D
 
         public static SrcAssetType GetSrcAssetTypeFor(Type type)
         {
-            if(type == typeof(Asset<Texture2D>))
+            if (type == typeof(Asset<Texture2D>))
                 return SrcAssetType.Texture2D;
             else return SrcAssetType.None;
+        }
+
+        public static SrcAssetType GetSrcAssetTypeFor(string ext)
+        {
+            if (ext.StartsWith(".")) ext = ext.Remove(0, 1);
+
+            switch (ext)
+            {
+                case "jpeg":
+                case "jpg":
+                case "png":
+                case "tga":
+                    return SrcAssetType.Texture2D;
+                case "srcmap":
+                    return SrcAssetType.Map;
+                default:
+                    return SrcAssetType.None;
+            }
         }
     }
 }

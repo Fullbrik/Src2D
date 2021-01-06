@@ -98,7 +98,7 @@ namespace Src2D.Editor.Winforms
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Launcher";
-            this.Text = "Src2D - Editor";
+            this.Text = "Src2D - Launcher";
             this.Load += new System.EventHandler(this.Launcher_Load);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
