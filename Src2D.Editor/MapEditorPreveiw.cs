@@ -7,6 +7,7 @@ using System.Linq;
 using Src2D.Editor.EnityData;
 using Src2D.Editor.Content;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 
 namespace Src2D.Editor
 {
@@ -91,6 +92,19 @@ namespace Src2D.Editor
             }
 
             errors = errs.ToArray();
+        }
+
+        public Map ToMap()
+        {
+            return new Map()
+            {
+                Entities = Entities.Select(ent => ent.ToMapEntity()).ToArray()
+            };
+        }
+
+        public string Serialize()
+        {
+            return JsonConvert.SerializeObject(ToMap());
         }
     }
 }

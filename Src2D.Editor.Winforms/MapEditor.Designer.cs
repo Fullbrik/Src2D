@@ -81,10 +81,10 @@ namespace Src2D.Editor.Winforms
             // 
             // saveToolStripMenuItem
             // 
-            this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -157,6 +157,7 @@ namespace Src2D.Editor.Winforms
             // 
             // PropertyEditor
             // 
+            this.PropertyEditor.ContentFile = null;
             this.PropertyEditor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PropertyEditor.Entity = null;
             this.PropertyEditor.Location = new System.Drawing.Point(0, 0);
@@ -197,11 +198,13 @@ namespace Src2D.Editor.Winforms
             // 
             // ContentBrowser
             // 
+            this.ContentBrowser.AllowedTypes = null;
             this.ContentBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ContentBrowser.Location = new System.Drawing.Point(0, 0);
             this.ContentBrowser.Name = "ContentBrowser";
             this.ContentBrowser.Size = new System.Drawing.Size(911, 125);
             this.ContentBrowser.TabIndex = 0;
+            this.ContentBrowser.UseFilter = false;
             // 
             // EntityListContextMenu
             // 

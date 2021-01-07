@@ -70,6 +70,22 @@ namespace Src2D.Editor
             {
                 bool doDefault = true;
 
+                object value = prop.Value.DefaultValue;
+
+                if (properties.ContainsKey(prop.Key))
+                    value = properties[prop.Key];
+
+                if (value is JObject jObject)
+                    value = SrcPropertyAttribute
+                        .PropertyFromJObject(jObject, prop.Value.PropertyType);
+                else if (value is string str)
+                    value = SrcPropertyAttribute
+                        .PropertyFromString(str, prop.Value.PropertyType);
+
+                if (prop.Value.PropertyType == SrcPropertType.Float && value is int i)
+                    value = (float)i;
+
+
                 switch (prop.Key)
                 {
                     case "Name":
@@ -77,7 +93,7 @@ namespace Src2D.Editor
                             && properties.ContainsKey(prop.Key))
                         {
                             doDefault = false;
-                            Name = (string)properties[prop.Key];
+                            Name = (string)value;
                         }
                         break;
                     case "Position":
@@ -85,7 +101,7 @@ namespace Src2D.Editor
                             && properties.ContainsKey(prop.Key))
                         {
                             doDefault = false;
-                            Position = (Vector2)properties[prop.Key];
+                            Position = (Vector2)value;
                         }
                         break;
                     case "Rotation":
@@ -93,7 +109,7 @@ namespace Src2D.Editor
                             && properties.ContainsKey(prop.Key))
                         {
                             doDefault = false;
-                            Rotation = (float)properties[prop.Key];
+                            Rotation = (float)Convert.ToDouble(value);
                         }
                         break;
                     case "Scale":
@@ -101,7 +117,7 @@ namespace Src2D.Editor
                             && properties.ContainsKey(prop.Key))
                         {
                             doDefault = false;
-                            Scale = (Vector2)properties[prop.Key];
+                            Scale = (Vector2)value;
                         }
                         break;
                     case "Origin":
@@ -109,7 +125,7 @@ namespace Src2D.Editor
                             && properties.ContainsKey(prop.Key))
                         {
                             doDefault = false;
-                            Origin = (Vector2)properties[prop.Key];
+                            Origin = (Vector2)value;
                         }
                         break;
                     default:
@@ -118,18 +134,6 @@ namespace Src2D.Editor
 
                 if (doDefault)
                 {
-                    object value = prop.Value.DefaultValue;
-
-                    if (properties.ContainsKey(prop.Key))
-                        value = properties[prop.Key];
-
-                    if (value is JObject jObject)
-                        value = SrcPropertyAttribute
-                            .PropertyFromJObject(jObject, prop.Value.PropertyType);
-                    else if (value is string str)
-                        value = SrcPropertyAttribute
-                            .PropertyFromString(str, prop.Value.PropertyType);
-
                     OtherProperties.Add(prop.Key,
                         new MapPreviewEntityProperty(
                             prop.Value.PropertyType,
@@ -182,9 +186,16 @@ namespace Src2D.Editor
                 case "Origin":
                     return Origin;
                 default:
-                    object value = OtherProperties[name].Value;
-                    if (value is long l) value = (int)l;
-                    return value;
+                    if (OtherProperties.ContainsKey(name))
+                    {
+                        object value = OtherProperties[name].Value;
+                        if (value is long l) value = (int)l;
+                        return value;
+                    }
+                    else
+                    {
+                        return null;
+                    }
             }
         }
 
@@ -246,7 +257,10 @@ namespace Src2D.Editor
 
         public string GetAsset(string name)
         {
-            return Assets[name].AssetName;
+            if (Assets.ContainsKey(name))
+                return Assets[name].AssetName;
+            else
+                return null;
         }
 
         public void SetAsset(string name, string assetName)
@@ -256,6 +270,43 @@ namespace Src2D.Editor
             preveiw.DoAction(
                 () => Assets[name].AssetName = assetName,
                 () => Assets[name].AssetName = old);
+        }
+
+        public MapEntity ToMapEntity()
+        {
+            MapEntity me = new MapEntity();
+            me.EntityType = EntityType;
+
+            me.Properties = new Dictionary<string, object>();
+            foreach (var prop in Data.Properties)
+            {
+                var value = GetProperty(prop.Key);
+                if (value != null && value != prop.Value.DefaultValue)
+                    me.Properties.Add(prop.Key, value);
+            }
+
+            me.Assets = new Dictionary<string, string>();
+            foreach (var asset in Data.Assets)
+            {
+                var assetValue = GetAsset(asset.Key);
+                if (!string.IsNullOrWhiteSpace(assetValue))
+                    me.Assets.Add(asset.Key, assetValue);
+            }
+
+            me.Bindings = new MapBinding[Bindings.Count];
+            for (int i = 0; i < Bindings.Count; i++)
+            {
+                me.Bindings[i] = new MapBinding()
+                {
+                    Event = Bindings[i].EventName,
+                    EntityName = Bindings[i].OtherEntityName,
+                    ActionName = Bindings[i].ActionName,
+                    OverrideParam = Bindings[i].OverrideParam,
+                    ParamOverride = Bindings[i].ParamOverride
+                };
+            }
+
+            return me;
         }
     }
 

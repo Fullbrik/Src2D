@@ -19,13 +19,30 @@ namespace Src2D.Editor.Winforms
     [Tool("Map Editor", SrcAssetType.Map)]
     public partial class MapEditor : Form
     {
-        private MapEditorPreveiw preview;
+        #region Props
+        public bool HasPendingChanges
+        {
+            get => hasPendingChanges;
+            set
+            {
+                hasPendingChanges = value;
 
-        private ContentFile content;
+                Text = $"Map Editor - {levelFile}{(hasPendingChanges ? "*" : "")}";
+            }
+        }
+        private bool hasPendingChanges;
 
         public string LevelFile { get => levelFile; }
         private string levelFile;
+        #endregion
 
+        #region Fields
+        private MapEditorPreveiw preview;
+
+        private ContentFile content;
+        #endregion
+
+        #region Life Cycle
         public MapEditor(string levelFile, ContentFile content)
         {
             InitializeComponent();
@@ -33,7 +50,7 @@ namespace Src2D.Editor.Winforms
             this.content = content;
             this.levelFile = levelFile;
 
-            Text = $"Map Editor - {levelFile}";
+            HasPendingChanges = false;
 
             ContentBrowser.InitializeContent(content);
             preview = MapPreview.EditorPreveiw;
@@ -61,7 +78,65 @@ namespace Src2D.Editor.Winforms
             ReloadEntityList();
             UpdateUndoAndRedoButtons();
         }
+        #endregion
 
+        #region Events
+        private void MapPreview_OnAction(object sender, EventArgs e)
+        {
+            UpdateUndoAndRedoButtons();
+        }
+
+        private void MapPreview_OnUndoOrRedo(object sender, EventArgs e)
+        {
+            PropertyEditor.Entity = PropertyEditor.Entity;
+            UpdateUndoAndRedoButtons();
+        }
+
+        private void EntityList_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node.Tag is MapEditorEntity entity)
+            {
+                PropertyEditor.Entity = entity;
+            }
+        }
+
+        private void MapEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Modifiers == Keys.Control)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.Y:
+                        preview.Redo();
+                        break;
+                    case Keys.Z:
+                        preview.Undo();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        #endregion
+
+        #region ToolStripMenu
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Save();
+        }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            preview.Undo();
+        }
+
+        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            preview.Redo();
+        }
+        #endregion
+
+        #region Actions
         public void ReloadEntityList()
         {
             EntityList.Nodes.Clear();
@@ -80,57 +155,18 @@ namespace Src2D.Editor.Winforms
             EntityList.Nodes.Add(root);
         }
 
-        private void EntityList_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            if(e.Node.Tag is MapEditorEntity entity)
-            {
-                PropertyEditor.Entity = entity;
-            }
-        }
-
-        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            preview.Undo();
-        }
-
-        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            preview.Redo();
-        }
-
-        private void MapPreview_OnAction(object sender, EventArgs e)
-        {
-            UpdateUndoAndRedoButtons();
-        }
-
-        private void MapPreview_OnUndoOrRedo(object sender, EventArgs e)
-        {
-            PropertyEditor.Entity = PropertyEditor.Entity;
-            UpdateUndoAndRedoButtons();
-        }
-
         private void UpdateUndoAndRedoButtons()
         {
             undoToolStripMenuItem.Enabled = preview.CanUndo;
             redoToolStripMenuItem.Enabled = preview.CanRedo;
         }
 
-        private void MapEditor_KeyDown(object sender, KeyEventArgs e)
+        private void Save()
         {
-            if(e.Modifiers == Keys.Control)
-            {
-                switch (e.KeyCode)
-                {
-                    case Keys.Y:
-                        preview.Redo();
-                        break;
-                    case Keys.Z:
-                        preview.Undo();
-                        break;
-                    default:
-                        break;
-                }
-            }
+            File.WriteAllText(Path.Combine(content.ContentFolder, levelFile),
+                preview.Serialize());
+            HasPendingChanges = false;
         }
+        #endregion 
     }
 }
