@@ -20,6 +20,8 @@ namespace Src2D.Editor.Winforms
 
         private MapEditorPreveiw preveiw;
 
+        public event EventHandler OnShowDescription;
+
         public EntityPropertyEditorProperty(MapEditorPreveiw preveiw, string name, DataSheetProperty property, MapEditorEntity entity)
         {
             this.preveiw = preveiw;
@@ -150,6 +152,28 @@ namespace Src2D.Editor.Winforms
         private void TextBox_TextChanged_ER(object sender, EventArgs e)
         {
             Entity.SetProperty(PropertyName, (EntityReference)((sender as TextBox).Text));
+        }
+
+        private void EntityPropertyEditorProperty_MouseEnter(object sender, EventArgs e)
+        {
+            BackColor = System.Drawing.Color.LightBlue;
+            OnShowDescription?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void EntityPropertyEditorProperty_MouseLeave(object sender, EventArgs e)
+        {
+            BackColor = System.Drawing.Color.Transparent;
+        }
+
+        private void PropetyLabel_MouseEnter(object sender, EventArgs e)
+        {
+            BackColor = System.Drawing.Color.LightBlue;
+            OnShowDescription?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void PropetyLabel_MouseLeave(object sender, EventArgs e)
+        {
+            BackColor = System.Drawing.Color.Transparent;
         }
     }
 }

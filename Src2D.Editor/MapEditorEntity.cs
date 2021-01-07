@@ -32,6 +32,9 @@ namespace Src2D.Editor
         public Dictionary<string, MapPreviewAsset> Assets
             = new Dictionary<string, MapPreviewAsset>();
 
+        public List<MapPreviewBinding> Bindings =
+            new List<MapPreviewBinding>();
+
         private MapEditorPreveiw preveiw;
 
         public MapEditorEntity(MapEditorPreveiw preveiw, MapEntity entity, ContentManager content)
@@ -44,6 +47,7 @@ namespace Src2D.Editor
 
             PopulateProperties(entity.Properties);
             PopulateAssets(entity.Assets);
+            PopulateBindings(entity.Bindings);
 
             if (!string.IsNullOrWhiteSpace(Data.Sprite))
             {
@@ -146,6 +150,20 @@ namespace Src2D.Editor
                 }
 
                 Assets.Add(asset.Key, new MapPreviewAsset(asset.Value.AssetType, asset.Value.Description, assetName));
+            }
+        }
+
+        private void PopulateBindings(MapBinding[] bindings)
+        {
+            foreach (var binding in bindings)
+            {
+                Bindings.Add(
+                    new MapPreviewBinding(
+                        binding.Event,
+                        binding.EntityName,
+                        binding.ActionName,
+                        binding.OverrideParam,
+                        binding.ParamOverride));
             }
         }
 
@@ -266,6 +284,24 @@ namespace Src2D.Editor
             AssetType = assetType;
             Description = description;
             AssetName = assetName;
+        }
+    }
+
+    public class MapPreviewBinding
+    {
+        public string EventName { get; set; }
+        public string OtherEntityName { get; set; }
+        public string ActionName { get; set; }
+        public bool OverrideParam { get; set; }
+        public string ParamOverride { get; set; }
+
+        public MapPreviewBinding(string eventName, string otherEntityName, string actionName, bool overideParam, string paramOveride)
+        {
+            EventName = eventName;
+            OtherEntityName = otherEntityName;
+            ActionName = actionName;
+            OverrideParam = overideParam;
+            ParamOverride = paramOveride;
         }
     }
 }

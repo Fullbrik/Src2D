@@ -45,6 +45,8 @@ namespace Src2D.Editor.Winforms
             this.PropertyName.Size = new System.Drawing.Size(36, 13);
             this.PropertyName.TabIndex = 0;
             this.PropertyName.Text = "Asset:";
+            this.PropertyName.MouseEnter += new System.EventHandler(this.PropertyName_MouseEnter);
+            this.PropertyName.MouseLeave += new System.EventHandler(this.PropertyName_MouseLeave);
             // 
             // BrowsButton
             // 
@@ -86,6 +88,8 @@ namespace Src2D.Editor.Winforms
             this.Name = "EntityPropertyEditorAsset";
             this.Size = new System.Drawing.Size(1300, 20);
             this.Load += new System.EventHandler(this.EntityPropertyEditorAsset_Load);
+            this.MouseEnter += new System.EventHandler(this.EntityPropertyEditorAsset_MouseEnter);
+            this.MouseLeave += new System.EventHandler(this.EntityPropertyEditorAsset_MouseLeave);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

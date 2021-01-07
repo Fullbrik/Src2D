@@ -48,11 +48,13 @@ namespace Src2D.Editor.Winforms
 
                 SetupPropertyList();
                 SetupAssetList();
+                SetupBindingsList();
             }
             else
             {
                 PropertyList.RowCount = 1;
                 AssetList.RowCount = 1;
+                BindingsList.Items.Clear();
             }
             PropertyList.ResumeLayout(true);
             AssetList.ResumeLayout(true);
@@ -71,8 +73,17 @@ namespace Src2D.Editor.Winforms
             {
                 EntityPropertyEditorProperty entityPropertyEditorProperty
                     = new EntityPropertyEditorProperty(Preview, property.Key, property.Value, Entity);
+                entityPropertyEditorProperty.OnShowDescription
+                    += EntityPropertyEditorProperty_OnShowDescription;
                 PropertyList.Controls.Add(entityPropertyEditorProperty);
             }
+        }
+
+        private void EntityPropertyEditorProperty_OnShowDescription(object sender, EventArgs e)
+        {
+            DescriptionGB.Text = $"Description: ({(sender as EntityPropertyEditorProperty).PropertyName})";
+            DescriptionText.Text =
+                (sender as EntityPropertyEditorProperty).Description;
         }
 
         private void SetupAssetList()
@@ -83,13 +94,55 @@ namespace Src2D.Editor.Winforms
             {
                 EntityPropertyEditorAsset entityPropertyEditorAsset
                     = new EntityPropertyEditorAsset(Preview, ContentFile, asset.Key, asset.Value, Entity);
+                entityPropertyEditorAsset.OnShowDescription
+                    += EntityPropertyEditorAsset_OnShowDescription;
                 AssetList.Controls.Add(entityPropertyEditorAsset);
             }
         }
 
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        private void EntityPropertyEditorAsset_OnShowDescription(object sender, EventArgs e)
         {
-            
+            DescriptionGB.Text = $"Description: ({(sender as EntityPropertyEditorAsset).AssetName})";
+            DescriptionText.Text =
+                (sender as EntityPropertyEditorAsset).Description;
+        }
+
+        private void SetupBindingsList()
+        {
+            BindingsList.Items.Clear();
+            Entity.Bindings.ForEach(bind =>
+            {
+                BindingsList.Items.Add(new ListViewItem(
+                    $"{bind.EventName} -> {bind.OtherEntityName}.{bind.ActionName}")
+                {
+                    Tag = bind
+                });
+            });
+        }
+
+        private void BindingsList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (BindingsList.SelectedItems.Count > 0)
+            {
+                if (BindingsList.SelectedItems[0].Tag is MapPreviewBinding binding)
+                {
+                    using (var dialog = new BindingEditorDialog(entity, binding, Preview))
+                    {
+                        if (dialog.ShowDialog() == DialogResult.OK)
+                        {
+                            Invalidate();
+                        }
+                    }
+                }
+            }
+        }
+
+        protected override void OnInvalidated(InvalidateEventArgs e)
+        {
+            base.OnInvalidated(e);
+
+            if (Entity != null)
+                SetupBindingsList();
         }
     }
 }

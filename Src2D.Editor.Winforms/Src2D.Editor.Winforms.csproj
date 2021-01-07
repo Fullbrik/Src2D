@@ -84,6 +84,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BindingEditorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BindingEditorDialog.Designer.cs">
+      <DependentUpon>BindingEditorDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="BufferedTableLayout.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -171,6 +177,9 @@
     <Compile Include="Vector2Editor.Designer.cs">
       <DependentUpon>Vector2Editor.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="BindingEditorDialog.resx">
+      <DependentUpon>BindingEditorDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ColorEditor.resx">
       <DependentUpon>ColorEditor.cs</DependentUpon>
     </EmbeddedResource>

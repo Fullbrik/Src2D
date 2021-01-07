@@ -13,7 +13,10 @@ namespace Src2D.Editor
     public class MapEditorPreveiw : EditorPreveiw
     {
         public readonly List<MapEditorEntity> Entities = new List<MapEditorEntity>();
-        public string[] EntityNames { get => Entities.Select(e => e.Name).ToArray(); }
+        public string[] EntityNames
+        {
+            get => Entities.Select(e => e.Name).ToArray();
+        }
 
         public bool IsLoaded { get => isLoaded; }
         private bool isLoaded;
@@ -25,7 +28,7 @@ namespace Src2D.Editor
 
         public override void Update(float deltaTime)
         {
-            //scene?.Update(deltaTime);
+            
         }
 
         public override void Draw(SpriteBatch spriteBatch)

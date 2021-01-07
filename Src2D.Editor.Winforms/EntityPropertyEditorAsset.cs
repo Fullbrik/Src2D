@@ -22,6 +22,8 @@ namespace Src2D.Editor.Winforms
         public SrcAssetType AssetType { get; }
         public ContentFile ContentFile { get; }
 
+        public event EventHandler OnShowDescription;
+
         public EntityPropertyEditorAsset(MapEditorPreveiw preveiw, ContentFile contentFile, string name, DataSheetAsset asset, MapEditorEntity entity)
         {
             InitializeComponent();
@@ -36,7 +38,7 @@ namespace Src2D.Editor.Winforms
 
         private void EntityPropertyEditorAsset_Load(object sender, EventArgs e)
         {
-            PropertyName.Text = AssetName;
+            PropertyName.Text = AssetName + ":";
             AssetNameText.Text = Entity.GetAsset(AssetName);
             Invalidate();
         }
@@ -48,6 +50,28 @@ namespace Src2D.Editor.Winforms
                 Entity.SetAsset(AssetName, asset);
                 AssetNameText.Text = asset;
             }
+        }
+
+        private void EntityPropertyEditorAsset_MouseEnter(object sender, EventArgs e)
+        {
+            BackColor = System.Drawing.Color.LightBlue;
+            OnShowDescription?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void EntityPropertyEditorAsset_MouseLeave(object sender, EventArgs e)
+        {
+            BackColor = System.Drawing.Color.Transparent;
+        }
+
+        private void PropertyName_MouseEnter(object sender, EventArgs e)
+        {
+            BackColor = System.Drawing.Color.LightBlue;
+            OnShowDescription?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void PropertyName_MouseLeave(object sender, EventArgs e)
+        {
+            BackColor = System.Drawing.Color.Transparent;
         }
     }
 }

@@ -43,6 +43,8 @@ namespace Src2D.Editor.Winforms
             this.PropetyLabel.Size = new System.Drawing.Size(55, 15);
             this.PropetyLabel.TabIndex = 0;
             this.PropetyLabel.Text = "Property:";
+            this.PropetyLabel.MouseEnter += new System.EventHandler(this.PropetyLabel_MouseEnter);
+            this.PropetyLabel.MouseLeave += new System.EventHandler(this.PropetyLabel_MouseLeave);
             // 
             // PropertyValueEditor
             // 
@@ -62,6 +64,8 @@ namespace Src2D.Editor.Winforms
             this.Name = "EntityPropertyEditorProperty";
             this.Size = new System.Drawing.Size(1300, 20);
             this.Load += new System.EventHandler(this.EntityPropertyEditorProperty_Load);
+            this.MouseEnter += new System.EventHandler(this.EntityPropertyEditorProperty_MouseEnter);
+            this.MouseLeave += new System.EventHandler(this.EntityPropertyEditorProperty_MouseLeave);
             this.ResumeLayout(false);
             this.PerformLayout();
 

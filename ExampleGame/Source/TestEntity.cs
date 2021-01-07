@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Src2D;
+using Src2D.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,6 +19,18 @@ namespace ExampleGame
 
         [SrcProperty("MyVector3", Description = "A Vector3")]
         public Vector3 MyVector3 { get; set; }
+
+        [SrcAsset("MyAsset", SrcAssetType.Map)]
+        public Asset<Map> MyAsset = new Asset<Map>();
+
+        [SrcEvent("MyEvent")]
+        public event SrcEvent MyEvent;
+
+        [SrcAction("MyActions", HasParam = true, ParamOptions = "Yes|No")]
+        public void MyAction(string args)
+        {
+
+        }
 
         public override void Start()
         {
