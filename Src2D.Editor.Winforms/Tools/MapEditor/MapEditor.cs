@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 using Microsoft.Xna.Framework.Graphics;
 using Src2D.Editor.EnityData;
 
-namespace Src2D.Editor.Winforms
+namespace Src2D.Editor.Winforms.Tools.MapEditor
 {
     [Tool("Map Editor", SrcAssetType.Map)]
     public partial class MapEditor : Form
@@ -167,6 +167,16 @@ namespace Src2D.Editor.Winforms
                 preview.Serialize());
             HasPendingChanges = false;
         }
-        #endregion 
+
+        private void CreateEntity()
+        {
+
+        }
+        #endregion
+
+        private void createEntityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateEntity();
+        }
     }
 }

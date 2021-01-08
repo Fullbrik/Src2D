@@ -1,5 +1,5 @@
 ﻿
-namespace Src2D.Editor.Winforms
+namespace Src2D.Editor.Winforms.Tools
 {
     partial class ImageViewer
     {

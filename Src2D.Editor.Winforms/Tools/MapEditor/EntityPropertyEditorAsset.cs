@@ -1,5 +1,6 @@
 ﻿using Src2D.Editor.Content;
 using Src2D.Editor.EnityData;
+using Src2D.Editor.Winforms.ContentBrowser;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Src2D.Editor.Winforms
+namespace Src2D.Editor.Winforms.Tools.MapEditor
 {
     public partial class EntityPropertyEditorAsset : UserControl
     {

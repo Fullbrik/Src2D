@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Src2D.Editor.Winforms
+namespace Src2D.Editor.Winforms.Tools
 {
     public partial class ToolLauncher : Form
     {
@@ -64,7 +64,7 @@ namespace Src2D.Editor.Winforms
 
         private void ContentBrowser_OnDoubleClickFile(object sender, ContentItemSelectEventArgs e)
         {
-            Tools.Open(e.Item.FileName, Content);
+            ToolsManager.Open(e.Item.FileName, Content);
         }
     }
 }

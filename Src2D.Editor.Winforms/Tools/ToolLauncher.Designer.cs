@@ -1,5 +1,5 @@
 ﻿
-namespace Src2D.Editor.Winforms
+namespace Src2D.Editor.Winforms.Tools
 {
     partial class ToolLauncher
     {
@@ -29,7 +29,7 @@ namespace Src2D.Editor.Winforms
         /// </summary>
         private void InitializeComponent()
         {
-            this.ContentBrowser = new Src2D.Editor.Winforms.ContentBrowser();
+            this.ContentBrowser = new Src2D.Editor.Winforms.ContentBrowser.ContentBrowser();
             this.SuspendLayout();
             // 
             // ContentBrowser
@@ -56,6 +56,6 @@ namespace Src2D.Editor.Winforms
 
         #endregion
 
-        private ContentBrowser ContentBrowser;
+        private ContentBrowser.ContentBrowser ContentBrowser;
     }
 }

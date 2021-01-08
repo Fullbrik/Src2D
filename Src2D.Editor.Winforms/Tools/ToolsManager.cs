@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Src2D.Editor.Winforms
+namespace Src2D.Editor.Winforms.Tools
 {
-    public static class Tools
+    public static class ToolsManager
     {
         public static void Open(string file, ContentFile content)
         {

@@ -84,59 +84,59 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BindingEditorDialog.cs">
+    <Compile Include="Tools\MapEditor\BindingEditorDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BindingEditorDialog.Designer.cs">
+    <Compile Include="Tools\MapEditor\BindingEditorDialog.Designer.cs">
       <DependentUpon>BindingEditorDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="BufferedTableLayout.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ColorEditor.cs">
+    <Compile Include="Tools\MapEditor\ColorEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ColorEditor.Designer.cs">
+    <Compile Include="Tools\MapEditor\ColorEditor.Designer.cs">
       <DependentUpon>ColorEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="ContentBrowser.cs">
+    <Compile Include="ContentBrowser\ContentBrowser.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ContentBrowser.Designer.cs">
+    <Compile Include="ContentBrowser\ContentBrowser.Designer.cs">
       <DependentUpon>ContentBrowser.cs</DependentUpon>
     </Compile>
-    <Compile Include="ContentBrowserDialog.cs">
+    <Compile Include="ContentBrowser\ContentBrowserDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ContentBrowserDialog.Designer.cs">
+    <Compile Include="ContentBrowser\ContentBrowserDialog.Designer.cs">
       <DependentUpon>ContentBrowserDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="DatasheetBuilderCaller.cs" />
-    <Compile Include="EditorPreviewControl.cs">
+    <Compile Include="Tools\EditorPreviewControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="EntityPropertyEditor.cs">
+    <Compile Include="Tools\MapEditor\EntityPropertyEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="EntityPropertyEditor.Designer.cs">
+    <Compile Include="Tools\MapEditor\EntityPropertyEditor.Designer.cs">
       <DependentUpon>EntityPropertyEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="EntityPropertyEditorAsset.cs">
+    <Compile Include="Tools\MapEditor\EntityPropertyEditorAsset.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="EntityPropertyEditorAsset.Designer.cs">
+    <Compile Include="Tools\MapEditor\EntityPropertyEditorAsset.Designer.cs">
       <DependentUpon>EntityPropertyEditorAsset.cs</DependentUpon>
     </Compile>
-    <Compile Include="EntityPropertyEditorProperty.cs">
+    <Compile Include="Tools\MapEditor\EntityPropertyEditorProperty.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="EntityPropertyEditorProperty.Designer.cs">
+    <Compile Include="Tools\MapEditor\EntityPropertyEditorProperty.Designer.cs">
       <DependentUpon>EntityPropertyEditorProperty.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImageViewer.cs">
+    <Compile Include="Tools\ImageViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ImageViewer.Designer.cs">
+    <Compile Include="Tools\ImageViewer.Designer.cs">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Launcher.cs">
@@ -145,66 +145,66 @@
     <Compile Include="Launcher.Designer.cs">
       <DependentUpon>Launcher.cs</DependentUpon>
     </Compile>
-    <Compile Include="MapEditor.cs">
+    <Compile Include="Tools\MapEditor\MapEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MapEditor.Designer.cs">
+    <Compile Include="Tools\MapEditor\MapEditor.Designer.cs">
       <DependentUpon>MapEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="MapEditorPreveiwControl.cs">
+    <Compile Include="Tools\MapEditor\MapEditorPreveiwControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecentFiles.cs" />
     <Compile Include="Strings.cs" />
-    <Compile Include="ToolLauncher.cs">
+    <Compile Include="Tools\ToolLauncher.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ToolLauncher.Designer.cs">
+    <Compile Include="Tools\ToolLauncher.Designer.cs">
       <DependentUpon>ToolLauncher.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools.cs" />
-    <Compile Include="Vector3Editor.cs">
+    <Compile Include="Tools\ToolsManager.cs" />
+    <Compile Include="Tools\MapEditor\Vector3Editor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Vector3Editor.Designer.cs">
+    <Compile Include="Tools\MapEditor\Vector3Editor.Designer.cs">
       <DependentUpon>Vector3Editor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vector2Editor.cs">
+    <Compile Include="Tools\MapEditor\Vector2Editor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Vector2Editor.Designer.cs">
+    <Compile Include="Tools\MapEditor\Vector2Editor.Designer.cs">
       <DependentUpon>Vector2Editor.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="BindingEditorDialog.resx">
+    <EmbeddedResource Include="Tools\MapEditor\BindingEditorDialog.resx">
       <DependentUpon>BindingEditorDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ColorEditor.resx">
+    <EmbeddedResource Include="Tools\MapEditor\ColorEditor.resx">
       <DependentUpon>ColorEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ContentBrowser.resx">
+    <EmbeddedResource Include="ContentBrowser\ContentBrowser.resx">
       <DependentUpon>ContentBrowser.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ContentBrowserDialog.resx">
+    <EmbeddedResource Include="ContentBrowser\ContentBrowserDialog.resx">
       <DependentUpon>ContentBrowserDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EntityPropertyEditor.resx">
+    <EmbeddedResource Include="Tools\MapEditor\EntityPropertyEditor.resx">
       <DependentUpon>EntityPropertyEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EntityPropertyEditorAsset.resx">
+    <EmbeddedResource Include="Tools\MapEditor\EntityPropertyEditorAsset.resx">
       <DependentUpon>EntityPropertyEditorAsset.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EntityPropertyEditorProperty.resx">
+    <EmbeddedResource Include="Tools\MapEditor\EntityPropertyEditorProperty.resx">
       <DependentUpon>EntityPropertyEditorProperty.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ImageViewer.resx">
+    <EmbeddedResource Include="Tools\ImageViewer.resx">
       <DependentUpon>ImageViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Launcher.resx">
       <DependentUpon>Launcher.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MapEditor.resx">
+    <EmbeddedResource Include="Tools\MapEditor\MapEditor.resx">
       <DependentUpon>MapEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -217,13 +217,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ToolLauncher.resx">
+    <EmbeddedResource Include="Tools\ToolLauncher.resx">
       <DependentUpon>ToolLauncher.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vector3Editor.resx">
+    <EmbeddedResource Include="Tools\MapEditor\Vector3Editor.resx">
       <DependentUpon>Vector3Editor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Vector2Editor.resx">
+    <EmbeddedResource Include="Tools\MapEditor\Vector2Editor.resx">
       <DependentUpon>Vector2Editor.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />

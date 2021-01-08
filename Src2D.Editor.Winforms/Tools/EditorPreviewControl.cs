@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Src2D.Editor.Winforms
+namespace Src2D.Editor.Winforms.Tools
 {
     public abstract class EditorPreviewControl<T> : MonoGameControl
         where T : EditorPreveiw, new()

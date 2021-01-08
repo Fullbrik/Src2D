@@ -1,5 +1,5 @@
 ﻿
-namespace Src2D.Editor.Winforms
+namespace Src2D.Editor.Winforms.ContentBrowser
 {
     partial class ContentBrowserDialog
     {
@@ -30,7 +30,7 @@ namespace Src2D.Editor.Winforms
         private void InitializeComponent()
         {
             this.Cancel = new System.Windows.Forms.Button();
-            this.CB = new Src2D.Editor.Winforms.ContentBrowser();
+            this.CB = new Src2D.Editor.Winforms.ContentBrowser.ContentBrowser();
             this.SuspendLayout();
             // 
             // Cancel

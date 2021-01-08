@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Src2D.Editor.Winforms
+namespace Src2D.Editor.Winforms.Tools
 {
     [Tool("Image Viewer", SrcAssetType.Texture2D)]
     public partial class ImageViewer : Form

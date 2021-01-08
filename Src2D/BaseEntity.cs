@@ -4,6 +4,7 @@ using System.Text;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Microsoft.Xna.Framework;
 
 namespace Src2D
 {
@@ -28,6 +29,21 @@ namespace Src2D
             }
         }
         private string name;
+
+        [SrcProperty("Position", Description = "The position of the sprite")]
+        public virtual Vector2 Position { get; set; } = Vector2.Zero;
+        [SrcProperty("Rotation", Description = "The rotation of the sprite")]
+        public virtual float Rotation { get; set; }
+        [SrcProperty("Scale", Description = "The scale of the sprite")]
+        public virtual Vector2 Scale { get; set; } = Vector2.One;
+        [SrcProperty("FlipX", Description = "Weather to flip the sprite sideways")]
+        public virtual bool FlipX { get; set; }
+        [SrcProperty("FlipY", Description = "Weather to flip the sprite up and down")]
+        public virtual bool FlipY { get; set; }
+        [SrcProperty("Origin", Description = "The origin of the sprite (where to rotate it from, from 0-1. Use .5 to rotate from the center)")]
+        public virtual Vector2 Origin { get; set; } = new Vector2(.5f, .5f);
+        [SrcProperty("Color", Description = "The color to tint the sprite. Set it to white for no tint")]
+        public virtual Color Color { get; set; } = Color.White;
 
         public bool HasStarted { get => hasStarted; }
         private bool hasStarted;
