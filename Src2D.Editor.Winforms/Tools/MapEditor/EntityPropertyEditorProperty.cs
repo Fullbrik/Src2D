@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Src2D.Editor.EnityData;
+using Src2D.Editor.Previews.MapEditor;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,11 +19,11 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
         public SrcPropertType PropertyType { get; }
         public MapEditorEntity Entity { get; }
 
-        private MapEditorPreveiw preveiw;
+        private MapEditorPreview preveiw;
 
         public event EventHandler OnShowDescription;
 
-        public EntityPropertyEditorProperty(MapEditorPreveiw preveiw, string name, DataSheetProperty property, MapEditorEntity entity)
+        public EntityPropertyEditorProperty(MapEditorPreview preveiw, string name, DataSheetProperty property, MapEditorEntity entity)
         {
             this.preveiw = preveiw;
 

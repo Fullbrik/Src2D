@@ -13,6 +13,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Microsoft.Xna.Framework.Graphics;
 using Src2D.Editor.EnityData;
+using Src2D.Editor.Previews.MapEditor;
 
 namespace Src2D.Editor.Winforms.Tools.MapEditor
 {
@@ -37,7 +38,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
         #endregion
 
         #region Fields
-        private MapEditorPreveiw preview;
+        private MapEditorPreview preview;
 
         private ContentFile content;
         #endregion

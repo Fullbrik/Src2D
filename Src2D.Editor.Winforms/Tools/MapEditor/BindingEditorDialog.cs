@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Src2D.Editor.Previews.MapEditor;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,9 +16,9 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
     {
         MapEditorEntity entity;
         MapPreviewBinding binding;
-        MapEditorPreveiw preveiw;
+        MapEditorPreview preveiw;
 
-        public BindingEditorDialog(MapEditorEntity entity, MapPreviewBinding binding, MapEditorPreveiw preveiw)
+        public BindingEditorDialog(MapEditorEntity entity, MapPreviewBinding binding, MapEditorPreview preveiw)
         {
             InitializeComponent();
 

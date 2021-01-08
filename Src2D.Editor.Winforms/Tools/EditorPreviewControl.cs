@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Forms.Controls;
+using Src2D.Editor.Previews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace Src2D.Editor.Winforms.Tools
 {
     public abstract class EditorPreviewControl<T> : MonoGameControl
-        where T : EditorPreveiw, new()
+        where T : EditorPreview, new()
     {
         public event EventHandler OnAction;
         public event EventHandler OnUndoOrRedo;

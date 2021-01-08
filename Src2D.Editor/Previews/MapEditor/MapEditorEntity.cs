@@ -6,9 +6,8 @@ using Src2D.Data;
 using Src2D.Editor.EnityData;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Src2D.Editor
+namespace Src2D.Editor.Previews.MapEditor
 {
     public class MapEditorEntity
     {
@@ -35,9 +34,9 @@ namespace Src2D.Editor
         public List<MapPreviewBinding> Bindings =
             new List<MapPreviewBinding>();
 
-        private MapEditorPreveiw preveiw;
+        private MapEditorPreview preveiw;
 
-        public MapEditorEntity(MapEditorPreveiw preveiw, MapEntity entity, ContentManager content)
+        public MapEditorEntity(MapEditorPreview preveiw, MapEntity entity, ContentManager content)
         {
             this.preveiw = preveiw;
 

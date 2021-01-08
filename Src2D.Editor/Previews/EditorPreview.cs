@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Src2D.Editor
+namespace Src2D.Editor.Previews
 {
-    public abstract class EditorPreveiw
+    public abstract class EditorPreview
     {
         public event Action OnAction;
         public event Action OnUndoOrRedo;

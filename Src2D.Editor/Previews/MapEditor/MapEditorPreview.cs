@@ -9,9 +9,9 @@ using Src2D.Editor.Content;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 
-namespace Src2D.Editor
+namespace Src2D.Editor.Previews.MapEditor
 {
-    public class MapEditorPreveiw : EditorPreveiw
+    public class MapEditorPreview : EditorPreview
     {
         public readonly List<MapEditorEntity> Entities = new List<MapEditorEntity>();
         public string[] EntityNames

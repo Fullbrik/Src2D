@@ -1,4 +1,5 @@
 ﻿using Src2D.Editor.Content;
+using Src2D.Editor.Previews.MapEditor;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,7 +25,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             }
         }
 
-        public MapEditorPreveiw Preview { get; set; }
+        public MapEditorPreview Preview { get; set; }
         public ContentFile ContentFile { get; set; }
 
         private MapEditorEntity entity;
