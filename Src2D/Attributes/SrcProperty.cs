@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace Src2D
+namespace Src2D.Attributes
 {
-    public enum SrcPropertType
+    public enum SrcPropertyType
     {
         None,
         String,
@@ -40,107 +40,107 @@ namespace Src2D
         public string Description { get; set; } = "";
         public object DefaultValue { get; set; }
 
-        public static SrcPropertType GetSrcPropertyTypeFor(PropertyInfo property)
+        public static SrcPropertyType GetSrcPropertyTypeFor(PropertyInfo property)
         {
             return GetSrcPropertyTypeFor(property.PropertyType);
         }
 
-        public static SrcPropertType GetSrcPropertyTypeFor(Type type)
+        public static SrcPropertyType GetSrcPropertyTypeFor(Type type)
         {
             if (type == typeof(string))
-                return SrcPropertType.String;
+                return SrcPropertyType.String;
             else if (type == typeof(int))
-                return SrcPropertType.Int;
+                return SrcPropertyType.Int;
             else if (type == typeof(float))
-                return SrcPropertType.Float;
+                return SrcPropertyType.Float;
             else if (type == typeof(bool))
-                return SrcPropertType.Bool;
+                return SrcPropertyType.Bool;
             else if (type == typeof(Vector2))
-                return SrcPropertType.Vector2;
+                return SrcPropertyType.Vector2;
             else if (type == typeof(Vector3))
-                return SrcPropertType.Vector3;
+                return SrcPropertyType.Vector3;
             else if (type == typeof(Color))
-                return SrcPropertType.Color;
+                return SrcPropertyType.Color;
             else if(type == typeof(EntityReference))
-                return SrcPropertType.EntityReferance;
-            else return SrcPropertType.None;
+                return SrcPropertyType.EntityReferance;
+            else return SrcPropertyType.None;
         }
 
-        public static object GetDefaultValueFor(SrcPropertType propertyType)
+        public static object GetDefaultValueFor(SrcPropertyType propertyType)
         {
             switch (propertyType)
             {
-                case SrcPropertType.None:
+                case SrcPropertyType.None:
                     return null;
-                case SrcPropertType.String:
+                case SrcPropertyType.String:
                     return "";
-                case SrcPropertType.Int:
+                case SrcPropertyType.Int:
                     return 0;
-                case SrcPropertType.Float:
+                case SrcPropertyType.Float:
                     return 0;
-                case SrcPropertType.Bool:
+                case SrcPropertyType.Bool:
                     return false;
-                case SrcPropertType.Vector2:
+                case SrcPropertyType.Vector2:
                     return Vector2.Zero;
-                case SrcPropertType.Vector3:
+                case SrcPropertyType.Vector3:
                     return Vector3.Zero;
-                case SrcPropertType.Color:
+                case SrcPropertyType.Color:
                     return Color.White;
-                case SrcPropertType.EntityReferance:
+                case SrcPropertyType.EntityReferance:
                     return new EntityReference("");
                 default:
                     return null;
             }
         }
 
-        public static object PropertyFromString(string str, SrcPropertType propertyType)
+        public static object PropertyFromString(string str, SrcPropertyType propertyType)
         {
             switch (propertyType)
             {
-                case SrcPropertType.String:
+                case SrcPropertyType.String:
                     return str;
-                case SrcPropertType.None:
+                case SrcPropertyType.None:
                     return str;
-                case SrcPropertType.Int:
+                case SrcPropertyType.Int:
                     return int.Parse(str);
-                case SrcPropertType.Float:
+                case SrcPropertyType.Float:
                     return float.Parse(str);
-                case SrcPropertType.Bool:
+                case SrcPropertyType.Bool:
                     return bool.Parse(str);
-                case SrcPropertType.Vector2:
+                case SrcPropertyType.Vector2:
                     return new Vector2TypeConverter().ConvertFrom(str);
-                case SrcPropertType.Vector3:
+                case SrcPropertyType.Vector3:
                     return new Vector3TypeConverter().ConvertFrom(str);
-                case SrcPropertType.Color:
+                case SrcPropertyType.Color:
                     throw new NotImplementedException();
-                case SrcPropertType.EntityReferance:
+                case SrcPropertyType.EntityReferance:
                     return new EntityReference(str);
                 default:
                     return str;
             }
         }
 
-        public static object PropertyFromJObject(JObject jObject, SrcPropertType propertyType)
+        public static object PropertyFromJObject(JObject jObject, SrcPropertyType propertyType)
         {
             switch (propertyType)
             {
-                case SrcPropertType.String:
+                case SrcPropertyType.String:
                     throw new NotImplementedException();
-                case SrcPropertType.None:
+                case SrcPropertyType.None:
                     throw new NotImplementedException();
-                case SrcPropertType.Int:
+                case SrcPropertyType.Int:
                     throw new NotImplementedException();
-                case SrcPropertType.Float:
+                case SrcPropertyType.Float:
                     throw new NotImplementedException();
-                case SrcPropertType.Bool:
+                case SrcPropertyType.Bool:
                     throw new NotImplementedException();
-                case SrcPropertType.Vector2:
+                case SrcPropertyType.Vector2:
                     return new Vector2(jObject["X"].ToObject<float>(), jObject["Y"].ToObject<float>());
-                case SrcPropertType.Vector3:
+                case SrcPropertyType.Vector3:
                     return new Vector3(jObject["X"].ToObject<float>(), jObject["Y"].ToObject<float>(), jObject["Z"].ToObject<float>());
-                case SrcPropertType.Color:
+                case SrcPropertyType.Color:
                     return new Color(jObject["R"].ToObject<float>(), jObject["G"].ToObject<float>(), jObject["B"].ToObject<float>(), jObject["A"].ToObject<float>());
-                case SrcPropertType.EntityReferance:
+                case SrcPropertyType.EntityReferance:
                     throw new NotImplementedException();
                 default:
                     throw new NotImplementedException();

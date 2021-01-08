@@ -5,6 +5,7 @@ using System.Text;
 using System.Linq;
 using Src2D.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
+using Src2D.Entities;
 
 namespace Src2D
 {

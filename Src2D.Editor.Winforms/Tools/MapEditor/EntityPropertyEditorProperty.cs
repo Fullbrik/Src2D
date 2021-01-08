@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Src2D.Attributes;
 using Src2D.Editor.EnityData;
 using Src2D.Editor.Previews.MapEditor;
 using System;
@@ -16,7 +17,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
     {
         public string Description { get; }
         public string PropertyName { get; }
-        public SrcPropertType PropertyType { get; }
+        public SrcPropertyType PropertyType { get; }
         public MapEditorEntity Entity { get; }
 
         private MapEditorPreview preveiw;
@@ -49,16 +50,16 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             NumericUpDown numericUpDown;
             switch (PropertyType)
             {
-                case SrcPropertType.None:
+                case SrcPropertyType.None:
                     break;
-                case SrcPropertType.String:
+                case SrcPropertyType.String:
                     textBox = new TextBox();
                     textBox.Text = (string)(Entity.GetProperty(PropertyName));
                     textBox.TextChanged += TextBox_TextChanged;
                     PropertyValueEditor.Controls.Add(textBox);
                     textBox.Dock = DockStyle.Fill;
                     break;
-                case SrcPropertType.Int:
+                case SrcPropertyType.Int:
                     numericUpDown = new NumericUpDown();
                     numericUpDown.Minimum = int.MaxValue;
                     numericUpDown.Minimum = int.MinValue;
@@ -69,7 +70,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
                     PropertyValueEditor.Controls.Add(numericUpDown);
                     numericUpDown.Dock = DockStyle.Fill;
                     break;
-                case SrcPropertType.Float:
+                case SrcPropertyType.Float:
                     numericUpDown = new NumericUpDown();
                     numericUpDown.DecimalPlaces = 5;
                     numericUpDown.Increment = .1M;
@@ -80,35 +81,35 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
                     PropertyValueEditor.Controls.Add(numericUpDown);
                     numericUpDown.Dock = DockStyle.Fill;
                     break;
-                case SrcPropertType.Bool:
+                case SrcPropertyType.Bool:
                     checkbox = new CheckBox();
                     checkbox.Checked = (bool)(Entity.GetProperty(PropertyName));
                     checkbox.CheckStateChanged += Checkbox_CheckStateChanged;
                     PropertyValueEditor.Controls.Add(checkbox);
                     checkbox.Dock = DockStyle.Fill;
                     break;
-                case SrcPropertType.Vector2:
+                case SrcPropertyType.Vector2:
                     Vector2Editor vector2Editor = new Vector2Editor(
                         (Vector2)(Entity.GetProperty(PropertyName)),
                         (v2) => Entity.SetProperty(PropertyName, v2));
                     PropertyValueEditor.Controls.Add(vector2Editor);
                     vector2Editor.Dock = DockStyle.Fill;
                     break;
-                case SrcPropertType.Vector3:
+                case SrcPropertyType.Vector3:
                     Vector3Editor vector3Editor = new Vector3Editor(
                         (Vector3)(Entity.GetProperty(PropertyName)),
                         (v3) => Entity.SetProperty(PropertyName, v3));
                     PropertyValueEditor.Controls.Add(vector3Editor);
                     vector3Editor.Dock = DockStyle.Fill;
                     break;
-                case SrcPropertType.Color:
+                case SrcPropertyType.Color:
                     ColorEditor colorEditor = new ColorEditor(
                         (Color)(Entity.GetProperty(PropertyName)),
                         (c) => Entity.SetProperty(PropertyName, c));
                     PropertyValueEditor.Controls.Add(colorEditor);
                     colorEditor.Dock = DockStyle.Fill;
                     break;
-                case SrcPropertType.EntityReferance:
+                case SrcPropertyType.EntityReferance:
                     textBox = new TextBox();
                     textBox.Text = (EntityReference)(Entity.GetProperty(PropertyName));
                     textBox.AutoCompleteMode = AutoCompleteMode.Suggest;

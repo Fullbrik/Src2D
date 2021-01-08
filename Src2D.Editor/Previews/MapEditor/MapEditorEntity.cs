@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json.Linq;
+using Src2D.Attributes;
 using Src2D.Data;
 using Src2D.Editor.EnityData;
 using System;
@@ -81,14 +82,14 @@ namespace Src2D.Editor.Previews.MapEditor
                     value = SrcPropertyAttribute
                         .PropertyFromString(str, prop.Value.PropertyType);
 
-                if (prop.Value.PropertyType == SrcPropertType.Float && value is int i)
+                if (prop.Value.PropertyType == SrcPropertyType.Float && value is int i)
                     value = (float)i;
 
 
                 switch (prop.Key)
                 {
                     case "Name":
-                        if (prop.Value.PropertyType == SrcPropertType.String
+                        if (prop.Value.PropertyType == SrcPropertyType.String
                             && properties.ContainsKey(prop.Key))
                         {
                             doDefault = false;
@@ -96,7 +97,7 @@ namespace Src2D.Editor.Previews.MapEditor
                         }
                         break;
                     case "Position":
-                        if (prop.Value.PropertyType == SrcPropertType.Vector2
+                        if (prop.Value.PropertyType == SrcPropertyType.Vector2
                             && properties.ContainsKey(prop.Key))
                         {
                             doDefault = false;
@@ -104,7 +105,7 @@ namespace Src2D.Editor.Previews.MapEditor
                         }
                         break;
                     case "Rotation":
-                        if (prop.Value.PropertyType == SrcPropertType.Float
+                        if (prop.Value.PropertyType == SrcPropertyType.Float
                             && properties.ContainsKey(prop.Key))
                         {
                             doDefault = false;
@@ -112,7 +113,7 @@ namespace Src2D.Editor.Previews.MapEditor
                         }
                         break;
                     case "Scale":
-                        if (prop.Value.PropertyType == SrcPropertType.Vector2
+                        if (prop.Value.PropertyType == SrcPropertyType.Vector2
                             && properties.ContainsKey(prop.Key))
                         {
                             doDefault = false;
@@ -120,7 +121,7 @@ namespace Src2D.Editor.Previews.MapEditor
                         }
                         break;
                     case "Origin":
-                        if (prop.Value.PropertyType == SrcPropertType.Vector2
+                        if (prop.Value.PropertyType == SrcPropertyType.Vector2
                             && properties.ContainsKey(prop.Key))
                         {
                             doDefault = false;
@@ -311,11 +312,11 @@ namespace Src2D.Editor.Previews.MapEditor
 
     public class MapPreviewEntityProperty
     {
-        public SrcPropertType PropertType { get; }
+        public SrcPropertyType PropertType { get; }
         public string Description { get; }
         public object Value { get; set; }
 
-        public MapPreviewEntityProperty(SrcPropertType propertType, string description, object value)
+        public MapPreviewEntityProperty(SrcPropertyType propertType, string description, object value)
         {
             PropertType = propertType;
             Description = description;

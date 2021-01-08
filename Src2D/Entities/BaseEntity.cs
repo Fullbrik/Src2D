@@ -5,8 +5,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
+using Src2D.Attributes;
 
-namespace Src2D
+namespace Src2D.Entities
 {
     [SrcEntity("Entity", Description = "A basic entity. doesn't do anything bat has the basic code all entities rely on")]
     public class BaseEntity

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace Src2D
+namespace Src2D.Attributes
 {
     public enum SrcAssetType
     {

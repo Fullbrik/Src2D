@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Src2D.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;

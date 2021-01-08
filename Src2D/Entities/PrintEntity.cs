@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Src2D.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Src2D
+namespace Src2D.Entities
 {
     [SrcEntity("Print")]
     public class PrintEntity : BaseEntity

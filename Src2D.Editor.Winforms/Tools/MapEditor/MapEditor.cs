@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using Microsoft.Xna.Framework.Graphics;
 using Src2D.Editor.EnityData;
 using Src2D.Editor.Previews.MapEditor;
+using Src2D.Attributes;
 
 namespace Src2D.Editor.Winforms.Tools.MapEditor
 {

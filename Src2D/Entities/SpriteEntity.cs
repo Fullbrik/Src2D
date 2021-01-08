@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Src2D.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Src2D
+namespace Src2D.Entities
 {
     [SrcEntity("Sprite", Gizmos = "Position2d|Rotation1d|Scale2d", Description = "A sprite with a position and rotation")]
     public class SpriteEntity : DrawEntity
