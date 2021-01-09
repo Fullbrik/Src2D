@@ -9,5 +9,6 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
 {
     public class MapEditorPreveiwControl : EditorPreviewControl<MapEditorPreview>
     {
+
     }
 }

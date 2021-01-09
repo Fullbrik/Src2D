@@ -1,6 +1,8 @@
 ﻿using Src2D.Attributes;
+using Src2D.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Src2D.Editor.EnityData
@@ -22,26 +24,43 @@ namespace Src2D.Editor.EnityData
         public Dictionary<string, DataSheetAsset> Assets;
         public Dictionary<string, DataSheetEvent> Events;
         public Dictionary<string, DataSheetEvent> Actions;
-    }
 
-    public struct DataSheetProperty
-    {
-        public SrcPropertyType PropertyType;
-        public string Description;
-        public object DefaultValue;
-    }
+        public MapEntity ToMapEntity(string entityType)
+        {
+            MapEntity entity = new MapEntity()
+            {
+                EntityType = entityType,
+                Properties = Properties
+                    .Select(kvp => kvp.Value.DefaultValue)
+                    .ToDictionary(Properties.Keys),
+                Assets = Assets
+                    .Select((_) => "")
+                    .ToDictionary(Assets.Keys),
+                Bindings = Array.Empty<MapBinding>()
+            };
 
-    public struct DataSheetAsset
-    {
-        public SrcAssetType AssetType;
-        public string Description;
+            return entity;
+        }
     }
+}
 
-    public struct DataSheetEvent
-    {
-        public bool ExportsParam;
-        public EventParamType ParamType;
-        public string[] ParamOptions;
-        public string Description;
-    }
+public struct DataSheetProperty
+{
+    public SrcPropertyType PropertyType;
+    public string Description;
+    public object DefaultValue;
+}
+
+public struct DataSheetAsset
+{
+    public SrcAssetType AssetType;
+    public string Description;
+}
+
+public struct DataSheetEvent
+{
+    public bool ExportsParam;
+    public EventParamType ParamType;
+    public string[] ParamOptions;
+    public string Description;
 }

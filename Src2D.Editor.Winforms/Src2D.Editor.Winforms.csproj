@@ -115,6 +115,12 @@
     <Compile Include="Tools\EditorPreviewControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Tools\MapEditor\EntitySelectionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\MapEditor\EntitySelectionDialog.Designer.cs">
+      <DependentUpon>EntitySelectionDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\MapEditor\EntityPropertyEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -188,6 +194,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ContentBrowser\ContentBrowserDialog.resx">
       <DependentUpon>ContentBrowserDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\MapEditor\EntitySelectionDialog.resx">
+      <DependentUpon>EntitySelectionDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\MapEditor\EntityPropertyEditor.resx">
       <DependentUpon>EntityPropertyEditor.cs</DependentUpon>

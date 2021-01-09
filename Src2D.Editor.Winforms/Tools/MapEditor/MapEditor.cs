@@ -56,6 +56,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
 
             ContentBrowser.InitializeContent(content);
             preview = MapPreview.EditorPreveiw;
+            preview.OnEntitiesChanged += Preview_OnEntitiesChanged;
         }
 
         private async void LevelEditor_Load(object sender, EventArgs e)
@@ -102,6 +103,11 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             }
         }
 
+        private void Preview_OnEntitiesChanged()
+        {
+            ReloadEntityList();
+        }
+
         private void MapEditor_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Modifiers == Keys.Control)
@@ -135,6 +141,13 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             preview.Redo();
+        }
+        #endregion
+
+        #region Context Menu
+        private void createEntityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateEntity();
         }
         #endregion
 
@@ -172,13 +185,13 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
 
         private void CreateEntity()
         {
-
+            if(EntitySelectionDialog.Show(out MapEntity entity) == DialogResult.OK)
+            {
+                preview.CreateEntity(entity);
+            }
         }
         #endregion
 
-        private void createEntityToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CreateEntity();
-        }
+        
     }
 }

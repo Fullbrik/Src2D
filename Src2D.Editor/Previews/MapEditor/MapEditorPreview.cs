@@ -19,6 +19,8 @@ namespace Src2D.Editor.Previews.MapEditor
             get => Entities.Select(e => e.Name).ToArray();
         }
 
+        public event Action OnEntitiesChanged;
+
         public bool IsLoaded { get => isLoaded; }
         private bool isLoaded;
 
@@ -92,6 +94,27 @@ namespace Src2D.Editor.Previews.MapEditor
             }
 
             errors = errs.ToArray();
+        }
+
+        public void CreateEntity(MapEntity entity)
+        {
+            MapEditorEntity newEnt = new MapEditorEntity(this, entity, ContentManager);
+
+            DoAction(() => AddEntity(newEnt), () => RemoveEntity(newEnt));
+        }
+
+        private void AddEntity(MapEditorEntity entity)
+        {
+            Entities.Add(entity);
+
+            OnEntitiesChanged?.Invoke();
+        }
+
+        private void RemoveEntity(MapEditorEntity entity)
+        {
+            Entities.Remove(entity);
+
+            OnEntitiesChanged?.Invoke();
         }
 
         public Map ToMap()

@@ -40,5 +40,21 @@ namespace Src2D
                 return false;
             }
         }
+
+        public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(
+            this IEnumerable<TValue> source, IEnumerable<TKey> keys)
+        {
+            Dictionary<TKey, TValue> dictionary = new Dictionary<TKey, TValue>();
+
+            for (int i = 0; i < source.Count(); i++)
+            {
+                if(i < keys.Count())
+                {
+                    dictionary.Add(keys.ElementAt(i), source.ElementAt(i));
+                }
+            }
+
+            return dictionary;
+        }
     }
 }

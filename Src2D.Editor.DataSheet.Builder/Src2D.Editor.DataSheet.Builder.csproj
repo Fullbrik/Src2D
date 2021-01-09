@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>DSBuilder</AssemblyName>
+    <StartupObject>Src2D.Editor.DataSheet.Builder.Program</StartupObject>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -21,8 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Src2D.Editor\Src2D.Editor.csproj" />
-    <ProjectReference Include="..\Src2D\Src2D.csproj" />
+    <ProjectReference Include="..\Src2D.Editor\Src2D.Editor.csproj">
+    </ProjectReference>
+    <ProjectReference Include="..\Src2D\Src2D.csproj">
+    </ProjectReference>
   </ItemGroup>
 
 </Project>

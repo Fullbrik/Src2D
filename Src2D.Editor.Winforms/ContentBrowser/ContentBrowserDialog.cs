@@ -18,10 +18,12 @@ namespace Src2D.Editor.Winforms.ContentBrowser
             out string asset,
             params SrcAssetType[] allowedAssetTypes)
         {
-            var dialog = new ContentBrowserDialog(content, allowedAssetTypes);
-            var result = dialog.ShowDialog();
-            asset = dialog.asset;
-            return result;
+            using (var dialog = new ContentBrowserDialog(content, allowedAssetTypes))
+            {
+                var result = dialog.ShowDialog();
+                asset = dialog.asset;
+                return result;
+            }
         }
 
         private string asset;
