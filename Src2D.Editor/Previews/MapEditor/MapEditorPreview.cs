@@ -13,17 +13,22 @@ namespace Src2D.Editor.Previews.MapEditor
 {
     public class MapEditorPreview : EditorPreview
     {
-        public readonly List<MapEditorEntity> Entities = new List<MapEditorEntity>();
+        #region Props
+        public bool IsLoaded { get => isLoaded; }
+        private bool isLoaded;
+
         public string[] EntityNames
         {
             get => Entities.Select(e => e.Name).ToArray();
         }
+        #endregion
 
+        #region Fields
+        public readonly List<MapEditorEntity> Entities = new List<MapEditorEntity>();
         public event Action OnEntitiesChanged;
+        #endregion
 
-        public bool IsLoaded { get => isLoaded; }
-        private bool isLoaded;
-
+        #region Life Cycle
         public override void Start()
         {
 
@@ -40,12 +45,12 @@ namespace Src2D.Editor.Previews.MapEditor
             {
                 Entities.ForEach(entity =>
                 {
-                    if (entity.SpritePreveiw != null)
+                    if (entity.SpritePreview != null)
                     {
-                        Vector2 spriteSize = new Vector2(entity.SpritePreveiw.Width, entity.SpritePreveiw.Height);
+                        Vector2 spriteSize = new Vector2(entity.SpritePreview.Width, entity.SpritePreview.Height);
 
                         spriteBatch.Draw(
-                            entity.SpritePreveiw,
+                            entity.SpritePreview,
                             entity.Position,
                             null,
                             Color.White,
@@ -63,7 +68,9 @@ namespace Src2D.Editor.Previews.MapEditor
         {
 
         }
+        #endregion
 
+        #region Map Data and Loading
         public void LoadMap(Map map, out string[] errors, ContentFile content)
         {
             isLoaded = false;
@@ -96,6 +103,21 @@ namespace Src2D.Editor.Previews.MapEditor
             errors = errs.ToArray();
         }
 
+        public Map ToMap()
+        {
+            return new Map()
+            {
+                Entities = Entities.Select(ent => ent.ToMapEntity()).ToArray()
+            };
+        }
+
+        public string Serialize()
+        {
+            return JsonConvert.SerializeObject(ToMap());
+        }
+        #endregion
+
+        #region Actions
         public void CreateEntity(MapEntity entity)
         {
             MapEditorEntity newEnt = new MapEditorEntity(this, entity, ContentManager);
@@ -103,6 +125,22 @@ namespace Src2D.Editor.Previews.MapEditor
             DoAction(() => AddEntity(newEnt), () => RemoveEntity(newEnt));
         }
 
+        public void DestroyEntity(MapEditorEntity entity)
+        {
+            DoAction(() => RemoveEntity(entity), () => AddEntity(entity));
+        }
+
+        public void RearangeEntity(MapEditorEntity entity, int newIndex)
+        {
+            int oldIndex = Entities.IndexOf(entity);
+
+            DoAction(
+                () => MoveEntityToIndex(entity, newIndex),
+                () => MoveEntityToIndex(entity, oldIndex));
+        }
+        #endregion
+
+        #region Entity Actions Implementations
         private void AddEntity(MapEditorEntity entity)
         {
             Entities.Add(entity);
@@ -117,17 +155,30 @@ namespace Src2D.Editor.Previews.MapEditor
             OnEntitiesChanged?.Invoke();
         }
 
-        public Map ToMap()
+        private void MoveEntityToIndex(MapEditorEntity entity, int newIndex)
         {
-            return new Map()
+            if(Entities.Remove(entity))
             {
-                Entities = Entities.Select(ent => ent.ToMapEntity()).ToArray()
-            };
-        }
+                if(newIndex >= Entities.Count)
+                {
+                    Entities.Add(entity);
+                }
+                else
+                {
+                    Entities.Insert(newIndex, entity);
+                }
 
-        public string Serialize()
+                OnEntitiesChanged?.Invoke();
+            }
+        }
+        #endregion
+
+        public void ReloadAssets()
         {
-            return JsonConvert.SerializeObject(ToMap());
+            isLoaded = false;
+            ContentManager.Unload();
+            Entities.ForEach(ent => ent.ReloadAssets(ContentManager));
+            isLoaded = true;
         }
     }
 }

@@ -41,6 +41,9 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             PropertyList.Controls.Clear();
             AssetList.SuspendLayout();
             AssetList.Controls.Clear();
+            EntityName.Text = "";
+            DescriptionGB.Text = "Description";
+            DescriptionText.Text = "";
 
             if (Entity != null)
             {

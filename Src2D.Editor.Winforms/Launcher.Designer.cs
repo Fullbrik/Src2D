@@ -41,12 +41,13 @@ namespace Src2D.Editor.Winforms
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.RecentFilesList);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(13, 13);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(394, 425);
+            this.groupBox1.Size = new System.Drawing.Size(546, 425);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Open Recent";
+            this.groupBox1.Text = "Open Recent:";
             // 
             // RecentFilesList
             // 
@@ -54,9 +55,9 @@ namespace Src2D.Editor.Winforms
             this.RecentFilesList.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RecentFilesList.FormattingEnabled = true;
             this.RecentFilesList.ItemHeight = 31;
-            this.RecentFilesList.Location = new System.Drawing.Point(3, 16);
+            this.RecentFilesList.Location = new System.Drawing.Point(3, 41);
             this.RecentFilesList.Name = "RecentFilesList";
-            this.RecentFilesList.Size = new System.Drawing.Size(388, 406);
+            this.RecentFilesList.Size = new System.Drawing.Size(540, 381);
             this.RecentFilesList.TabIndex = 0;
             this.RecentFilesList.DoubleClick += new System.EventHandler(this.RecentFilesList_DoubleClick);
             // 
@@ -65,9 +66,9 @@ namespace Src2D.Editor.Winforms
             this.NewButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.NewButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NewButton.Location = new System.Drawing.Point(413, 29);
+            this.NewButton.Location = new System.Drawing.Point(565, 29);
             this.NewButton.Name = "NewButton";
-            this.NewButton.Size = new System.Drawing.Size(171, 50);
+            this.NewButton.Size = new System.Drawing.Size(279, 50);
             this.NewButton.TabIndex = 1;
             this.NewButton.Text = "New";
             this.NewButton.UseVisualStyleBackColor = true;
@@ -78,9 +79,9 @@ namespace Src2D.Editor.Winforms
             this.OpenButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.OpenButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OpenButton.Location = new System.Drawing.Point(414, 85);
+            this.OpenButton.Location = new System.Drawing.Point(566, 85);
             this.OpenButton.Name = "OpenButton";
-            this.OpenButton.Size = new System.Drawing.Size(170, 50);
+            this.OpenButton.Size = new System.Drawing.Size(278, 50);
             this.OpenButton.TabIndex = 2;
             this.OpenButton.Text = "Open";
             this.OpenButton.UseVisualStyleBackColor = true;
@@ -90,7 +91,7 @@ namespace Src2D.Editor.Winforms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(596, 450);
+            this.ClientSize = new System.Drawing.Size(856, 450);
             this.Controls.Add(this.OpenButton);
             this.Controls.Add(this.NewButton);
             this.Controls.Add(this.groupBox1);

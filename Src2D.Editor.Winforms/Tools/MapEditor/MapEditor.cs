@@ -86,12 +86,14 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
         #region Events
         private void MapPreview_OnAction(object sender, EventArgs e)
         {
+            HasPendingChanges = true;
             UpdateUndoAndRedoButtons();
         }
 
         private void MapPreview_OnUndoOrRedo(object sender, EventArgs e)
         {
             PropertyEditor.Entity = PropertyEditor.Entity;
+            HasPendingChanges = true;
             UpdateUndoAndRedoButtons();
         }
 
@@ -105,24 +107,54 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
 
         private void Preview_OnEntitiesChanged()
         {
+            HasPendingChanges = true;
             ReloadEntityList();
+
+            if (!preview.Entities.Contains(PropertyEditor.Entity))
+            {
+                PropertyEditor.Entity = null;
+            }
+        }
+        #endregion
+
+        #region Entity List Drag
+        //Note: Most of this code was copied from MSDN docs, then modified for my needs.
+
+        private void EntityList_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                DoDragDrop(e.Item, DragDropEffects.Move);
+            }
         }
 
-        private void MapEditor_KeyDown(object sender, KeyEventArgs e)
+        private void EntityList_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Modifiers == Keys.Control)
+            e.Effect = e.AllowedEffect;
+        }
+
+        private void EntityList_DragOver(object sender, DragEventArgs e)
+        {
+
+        }
+
+        private void EntityList_DragDrop(object sender, DragEventArgs e)
+        {
+            // Retrieve the client coordinates of the drop location.
+            Point targetPoint = EntityList.PointToClient(new Point(e.X, e.Y));
+
+            // Retrieve the node at the drop location.
+            TreeNode targetNode = EntityList.GetNodeAt(targetPoint);
+
+            // Retrieve the node that was dragged.
+            TreeNode draggedNode = (TreeNode)e.Data.GetData(typeof(TreeNode));
+
+            // Confirm that the node at the drop location is not 
+            // the dragged node or a descendant of the dragged node.
+            if (draggedNode.Tag is MapEditorEntity entity &&
+                !draggedNode.Equals(targetNode))
             {
-                switch (e.KeyCode)
-                {
-                    case Keys.Y:
-                        preview.Redo();
-                        break;
-                    case Keys.Z:
-                        preview.Undo();
-                        break;
-                    default:
-                        break;
-                }
+                preview.RearangeEntity(entity, targetNode.Index);
             }
         }
         #endregion
@@ -149,6 +181,11 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
         {
             CreateEntity();
         }
+
+        private void removeEntityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DestroyEntity();
+        }
         #endregion
 
         #region Actions
@@ -168,6 +205,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             });
 
             EntityList.Nodes.Add(root);
+            EntityList.ExpandAll();
         }
 
         private void UpdateUndoAndRedoButtons()
@@ -185,13 +223,18 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
 
         private void CreateEntity()
         {
-            if(EntitySelectionDialog.Show(out MapEntity entity) == DialogResult.OK)
+            if (EntitySelectionDialog.Show(out MapEntity entity) == DialogResult.OK)
             {
                 preview.CreateEntity(entity);
             }
         }
-        #endregion
 
-        
+        private void DestroyEntity()
+        {
+            if (PropertyEditor.Entity != null)
+                preview.DestroyEntity(PropertyEditor.Entity);
+        }
+
+        #endregion
     }
 }

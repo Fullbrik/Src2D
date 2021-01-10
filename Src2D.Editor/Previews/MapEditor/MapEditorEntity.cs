@@ -24,7 +24,8 @@ namespace Src2D.Editor.Previews.MapEditor
         public Vector2 Scale { get; set; } = Vector2.One;
         public Vector2 Origin { get; set; } = new Vector2(.5f, .5f);
 
-        public Texture2D SpritePreveiw { get; } = null;
+        public Texture2D SpritePreview { get => spritePreview; }
+        private Texture2D spritePreview;
 
         public Dictionary<string, MapPreviewEntityProperty> OtherProperties
             = new Dictionary<string, MapPreviewEntityProperty>();
@@ -49,19 +50,7 @@ namespace Src2D.Editor.Previews.MapEditor
             PopulateAssets(entity.Assets);
             PopulateBindings(entity.Bindings);
 
-            if (!string.IsNullOrWhiteSpace(Data.Sprite))
-            {
-                try
-                {
-                    SpritePreveiw = content.Load<Texture2D>(Data.Sprite);
-                }
-                catch (Exception)
-                {
-#if DEBUG
-                    throw;
-#endif
-                }
-            }
+            ReloadAssets(content);
         }
 
         private void PopulateProperties(Dictionary<string, object> properties)
@@ -270,6 +259,21 @@ namespace Src2D.Editor.Previews.MapEditor
             preveiw.DoAction(
                 () => Assets[name].AssetName = assetName,
                 () => Assets[name].AssetName = old);
+        }
+
+        public void ReloadAssets(ContentManager content)
+        {
+            if (!string.IsNullOrWhiteSpace(Data.Sprite))
+            {
+                try
+                {
+                    spritePreview = content.Load<Texture2D>(Data.Sprite);
+                }
+                catch (Exception)
+                {
+                    throw new Exception($"Could not find sprite {Data.Sprite} in content.");
+                }
+            }
         }
 
         public MapEntity ToMapEntity()

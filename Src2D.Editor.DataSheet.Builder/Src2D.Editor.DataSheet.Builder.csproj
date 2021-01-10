@@ -25,6 +25,7 @@
     <ProjectReference Include="..\Src2D.Editor\Src2D.Editor.csproj">
     </ProjectReference>
     <ProjectReference Include="..\Src2D\Src2D.csproj">
+      <Private>true</Private>
     </ProjectReference>
   </ItemGroup>
 

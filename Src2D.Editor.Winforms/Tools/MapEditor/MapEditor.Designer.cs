@@ -39,14 +39,14 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.EntityList = new System.Windows.Forms.TreeView();
-            this.PropertyEditor = new Src2D.Editor.Winforms.Tools.MapEditor.EntityPropertyEditor();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.MapPreview = new Src2D.Editor.Winforms.Tools.MapEditor.MapEditorPreveiwControl();
-            this.ContentBrowser = new Src2D.Editor.Winforms.ContentBrowser.ContentBrowser();
             this.EntityListContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.GizmoSelector = new System.Windows.Forms.ToolStrip();
             this.createEntityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeEntityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.GizmoSelector = new System.Windows.Forms.ToolStrip();
+            this.PropertyEditor = new Src2D.Editor.Winforms.Tools.MapEditor.EntityPropertyEditor();
+            this.MapPreview = new Src2D.Editor.Winforms.Tools.MapEditor.MapEditorPreveiwControl();
+            this.ContentBrowser = new Src2D.Editor.Winforms.ContentBrowser.ContentBrowser();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -56,11 +56,11 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.EntityListContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            this.EntityListContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -85,7 +85,8 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -101,14 +102,16 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             // undoToolStripMenuItem
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.undoToolStripMenuItem.Text = "Undo";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
             // redoToolStripMenuItem
             // 
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.redoToolStripMenuItem.Text = "Redo";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
             // 
@@ -151,24 +154,41 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             // 
             // EntityList
             // 
+            this.EntityList.AllowDrop = true;
             this.EntityList.ContextMenuStrip = this.EntityListContextMenu;
             this.EntityList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.EntityList.Location = new System.Drawing.Point(0, 0);
             this.EntityList.Name = "EntityList";
             this.EntityList.Size = new System.Drawing.Size(215, 279);
             this.EntityList.TabIndex = 0;
+            this.EntityList.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.EntityList_ItemDrag);
             this.EntityList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.EntityList_AfterSelect);
+            this.EntityList.DragDrop += new System.Windows.Forms.DragEventHandler(this.EntityList_DragDrop);
+            this.EntityList.DragEnter += new System.Windows.Forms.DragEventHandler(this.EntityList_DragEnter);
+            this.EntityList.DragOver += new System.Windows.Forms.DragEventHandler(this.EntityList_DragOver);
             // 
-            // PropertyEditor
+            // EntityListContextMenu
             // 
-            this.PropertyEditor.ContentFile = null;
-            this.PropertyEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PropertyEditor.Entity = null;
-            this.PropertyEditor.Location = new System.Drawing.Point(0, 0);
-            this.PropertyEditor.Name = "PropertyEditor";
-            this.PropertyEditor.Preview = null;
-            this.PropertyEditor.Size = new System.Drawing.Size(215, 264);
-            this.PropertyEditor.TabIndex = 0;
+            this.EntityListContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createEntityToolStripMenuItem,
+            this.removeEntityToolStripMenuItem});
+            this.EntityListContextMenu.Name = "EntityListContextMenu";
+            this.EntityListContextMenu.Size = new System.Drawing.Size(175, 48);
+            // 
+            // createEntityToolStripMenuItem
+            // 
+            this.createEntityToolStripMenuItem.Name = "createEntityToolStripMenuItem";
+            this.createEntityToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.createEntityToolStripMenuItem.Text = "Create Entity";
+            this.createEntityToolStripMenuItem.Click += new System.EventHandler(this.createEntityToolStripMenuItem_Click);
+            // 
+            // removeEntityToolStripMenuItem
+            // 
+            this.removeEntityToolStripMenuItem.Name = "removeEntityToolStripMenuItem";
+            this.removeEntityToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.removeEntityToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.removeEntityToolStripMenuItem.Text = "Remove Entity";
+            this.removeEntityToolStripMenuItem.Click += new System.EventHandler(this.removeEntityToolStripMenuItem_Click);
             // 
             // splitContainer3
             // 
@@ -187,6 +207,28 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.splitContainer3.Size = new System.Drawing.Size(911, 547);
             this.splitContainer3.SplitterDistance = 418;
             this.splitContainer3.TabIndex = 1;
+            // 
+            // GizmoSelector
+            // 
+            this.GizmoSelector.CanOverflow = false;
+            this.GizmoSelector.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.GizmoSelector.Location = new System.Drawing.Point(0, 24);
+            this.GizmoSelector.Name = "GizmoSelector";
+            this.GizmoSelector.Size = new System.Drawing.Size(1130, 25);
+            this.GizmoSelector.Stretch = true;
+            this.GizmoSelector.TabIndex = 2;
+            this.GizmoSelector.Text = "toolStrip1";
+            // 
+            // PropertyEditor
+            // 
+            this.PropertyEditor.ContentFile = null;
+            this.PropertyEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PropertyEditor.Entity = null;
+            this.PropertyEditor.Location = new System.Drawing.Point(0, 0);
+            this.PropertyEditor.Name = "PropertyEditor";
+            this.PropertyEditor.Preview = null;
+            this.PropertyEditor.Size = new System.Drawing.Size(215, 264);
+            this.PropertyEditor.TabIndex = 0;
             // 
             // MapPreview
             // 
@@ -210,38 +252,6 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.ContentBrowser.TabIndex = 0;
             this.ContentBrowser.UseFilter = false;
             // 
-            // EntityListContextMenu
-            // 
-            this.EntityListContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.createEntityToolStripMenuItem,
-            this.removeEntityToolStripMenuItem});
-            this.EntityListContextMenu.Name = "EntityListContextMenu";
-            this.EntityListContextMenu.Size = new System.Drawing.Size(181, 70);
-            // 
-            // GizmoSelector
-            // 
-            this.GizmoSelector.CanOverflow = false;
-            this.GizmoSelector.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.GizmoSelector.Location = new System.Drawing.Point(0, 24);
-            this.GizmoSelector.Name = "GizmoSelector";
-            this.GizmoSelector.Size = new System.Drawing.Size(1130, 25);
-            this.GizmoSelector.Stretch = true;
-            this.GizmoSelector.TabIndex = 2;
-            this.GizmoSelector.Text = "toolStrip1";
-            // 
-            // createEntityToolStripMenuItem
-            // 
-            this.createEntityToolStripMenuItem.Name = "createEntityToolStripMenuItem";
-            this.createEntityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.createEntityToolStripMenuItem.Text = "Create Entity";
-            this.createEntityToolStripMenuItem.Click += new System.EventHandler(this.createEntityToolStripMenuItem_Click);
-            // 
-            // removeEntityToolStripMenuItem
-            // 
-            this.removeEntityToolStripMenuItem.Name = "removeEntityToolStripMenuItem";
-            this.removeEntityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.removeEntityToolStripMenuItem.Text = "Remove Entity";
-            // 
             // MapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -254,7 +264,6 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.Name = "MapEditor";
             this.Text = "LevelEditor";
             this.Load += new System.EventHandler(this.LevelEditor_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -265,11 +274,11 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.EntityListContextMenu.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            this.EntityListContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
