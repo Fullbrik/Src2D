@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using mgi = Microsoft.Xna.Framework.Input;
 using MonoGame.Forms.Controls;
 using Src2D.Editor.Previews;
 using System;
@@ -7,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Src2D.Editor.Winforms.Tools
 {
@@ -19,18 +22,41 @@ namespace Src2D.Editor.Winforms.Tools
         public T EditorPreveiw { get => editorPreveiw; }
         private T editorPreveiw = new T();
 
+        private MouseState mouseState = new MouseState();
+
         protected override void Initialize()
         {
             base.Initialize();
             editorPreveiw.ContentManager = Editor.Content;
+            editorPreveiw.SpriteBatch = Editor.spriteBatch;
             editorPreveiw.OnAction += () => OnAction?.Invoke(this, EventArgs.Empty);
             editorPreveiw.OnUndoOrRedo += () => OnUndoOrRedo?.Invoke(this, EventArgs.Empty);
             EditorPreveiw.Start();
         }
 
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+
+            mgi.ButtonState isMBDown(MouseButtons mb)
+            {
+                return e.Button.HasFlag(mb)? 
+                    mgi.ButtonState.Pressed : mgi.ButtonState.Released;
+            }
+
+            mouseState = new MouseState(e.X, e.Y, 
+                e.Delta, 
+                isMBDown(MouseButtons.Left), 
+                isMBDown(MouseButtons.Middle),
+                isMBDown(MouseButtons.Right),
+                isMBDown(MouseButtons.XButton1),
+                isMBDown(MouseButtons.XButton2));
+
+        }
+
         protected override void Update(GameTime gameTime)
         {
-            EditorPreveiw.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            EditorPreveiw.Update(mouseState, (float)gameTime.ElapsedGameTime.TotalSeconds);
             base.Update(gameTime);
         }
 
@@ -38,9 +64,7 @@ namespace Src2D.Editor.Winforms.Tools
         {
             base.Draw();
 
-            Editor.spriteBatch.Begin();
-            EditorPreveiw.Draw(Editor.spriteBatch);
-            Editor.spriteBatch.End();
+            EditorPreveiw.Draw();
         }
 
         protected override void OnHandleDestroyed(EventArgs e)

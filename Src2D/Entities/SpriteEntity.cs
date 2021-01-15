@@ -7,7 +7,10 @@ using System.Text;
 
 namespace Src2D.Entities
 {
-    [SrcEntity("Sprite", Gizmos = "Position2d|Rotation1d|Scale2d", Description = "A sprite with a position and rotation")]
+    [SrcEntity("Sprite", Description = "A sprite with a position and rotation")]
+    [Gizmo("Position2d")]
+    [Gizmo("Rotation1d")]
+    [Gizmo("Scale2d")]
     public class SpriteEntity : DrawEntity
     {
         [SrcAsset("Sprite", SrcAssetType.Texture2D, Description = "The sprite to render")]

@@ -42,6 +42,10 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
         private MapEditorPreview preview;
 
         private ContentFile content;
+
+        private readonly List<EventHandler> GizmoShortcuts = new List<EventHandler>();
+
+        private int currentGizmo = 0;
         #endregion
 
         #region Life Cycle
@@ -57,6 +61,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             ContentBrowser.InitializeContent(content);
             preview = MapPreview.EditorPreveiw;
             preview.OnEntitiesChanged += Preview_OnEntitiesChanged;
+            preview.OnSelectedEntityChanged += Preview_OnSelectedEntityChanged;
         }
 
         private async void LevelEditor_Load(object sender, EventArgs e)
@@ -101,18 +106,52 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
         {
             if (e.Node.Tag is MapEditorEntity entity)
             {
-                PropertyEditor.Entity = entity;
+                preview.Selected = entity;
             }
+        }
+
+        private void Preview_OnSelectedEntityChanged()
+        {
+            PropertyEditor.Entity = preview.Selected;
+            ReloadGizmoList();
+            if (currentGizmo < GizmoShortcuts.Count)
+                GizmoShortcuts[currentGizmo](this, EventArgs.Empty);
+            else
+                currentGizmo = 0;
         }
 
         private void Preview_OnEntitiesChanged()
         {
             HasPendingChanges = true;
             ReloadEntityList();
+        }
 
-            if (!preview.Entities.Contains(PropertyEditor.Entity))
+        private void MapEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
             {
-                PropertyEditor.Entity = null;
+                case Keys.Q:
+                    if (!e.Control && !e.Alt && !e.Shift && GizmoShortcuts.Count >= 1)
+                        GizmoShortcuts[0](this, EventArgs.Empty);
+                    break;
+                case Keys.W:
+                    if (!e.Control && !e.Alt && !e.Shift && GizmoShortcuts.Count >= 2)
+                        GizmoShortcuts[1](this, EventArgs.Empty);
+                    break;
+                case Keys.E:
+                    if (!e.Control && !e.Alt && !e.Shift && GizmoShortcuts.Count >= 3)
+                        GizmoShortcuts[2](this, EventArgs.Empty);
+                    break;
+                case Keys.R:
+                    if (!e.Control && !e.Alt && !e.Shift && GizmoShortcuts.Count >= 4)
+                        GizmoShortcuts[3](this, EventArgs.Empty);
+                    break;
+                case Keys.T:
+                    if (!e.Control && !e.Alt && !e.Shift && GizmoShortcuts.Count >= 5)
+                        GizmoShortcuts[4](this, EventArgs.Empty);
+                    break;
+                default:
+                    break;
             }
         }
         #endregion
@@ -208,6 +247,66 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             EntityList.ExpandAll();
         }
 
+        public void ReloadGizmoList()
+        {
+            GizmoSelector.Items.Clear();
+            GizmoShortcuts.Clear();
+
+            if (preview.Selected != null)
+            {
+                {
+                    //Add no gizmo button
+                    var tsb = new ToolStripButton(Image.FromFile("EmptyBucket_16x.png"));
+                    GizmoSelector.Items.Add(tsb);
+                    EventHandler onClick = (o, e) =>
+                    {
+                        preview.Gizmo = null;
+                        currentGizmo = 0;
+                    };
+                    GizmoShortcuts.Add(onClick);
+                    tsb.Click += onClick;
+                }
+
+                //yes, I know what a for loop is. No, I'm not using one.
+                int i = 1;
+                foreach (var gizmoName in preview.Selected.Data.Gizmos)
+                {
+                    int gizmoNum = i;
+
+                    string scriptFile = Path.Combine(
+                                    Path.GetDirectoryName(Application.ExecutablePath),
+                                    "Gizmos",
+                                    gizmoName + ".js");
+                    string imageFile = Path.Combine(
+                                    Path.GetDirectoryName(Application.ExecutablePath),
+                                    "Gizmos",
+                                    gizmoName + ".png");
+
+                    var tsb = new ToolStripButton(Image.FromFile(imageFile))
+                    {
+                        Tag = gizmoName,
+                    };
+
+
+                    EventHandler onClick = (o, e) =>
+                    {
+                        preview.Gizmo = new Gizmos.ScriptGizmo(preview.Selected,
+                            preview.SpriteBatch.GraphicsDevice,
+                            () => File.ReadAllText(scriptFile));
+                        currentGizmo = gizmoNum;
+                    };
+
+                    GizmoShortcuts.Add(onClick);
+
+                    tsb.Click += onClick;
+
+                    GizmoSelector.Items.Add(tsb);
+
+                    i++;
+                }
+            }
+        }
+
         private void UpdateUndoAndRedoButtons()
         {
             undoToolStripMenuItem.Enabled = preview.CanUndo;
@@ -231,10 +330,35 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
 
         private void DestroyEntity()
         {
-            if (PropertyEditor.Entity != null)
-                preview.DestroyEntity(PropertyEditor.Entity);
+            if (preview.Selected != null)
+                preview.DestroyEntity(preview.Selected);
         }
 
+        #endregion
+
+        #region Mouse and KeyboardEvents
+        private void MapPreview_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                preview.OnLeftMouseDown(new Microsoft.Xna.Framework.Point(e.X, e.Y));
+            }
+        }
+
+        private void MapPreview_OnMouseWheelDownwards(MouseEventArgs e)
+        {
+            preview.MouseScroll(e.Delta);
+        }
+
+        private void MapPreview_OnMouseWheelUpwards(MouseEventArgs e)
+        {
+            preview.MouseScroll(e.Delta);
+        }
+
+        private void EntityList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            preview.MoveCameraToSelectedEntity();
+        }
         #endregion
     }
 }

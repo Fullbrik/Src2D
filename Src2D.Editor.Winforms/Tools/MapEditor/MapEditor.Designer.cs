@@ -42,11 +42,11 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.EntityListContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.createEntityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeEntityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.GizmoSelector = new System.Windows.Forms.ToolStrip();
             this.PropertyEditor = new Src2D.Editor.Winforms.Tools.MapEditor.EntityPropertyEditor();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.MapPreview = new Src2D.Editor.Winforms.Tools.MapEditor.MapEditorPreveiwControl();
             this.ContentBrowser = new Src2D.Editor.Winforms.ContentBrowser.ContentBrowser();
+            this.GizmoSelector = new System.Windows.Forms.ToolStrip();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -166,6 +166,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.EntityList.DragDrop += new System.Windows.Forms.DragEventHandler(this.EntityList_DragDrop);
             this.EntityList.DragEnter += new System.Windows.Forms.DragEventHandler(this.EntityList_DragEnter);
             this.EntityList.DragOver += new System.Windows.Forms.DragEventHandler(this.EntityList_DragOver);
+            this.EntityList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.EntityList_MouseDoubleClick);
             // 
             // EntityListContextMenu
             // 
@@ -190,6 +191,17 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.removeEntityToolStripMenuItem.Text = "Remove Entity";
             this.removeEntityToolStripMenuItem.Click += new System.EventHandler(this.removeEntityToolStripMenuItem_Click);
             // 
+            // PropertyEditor
+            // 
+            this.PropertyEditor.ContentFile = null;
+            this.PropertyEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PropertyEditor.Entity = null;
+            this.PropertyEditor.Location = new System.Drawing.Point(0, 0);
+            this.PropertyEditor.Name = "PropertyEditor";
+            this.PropertyEditor.Preview = null;
+            this.PropertyEditor.Size = new System.Drawing.Size(215, 264);
+            this.PropertyEditor.TabIndex = 0;
+            // 
             // splitContainer3
             // 
             this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -208,28 +220,6 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.splitContainer3.SplitterDistance = 418;
             this.splitContainer3.TabIndex = 1;
             // 
-            // GizmoSelector
-            // 
-            this.GizmoSelector.CanOverflow = false;
-            this.GizmoSelector.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.GizmoSelector.Location = new System.Drawing.Point(0, 24);
-            this.GizmoSelector.Name = "GizmoSelector";
-            this.GizmoSelector.Size = new System.Drawing.Size(1130, 25);
-            this.GizmoSelector.Stretch = true;
-            this.GizmoSelector.TabIndex = 2;
-            this.GizmoSelector.Text = "toolStrip1";
-            // 
-            // PropertyEditor
-            // 
-            this.PropertyEditor.ContentFile = null;
-            this.PropertyEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PropertyEditor.Entity = null;
-            this.PropertyEditor.Location = new System.Drawing.Point(0, 0);
-            this.PropertyEditor.Name = "PropertyEditor";
-            this.PropertyEditor.Preview = null;
-            this.PropertyEditor.Size = new System.Drawing.Size(215, 264);
-            this.PropertyEditor.TabIndex = 0;
-            // 
             // MapPreview
             // 
             this.MapPreview.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -241,6 +231,9 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.MapPreview.Text = "map";
             this.MapPreview.OnAction += new System.EventHandler(this.MapPreview_OnAction);
             this.MapPreview.OnUndoOrRedo += new System.EventHandler(this.MapPreview_OnUndoOrRedo);
+            this.MapPreview.OnMouseWheelUpwards += new MonoGame.Forms.Controls.GraphicsDeviceControl.MouseWheelUpwardsEvent(this.MapPreview_OnMouseWheelUpwards);
+            this.MapPreview.OnMouseWheelDownwards += new MonoGame.Forms.Controls.GraphicsDeviceControl.MouseWheelDownwardsEvent(this.MapPreview_OnMouseWheelDownwards);
+            this.MapPreview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MapPreview_MouseDown);
             // 
             // ContentBrowser
             // 
@@ -252,6 +245,17 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.ContentBrowser.TabIndex = 0;
             this.ContentBrowser.UseFilter = false;
             // 
+            // GizmoSelector
+            // 
+            this.GizmoSelector.CanOverflow = false;
+            this.GizmoSelector.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.GizmoSelector.Location = new System.Drawing.Point(0, 24);
+            this.GizmoSelector.Name = "GizmoSelector";
+            this.GizmoSelector.Size = new System.Drawing.Size(1130, 25);
+            this.GizmoSelector.Stretch = true;
+            this.GizmoSelector.TabIndex = 2;
+            this.GizmoSelector.Text = "toolStrip1";
+            // 
             // MapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -260,10 +264,12 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.Controls.Add(this.GizmoSelector);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MapEditor";
             this.Text = "LevelEditor";
             this.Load += new System.EventHandler(this.LevelEditor_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);

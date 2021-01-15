@@ -8,6 +8,8 @@ using Src2D.Editor.EnityData;
 using Src2D.Editor.Content;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
+using Src2D.Editor.Gizmos;
+using Microsoft.Xna.Framework.Input;
 
 namespace Src2D.Editor.Previews.MapEditor
 {
@@ -16,6 +18,30 @@ namespace Src2D.Editor.Previews.MapEditor
         #region Props
         public bool IsLoaded { get => isLoaded; }
         private bool isLoaded;
+
+        public MapEditorEntity Selected
+        {
+            get => selected;
+            set
+            {
+                selected = value;
+                Gizmo = null;
+                OnSelectedEntityChanged?.Invoke();
+            }
+        }
+        private MapEditorEntity selected;
+
+        public Gizmo Gizmo
+        {
+            get => gizmo;
+            set
+            {
+                if (gizmo != null) gizmo.Dispose();
+                gizmo = value;
+                if (gizmo != null) gizmo.Reload();
+            }
+        }
+        private Gizmo gizmo = null;
 
         public string[] EntityNames
         {
@@ -26,41 +52,116 @@ namespace Src2D.Editor.Previews.MapEditor
         #region Fields
         public readonly List<MapEditorEntity> Entities = new List<MapEditorEntity>();
         public event Action OnEntitiesChanged;
+        public event Action OnSelectedEntityChanged;
+
+        private Point lastMousePosition = Point.Zero;
         #endregion
 
         #region Life Cycle
         public override void Start()
         {
-
+            OnEntitiesChanged += MapEditorPreview_OnEntitiesChanged;
         }
 
-        public override void Update(float deltaTime)
+        private void MapEditorPreview_OnEntitiesChanged()
         {
-            
+            if (!Entities.Contains(Selected))
+            {
+                Selected = null;
+            }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Update(MouseState mouseState, float deltaTime)
         {
             if (IsLoaded)
             {
+                Gizmo?
+                    .Update(
+                        ScreenPositionToWorldPosition(mouseState.Position)
+                        .ToVector2(),
+                        mouseState.LeftButton == ButtonState.Pressed);
+
+                if (mouseState.RightButton == ButtonState.Pressed)
+                {
+                    var direction =
+                        ScreenPositionToWorldPosition(mouseState.Position) - ScreenPositionToWorldPosition(lastMousePosition);
+                    CameraPosition += direction.ToVector2();
+                }
+            }
+
+            lastMousePosition = mouseState.Position;
+        }
+
+        public void OnLeftMouseDown(Point mousePosition)
+        {
+            if ((Gizmo == null || Gizmo.CurrentHandle == null))
+            {
+                MapEditorEntity nextEntity = null;
+
+                mousePosition = ScreenPositionToWorldPosition(mousePosition);
+
                 Entities.ForEach(entity =>
                 {
                     if (entity.SpritePreview != null)
                     {
-                        Vector2 spriteSize = new Vector2(entity.SpritePreview.Width, entity.SpritePreview.Height);
+                        if (entity.IsInside(mousePosition.ToVector2()))
+                        {
+                            nextEntity = entity;
+                        }
+                    }
+                });
 
+                if (Selected != nextEntity)
+                    Selected = nextEntity;
+            }
+        }
+
+        public void MouseScroll(int amount)
+        {
+            CameraScale += CameraScale * amount * .001f;
+            if(CameraScale.X <= 0) CameraScale = Vector2.Zero;
+        }
+
+        protected override void Draw(SpriteBatch spriteBatch)
+        {
+            if (IsLoaded)
+            {
+                MapEditorEntity[] ents = new MapEditorEntity[Entities.Count];
+                Entities.CopyTo(ents);
+                foreach (var entity in ents)
+                {
+                    if (entity.SpritePreview != null)
+                    {
+                        //Draw the outline
+                        if (entity == Selected)
+                        {
+                            spriteBatch.Draw(
+                                Selected.SpritePreview,
+                                Selected.Position,
+                                null,
+                                Color.Black,
+                                MathHelper.ToRadians(Selected.Rotation),
+                                Selected.SpriteOrgin,
+                                Selected.Scale * 1.01f,
+                                SpriteEffects.None,
+                                0);
+                        }
+
+                        //Draw main entity
                         spriteBatch.Draw(
                             entity.SpritePreview,
                             entity.Position,
                             null,
                             Color.White,
                             MathHelper.ToRadians(entity.Rotation),
-                            entity.Origin * spriteSize,
+                            entity.SpriteOrgin,
                             entity.Scale,
                             SpriteEffects.None,
                             0);
                     }
-                });
+                }
+
+                Gizmo?.Draw(spriteBatch);
             }
         }
 
@@ -157,9 +258,9 @@ namespace Src2D.Editor.Previews.MapEditor
 
         private void MoveEntityToIndex(MapEditorEntity entity, int newIndex)
         {
-            if(Entities.Remove(entity))
+            if (Entities.Remove(entity))
             {
-                if(newIndex >= Entities.Count)
+                if (newIndex >= Entities.Count)
                 {
                     Entities.Add(entity);
                 }
@@ -172,6 +273,11 @@ namespace Src2D.Editor.Previews.MapEditor
             }
         }
         #endregion
+
+        public void MoveCameraToSelectedEntity()
+        {
+            CameraPosition = (Selected != null)? -Selected.Position : Vector2.Zero;
+        }
 
         public void ReloadAssets()
         {

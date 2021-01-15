@@ -61,7 +61,7 @@ namespace Src2D.Attributes
                 return SrcPropertyType.Vector3;
             else if (type == typeof(Color))
                 return SrcPropertyType.Color;
-            else if(type == typeof(EntityReference))
+            else if (type == typeof(EntityReference))
                 return SrcPropertyType.EntityReferance;
             else return SrcPropertyType.None;
         }
@@ -145,6 +145,25 @@ namespace Src2D.Attributes
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        public static object FixValue(object value, SrcPropertyType propertyType)
+        {
+            if (value is JObject jObject)
+                value = PropertyFromJObject(jObject, propertyType);
+            else if (value is string str)
+                value = PropertyFromString(str, propertyType);
+
+            if (propertyType == SrcPropertyType.Int && value is long l)
+                return (int)l;
+            else if (propertyType == SrcPropertyType.Float && value is long ll)
+                return (float)ll;
+            else if (propertyType == SrcPropertyType.Float && value is double d)
+                return (float)d;
+            else if (propertyType == SrcPropertyType.Float && value is int i)
+                return (float)i;
+
+            return value;
         }
     }
 }

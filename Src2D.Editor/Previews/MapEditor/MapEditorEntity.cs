@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using Src2D.Attributes;
 using Src2D.Data;
 using Src2D.Editor.EnityData;
+using Src2D.Shapes;
 using System;
 using System.Collections.Generic;
 
@@ -27,6 +28,13 @@ namespace Src2D.Editor.Previews.MapEditor
         public Texture2D SpritePreview { get => spritePreview; }
         private Texture2D spritePreview;
 
+        public Vector2 SpriteSize => new Vector2(SpritePreview.Width, SpritePreview.Height);
+        public Vector2 SpriteOrgin => Origin * SpriteSize;
+
+        //public Rectangle Bounds => new Rectangle(
+        //    (int)(Position.X - SpriteOrgin.X), (int)(Position.Y - SpriteOrgin.Y),
+        //    (int)(Scale.X * SpritePreview.Width), (int)(Scale.Y * SpritePreview.Height));
+
         public Dictionary<string, MapPreviewEntityProperty> OtherProperties
             = new Dictionary<string, MapPreviewEntityProperty>();
 
@@ -36,6 +44,7 @@ namespace Src2D.Editor.Previews.MapEditor
         public List<MapPreviewBinding> Bindings =
             new List<MapPreviewBinding>();
 
+        public MapEditorPreview Preview { get => preveiw; }
         private MapEditorPreview preveiw;
 
         public MapEditorEntity(MapEditorPreview preveiw, MapEntity entity, ContentManager content)
@@ -64,15 +73,19 @@ namespace Src2D.Editor.Previews.MapEditor
                 if (properties.ContainsKey(prop.Key))
                     value = properties[prop.Key];
 
-                if (value is JObject jObject)
-                    value = SrcPropertyAttribute
-                        .PropertyFromJObject(jObject, prop.Value.PropertyType);
-                else if (value is string str)
-                    value = SrcPropertyAttribute
-                        .PropertyFromString(str, prop.Value.PropertyType);
+                value = SrcPropertyAttribute.FixValue(value, prop.Value.PropertyType);
 
-                if (prop.Value.PropertyType == SrcPropertyType.Float && value is int i)
-                    value = (float)i;
+                //if (value is JObject jObject)
+                //    value = SrcPropertyAttribute
+                //        .PropertyFromJObject(jObject, prop.Value.PropertyType);
+                //else if (value is string str)
+                //    value = SrcPropertyAttribute
+                //        .PropertyFromString(str, prop.Value.PropertyType);
+
+                //if(prop.Value.PropertyType == SrcPropertyType.Int && value is long l)
+                //    value = (int)l;
+                //else if (prop.Value.PropertyType == SrcPropertyType.Float && value is int i)
+                //    value = (float)i;
 
 
                 switch (prop.Key)
@@ -274,6 +287,27 @@ namespace Src2D.Editor.Previews.MapEditor
                     throw new Exception($"Could not find sprite {Data.Sprite} in content.");
                 }
             }
+        }
+
+        public bool IsInside(Vector2 point)
+        {
+            //var trans = Matrix.CreateTranslation(Position.X, Position.Y, 0);
+            var rot = Matrix.CreateRotationZ(MathHelper.ToRadians(Rotation));
+            var scal = Matrix.CreateScale(Scale.X, Scale.Y, 1);
+
+            var recPos = new Vector2(-SpriteOrgin.X, -SpriteOrgin.Y);
+            recPos = Vector2.Transform(recPos, scal);
+            recPos += Position;
+
+            RectangleF baseRect =
+                new RectangleF(recPos.X, recPos.Y,
+                spritePreview.Width * Scale.X, spritePreview.Height * Scale.Y);
+
+            point -= Position;
+            point = Vector2.Transform(point, Matrix.Invert(rot));
+            point += Position;
+
+            return baseRect.Contains(point);
         }
 
         public MapEntity ToMapEntity()

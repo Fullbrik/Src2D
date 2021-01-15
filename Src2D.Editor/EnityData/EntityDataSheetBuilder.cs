@@ -56,7 +56,10 @@ namespace Src2D.Editor.EnityData
             name = srcEnt.Name;
 
             retVal.Description = srcEnt.Description;
-            retVal.Gizmos = srcEnt.Gizmos.Split('|');
+            retVal.Gizmos = Attribute.GetCustomAttributes(type)
+                .Where(attr => attr is GizmoAttribute)
+                .Select(attr => (attr as GizmoAttribute).Name)
+                .ToArray();
             retVal.Sprite = srcEnt.Sprite;
 
             retVal.Properties = GetPropertiesFromType(type);

@@ -21,7 +21,7 @@ namespace Src2D.Entities
         [SrcProperty("Name", DefaultValue = "", Description = "The name of the entity")]
         public string Name
         {
-            get => name; 
+            get => name;
             set
             {
                 RealeseAllQueries();
@@ -135,7 +135,7 @@ namespace Src2D.Entities
             var queries = Owner.EntityQuerys.Keys;
             foreach (var query in queries)
             {
-                if(Regex.IsMatch(Name, query))
+                if (Regex.IsMatch(Name, query))
                     Owner.EntityQuerys[query].Add(this);
             }
         }
@@ -164,12 +164,15 @@ namespace Src2D.Entities
 
         public void Bind(string ourActionName, BaseEntity them, string theirEvent, bool overideParam, string paramOveride)
         {
-            var ourAction = (overideParam) ? (str) => srcActions[ourActionName](paramOveride)
+            if (them.srcEvents.ContainsKey(theirEvent))
+            {
+                var ourAction = (overideParam) ? (str) => srcActions[ourActionName](paramOveride)
                                                : srcActions[ourActionName];
 
-            them.srcEvents[theirEvent].AddEventHandler(them, ourAction);
+                them.srcEvents[theirEvent].AddEventHandler(them, ourAction);
 
-            bindings.Add(new Binding(ourAction, them, theirEvent));
+                bindings.Add(new Binding(ourAction, them, theirEvent));
+            }
         }
 
         private void UnbindAllActions()
@@ -186,6 +189,9 @@ namespace Src2D.Entities
         public void SetProperty(string name, object value)
         {
             var prop = srcProperties[name];
+
+            value = SrcPropertyAttribute.FixValue(value,
+                SrcPropertyAttribute.GetSrcPropertyTypeFor(prop));
 
             prop.SetValue(this, value);
         }

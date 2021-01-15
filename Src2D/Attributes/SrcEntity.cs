@@ -17,7 +17,5 @@ namespace Src2D.Attributes
         public string Name { get => name; }
         public string Description { get; set; } = "";
         public string Sprite { get; set; } = "";
-
-        public string Gizmos { get; set; } = "";
     }
 }

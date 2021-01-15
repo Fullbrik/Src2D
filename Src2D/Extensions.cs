@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,13 +49,65 @@ namespace Src2D
 
             for (int i = 0; i < source.Count(); i++)
             {
-                if(i < keys.Count())
+                if (i < keys.Count())
                 {
                     dictionary.Add(keys.ElementAt(i), source.ElementAt(i));
                 }
             }
 
             return dictionary;
+        }
+
+        public static int MaxX(this Point[] points)
+        {
+            int cuurrentMax = int.MinValue;
+            for (int i = 0; i < points.Length; i++)
+            {
+                if (points[i].X > cuurrentMax)
+                    cuurrentMax = points[i].X;
+            }
+            return cuurrentMax;
+        }
+
+        public static int MaxY(this Point[] points)
+        {
+            int cuurrentMax = int.MinValue;
+            for (int i = 0; i < points.Length; i++)
+            {
+                if (points[i].Y > cuurrentMax)
+                    cuurrentMax = points[i].Y;
+            }
+            return cuurrentMax;
+        }
+
+        public static int MinX(this Point[] points)
+        {
+            int cuurrentMin = int.MaxValue;
+            for (int i = 0; i < points.Length; i++)
+            {
+                if (points[i].X < cuurrentMin)
+                    cuurrentMin = points[i].X;
+            }
+            return cuurrentMin;
+        }
+
+        public static int MinY(this Point[] points)
+        {
+            int cuurrentMin = int.MaxValue;
+            for (int i = 0; i < points.Length; i++)
+            {
+                if (points[i].Y < cuurrentMin)
+                    cuurrentMin = points[i].Y;
+            }
+            return cuurrentMin;
+        }
+
+        public static IEnumerable<T> SelectDynamic<T>(this Array array, Func<dynamic, T> selector)
+        {
+            foreach (var item in array)
+            {
+                yield return selector(item);
+            }
         }
     }
 }
