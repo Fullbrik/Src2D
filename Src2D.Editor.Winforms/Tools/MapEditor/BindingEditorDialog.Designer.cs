@@ -76,8 +76,6 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             // 
             this.OtherEntity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.OtherEntity.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.OtherEntity.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.OtherEntity.Location = new System.Drawing.Point(101, 32);
             this.OtherEntity.Name = "OtherEntity";
             this.OtherEntity.Size = new System.Drawing.Size(404, 20);
@@ -148,6 +146,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.ActionName.Size = new System.Drawing.Size(439, 21);
             this.ActionName.TabIndex = 9;
             this.ActionName.SelectedIndexChanged += new System.EventHandler(this.ActionName_SelectedIndexChanged);
+            this.ActionName.Enter += new System.EventHandler(this.ActionName_Enter);
             // 
             // BindingEditorDialog
             // 

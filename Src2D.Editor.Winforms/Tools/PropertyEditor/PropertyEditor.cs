@@ -16,6 +16,7 @@ namespace Src2D.Editor.Winforms.Tools.PropertyEditor
 {
     public partial class PropertyEditor : UserControl
     {
+        [Browsable(false)]
         public IPropertyEditable PropertyEditable
         {
             get => propertyEditable;
@@ -27,6 +28,7 @@ namespace Src2D.Editor.Winforms.Tools.PropertyEditor
         }
         IPropertyEditable propertyEditable;
 
+        [Browsable(false)]
         public EditorPreview Preview { get; set; } = null;
 
         public bool CanCommitChnages { get; set; } = true;

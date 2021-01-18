@@ -7,7 +7,6 @@ using System.Text;
 
 namespace Src2D.Entities
 {
-    [SrcEntity("Update", Description = "An entity that updates every frame")]
     public class UpdateEnity : BaseEntity, IUpdateEntity
     {
         public virtual void Update(float deltaTime)

@@ -49,12 +49,12 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
 
         private void OtherEntity_TextChanged(object sender, EventArgs e)
         {
-            ActionName.Items.Clear();
-            ActionName.Items.AddRange(preveiw.Entities
-                .Where(ent => ent.Name != null && Regex.IsMatch(ent.Name, OtherEntity.Text))
-                .Select(ent => ent.Data.Actions.Keys)
-                .Flatten()
-                .ToArray());
+            //ActionName.Items.Clear();
+            //ActionName.Items.AddRange(preveiw.Entities
+            //    .Where(ent => ent.Name != null && Regex.IsMatch(ent.Name, OtherEntity.Text))
+            //    .Select(ent => ent.Data.Actions.Keys)
+            //    .Flatten()
+            //    .ToArray());
         }
 
         private void ActionName_SelectedIndexChanged(object sender, EventArgs e)
@@ -119,6 +119,16 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             });
 
             DialogResult = DialogResult.OK;
+        }
+
+        private void ActionName_Enter(object sender, EventArgs e)
+        {
+            ActionName.Items.Clear();
+            ActionName.Items.AddRange(preveiw.Entities
+                .Where(ent => ent.Name != null && Regex.IsMatch(ent.Name, OtherEntity.Text))
+                .Select(ent => ent.Data.Actions.Keys)
+                .Flatten()
+                .ToArray());
         }
     }
 }

@@ -29,8 +29,10 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.PropertiesTab = new System.Windows.Forms.TabPage();
+            this.PropertyEditor = new Src2D.Editor.Winforms.Tools.PropertyEditor.PropertyEditor();
             this.AssetsTab = new System.Windows.Forms.TabPage();
             this.AssetList = new Src2D.Editor.Winforms.BufferedTableLayout();
             this.EventsTab = new System.Windows.Forms.TabPage();
@@ -39,7 +41,9 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.DescriptionGB = new System.Windows.Forms.GroupBox();
             this.DescriptionText = new System.Windows.Forms.TextBox();
-            this.PropertyEditor = new Src2D.Editor.Winforms.Tools.PropertyEditor.PropertyEditor();
+            this.BindingListContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.newBindingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.PropertiesTab.SuspendLayout();
             this.AssetsTab.SuspendLayout();
@@ -50,6 +54,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.DescriptionGB.SuspendLayout();
+            this.BindingListContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -74,6 +79,15 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.PropertiesTab.TabIndex = 0;
             this.PropertiesTab.Text = "Properties";
             this.PropertiesTab.UseVisualStyleBackColor = true;
+            // 
+            // PropertyEditor
+            // 
+            this.PropertyEditor.CanCommitChnages = true;
+            this.PropertyEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PropertyEditor.Location = new System.Drawing.Point(3, 3);
+            this.PropertyEditor.Name = "PropertyEditor";
+            this.PropertyEditor.Size = new System.Drawing.Size(356, 225);
+            this.PropertyEditor.TabIndex = 0;
             // 
             // AssetsTab
             // 
@@ -112,13 +126,15 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             // 
             // BindingsList
             // 
+            this.BindingsList.ContextMenuStrip = this.BindingListContextMenu;
+            this.BindingsList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BindingsList.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BindingsList.HideSelection = false;
             this.BindingsList.LabelWrap = false;
-            this.BindingsList.Location = new System.Drawing.Point(3, 3);
+            this.BindingsList.Location = new System.Drawing.Point(0, 0);
             this.BindingsList.MultiSelect = false;
             this.BindingsList.Name = "BindingsList";
-            this.BindingsList.Size = new System.Drawing.Size(356, 225);
+            this.BindingsList.Size = new System.Drawing.Size(362, 231);
             this.BindingsList.TabIndex = 0;
             this.BindingsList.UseCompatibleStateImageBehavior = false;
             this.BindingsList.View = System.Windows.Forms.View.List;
@@ -173,15 +189,27 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.DescriptionText.Size = new System.Drawing.Size(364, 92);
             this.DescriptionText.TabIndex = 0;
             // 
-            // PropertyEditor
+            // BindingListContextMenu
             // 
-            this.PropertyEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PropertyEditor.Location = new System.Drawing.Point(3, 3);
-            this.PropertyEditor.Preview = null;
-            this.PropertyEditor.Name = "PropertyEditor";
-            this.PropertyEditor.PropertyEditable = null;
-            this.PropertyEditor.Size = new System.Drawing.Size(356, 225);
-            this.PropertyEditor.TabIndex = 0;
+            this.BindingListContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newBindingToolStripMenuItem,
+            this.removeToolStripMenuItem});
+            this.BindingListContextMenu.Name = "BindingListContextMenu";
+            this.BindingListContextMenu.Size = new System.Drawing.Size(181, 70);
+            // 
+            // newBindingToolStripMenuItem
+            // 
+            this.newBindingToolStripMenuItem.Name = "newBindingToolStripMenuItem";
+            this.newBindingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newBindingToolStripMenuItem.Text = "New Binding";
+            this.newBindingToolStripMenuItem.Click += new System.EventHandler(this.newBindingToolStripMenuItem_Click);
+            // 
+            // removeToolStripMenuItem
+            // 
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeToolStripMenuItem.Text = "Remove";
+            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
             // EntityPropertyEditor
             // 
@@ -201,6 +229,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.splitContainer1.ResumeLayout(false);
             this.DescriptionGB.ResumeLayout(false);
             this.DescriptionGB.PerformLayout();
+            this.BindingListContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -218,5 +247,8 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
         private System.Windows.Forms.TextBox DescriptionText;
         private System.Windows.Forms.ListView BindingsList;
         private PropertyEditor.PropertyEditor PropertyEditor;
+        private System.Windows.Forms.ContextMenuStrip BindingListContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem newBindingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
     }
 }

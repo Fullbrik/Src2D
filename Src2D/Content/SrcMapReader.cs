@@ -31,6 +31,15 @@ namespace Src2D.Content
                     entity.Properties.Add(key, JsonConvert.DeserializeObject(value));
                 }
 
+                entity.Assets = new Dictionary<string, string>();
+                int assetCount = input.ReadInt32();
+                for (int j = 0; j < assetCount; j++)
+                {
+                    string key = input.ReadString();
+                    string value = input.ReadString();
+                    entity.Assets.Add(key, value);
+                }
+
                 int bindingsCount = input.ReadInt32();
                 entity.Bindings = new MapBinding[bindingsCount];
                 for (int j = 0; j < bindingsCount; j++)

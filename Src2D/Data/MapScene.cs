@@ -30,6 +30,11 @@ namespace Src2D.Data
                     {
                         ent.SetProperty(prop.Key, prop.Value);
                     }
+
+                    foreach (var asset in entData.Assets)
+                    {
+                        ent.SetAsset(asset.Key, asset.Value);
+                    }
                 });
 
                 bindings.Add((entity.ID, entData.Bindings));
@@ -44,12 +49,14 @@ namespace Src2D.Data
 
                 foreach (var binding in entBindings.binding)
                 {
-                    var thems = Entities.Where(ent => ent.Name == binding.EntityName);
+                    //var thems = Entities.Where(ent => ent.Name == binding.EntityName);
 
-                    foreach (var them in thems)
-                    {
-                        them.Bind(binding.ActionName, entity, binding.Event, binding.OverrideParam, binding.ParamOverride);
-                    }
+                    entity.CreateBinding(
+                            binding.Event, 
+                            binding.EntityName, 
+                            binding.ActionName, 
+                            binding.OverrideParam, 
+                            binding.ParamOverride);
                 }
             }
         }

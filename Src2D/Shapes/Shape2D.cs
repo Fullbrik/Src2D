@@ -68,11 +68,8 @@ namespace Src2D.Shapes
                 for (int x = 0; x < Width; x++)
                 {
                     data.Add(IsPointInside(new Vector2(x, y)) ? Color.White : Color.Transparent);
-                    Console.Write(IsPointInside(new Vector2(x, y)) ? '1' : '0');
                 }
-                Console.WriteLine();
             }
-            Console.WriteLine();
 
             return data.ToArray();
         }

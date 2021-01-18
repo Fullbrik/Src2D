@@ -29,6 +29,14 @@ namespace Src2D.Content
                     output.Write(JsonConvert.SerializeObject(entity.Properties[propKeys[j]]));
                 }
 
+                var assetKeys = entity.Assets.Keys.ToList();
+                output.Write(entity.Assets.Count);
+                for (int j = 0; j < entity.Assets.Count; j++)
+                {
+                    output.Write(assetKeys[j]);
+                    output.Write(entity.Assets[assetKeys[j]]);
+                }
+
                 output.Write(entity.Bindings.Length);
                 for (int j = 0; j < entity.Bindings.Length; j++)
                 {

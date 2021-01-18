@@ -32,6 +32,7 @@ namespace Src2D
         {
             CreateEnities();
             BindEntityEvents();
+            entities.ForEach(ent => ent.Name = ent.Name);
 
             hasStarted = true;
         }

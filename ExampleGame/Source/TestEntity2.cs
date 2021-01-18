@@ -11,14 +11,14 @@ namespace ExampleGame
     public class TestEntity2 : SpriteEntity
     {
         [SrcProperty("MySchema")]
-        public MySchema MySchema { get; set; }
+        public MySchema MySchema { get; set; } = new MySchema();
 
         [SrcProperty("MyList")]
-        public SrcList<MySchema> MyList { get; set; }
+        public SrcList<MySchema> MyList { get; set; } = new SrcList<MySchema>();
 
         public override void Start()
         {
-            Sprite = "Sprites/Gordon";
+            Sprite = "Sprites/Motercycle";
             base.Start();
         }
     }

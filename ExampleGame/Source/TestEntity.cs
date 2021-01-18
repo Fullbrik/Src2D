@@ -36,42 +36,21 @@ namespace ExampleGame
             MyEvent?.Invoke(args);
         }
 
-        Shape2D shape;
-
         public override void Start()
         {
             Sprite = "Sprites/Gordon";
-
-
-
             base.Start();
         }
 
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
+            MyEvent?.Invoke(deltaTime.ToString());
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //base.Draw(spriteBatch);
-
-            if (shape == null)
-            {
-                shape = new Shape2D(
-                    spriteBatch.GraphicsDevice,
-                    new Point(10, -5),
-                    new Point(100, -5),
-                    new Point(100, -15),
-                    new Point(110, 0),
-                    new Point(100, 15),
-                    new Point(100, 5),
-                    new Point(10, 5));
-            }
-            else
-            {
-                shape.Draw(spriteBatch, Vector2.One * 100, 0, Vector2.One, Color.White);
-            }
+            base.Draw(spriteBatch);
         }
 
         public override void End()

@@ -56,6 +56,7 @@ namespace Src2D.Entities
         private readonly Dictionary<string, EventInfo> srcEvents = new Dictionary<string, EventInfo>();
         private readonly Dictionary<string, SrcEvent> srcActions = new Dictionary<string, SrcEvent>();
         private readonly Dictionary<string, PropertyInfo> srcProperties = new Dictionary<string, PropertyInfo>();
+        private readonly Dictionary<string, FieldInfo> srcAssets = new Dictionary<string, FieldInfo>();
 
         private readonly List<Binding> bindings = new List<Binding>();
 
@@ -65,6 +66,7 @@ namespace Src2D.Entities
             this.id = id;
 
             BuildProperties();
+            BuildAssets();
             BuildSrcEvents();
             BuildSrcActions();
         }
@@ -122,6 +124,24 @@ namespace Src2D.Entities
             }
         }
 
+        private void BuildAssets()
+        {
+            var type = GetType();
+
+            var assets = type.GetFields();
+
+            foreach (var asset in assets)
+            {
+                if (Attribute.IsDefined(asset, typeof(SrcAssetAttribute)))
+                {
+                    var srcAssetAttr
+                        = (SrcAssetAttribute)Attribute
+                            .GetCustomAttribute(asset, typeof(SrcAssetAttribute));
+                    srcAssets.Add(srcAssetAttr.Name, asset);
+                }
+            }
+        }
+
         public void RealeseAllQueries()
         {
             var queries = Owner.EntityQuerys.Keys;
@@ -133,11 +153,14 @@ namespace Src2D.Entities
 
         public void BindQueries()
         {
-            var queries = Owner.EntityQuerys.Keys;
-            foreach (var query in queries)
+            if (Name != null)
             {
-                if (Regex.IsMatch(Name, query))
-                    Owner.EntityQuerys[query].Add(this);
+                var queries = Owner.EntityQuerys.Keys;
+                foreach (var query in queries)
+                {
+                    if (Regex.IsMatch(Name, query))
+                        Owner.EntityQuerys[query].Add(this);
+                }
             }
         }
 
@@ -163,18 +186,45 @@ namespace Src2D.Entities
             UnbindAllActions();
         }
 
-        public void Bind(string ourActionName, BaseEntity them, string theirEvent, bool overideParam, string paramOveride)
+        public void CreateBinding(
+            string eventName,
+            string themQuery,
+            string theirAction,
+            bool overideParam,
+            string paramOveride)
         {
-            if (them.srcEvents.ContainsKey(theirEvent))
+            if (string.IsNullOrWhiteSpace(eventName)
+                || string.IsNullOrWhiteSpace(themQuery)
+                || string.IsNullOrWhiteSpace(theirAction))
+                return;
+
+            var evnt = srcEvents[eventName];
+            EntityReference reff = new EntityReference(themQuery);
+            reff.Setup(Owner);
+
+            evnt.AddEventHandler(this, new SrcEvent((string param) =>
             {
-                var ourAction = (overideParam) ? (str) => srcActions[ourActionName](paramOveride)
-                                               : srcActions[ourActionName];
-
-                them.srcEvents[theirEvent].AddEventHandler(them, ourAction);
-
-                bindings.Add(new Binding(ourAction, them, theirEvent));
-            }
+                reff.Do(ent => ent.DoAction(theirAction, overideParam ? paramOveride : param));
+            }));
         }
+
+        public void DoAction(string action, string param)
+        {
+            srcActions[action].Invoke(param);
+        }
+
+        //public void Bind(string ourActionName, BaseEntity them, string theirEvent, bool overideParam, string paramOveride)
+        //{
+        //    if (them.srcEvents.ContainsKey(theirEvent))
+        //    {
+        //        var ourAction = (overideParam) ? (str) => srcActions[ourActionName](paramOveride)
+        //                                       : srcActions[ourActionName];
+
+        //        them.srcEvents[theirEvent].AddEventHandler(them, ourAction);
+
+        //        bindings.Add(new Binding(ourAction, them, theirEvent));
+        //    }
+        //}
 
         private void UnbindAllActions()
         {
@@ -194,7 +244,23 @@ namespace Src2D.Entities
             value = PropertyData.FixValue(value,
                 PropertyData.GetSrcPropertyTypeFor(prop));
 
-            prop.SetValue(this, value);
+            if (prop.PropertyType.IsSubclassOf(typeof(SrcSchema)))
+            {
+                prop.PropertyType
+                    .GetMethod("PopulateFromDictionary")
+                    .Invoke(prop.GetValue(this), new object[] { value });
+            }
+            else
+            {
+                prop.SetValue(this, value);
+            }
+        }
+
+        public void SetAsset(string name, string assetName)
+        {
+            var asset = srcAssets[name];
+
+            asset.SetValue(this, assetName);
         }
     }
 }

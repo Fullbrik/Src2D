@@ -15,6 +15,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
 {
     public partial class EntityPropertyEditor : UserControl
     {
+        [Browsable(false)]
         public MapEditorEntity Entity
         {
             get => entity;
@@ -27,6 +28,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             }
         }
 
+        [Browsable(false)]
         public MapEditorPreview Preview
         {
             get => preview;
@@ -37,6 +39,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             }
         }
         private MapEditorPreview preview;
+        [Browsable(false)]
         public ContentFile ContentFile { get; set; }
 
         private MapEditorEntity entity;
@@ -48,8 +51,6 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
 
         private void SetupEntity()
         {
-            //PropertyList.SuspendLayout();
-            //PropertyList.Controls.Clear();
             AssetList.SuspendLayout();
             AssetList.Controls.Clear();
             EntityName.Text = "";
@@ -67,11 +68,9 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             }
             else
             {
-                //PropertyList.RowCount = 1;
                 AssetList.RowCount = 1;
                 BindingsList.Items.Clear();
             }
-            //PropertyList.ResumeLayout(true);
             AssetList.ResumeLayout(true);
         }
 
@@ -158,6 +157,24 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
 
             if (Entity != null)
                 SetupBindingsList();
+        }
+
+        private void newBindingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Entity.Bindings.Add(new MapPreviewBinding("", "", "", false, ""));
+            Invalidate();
+        }
+
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BindingsList.SelectedItems.Count > 0)
+            {
+                if (BindingsList.SelectedItems[0].Tag is MapPreviewBinding binding)
+                {
+                    Entity.Bindings.Remove(binding);
+                    Invalidate();
+                }
+            }
         }
     }
 }

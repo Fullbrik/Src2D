@@ -52,7 +52,12 @@ namespace Src2D
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            SpriteBatch.Begin();
+            var vp = GraphicsDevice.Viewport;
+            var CameraScale = Vector2.One; //Temporary until we implement an actual camera
+
+            var baseTrans = Matrix.CreateTranslation(
+                ((vp.Width / CameraScale.X) / 2f), ((vp.Height / CameraScale.Y) / 2f), 1);
+            SpriteBatch.Begin(transformMatrix: baseTrans);
             SceneManager.ActiveScene?.Draw2D(SpriteBatch);
             SpriteBatch.End();
 
