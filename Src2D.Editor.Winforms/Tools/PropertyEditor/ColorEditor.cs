@@ -8,15 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Src2D.Editor.Winforms.Tools.MapEditor
+namespace Src2D.Editor.Winforms.Tools.PropertyEditor
 {
     public partial class ColorEditor : UserControl
     {
         private SolidBrush currentBrush;
         private Action<Microsoft.Xna.Framework.Color> onChange;
+        private Action commitChanges;
 
         public ColorEditor(Microsoft.Xna.Framework.Color initial, 
-            Action<Microsoft.Xna.Framework.Color> onChange)
+            Action<Microsoft.Xna.Framework.Color> onChange, 
+            Action commitChanges)
         {
             InitializeComponent();
 
@@ -24,6 +26,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
                 Color.FromArgb(initial.A, initial.R, initial.G, initial.B));
 
             this.onChange = onChange;
+            this.commitChanges = commitChanges;
         }
 
         private void Preview_Paint(object sender, PaintEventArgs e)
@@ -42,6 +45,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
                     color.G,
                     color.B,
                     color.A));
+                commitChanges?.Invoke();
                 Invalidate();
             }
         }

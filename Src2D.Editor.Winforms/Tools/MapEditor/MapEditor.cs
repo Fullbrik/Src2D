@@ -91,6 +91,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
         #region Events
         private void MapPreview_OnAction(object sender, EventArgs e)
         {
+            PropertyEditor.Entity = PropertyEditor.Entity;
             HasPendingChanges = true;
             UpdateUndoAndRedoButtons();
         }
@@ -124,35 +125,6 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
         {
             HasPendingChanges = true;
             ReloadEntityList();
-        }
-
-        private void MapEditor_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.Q:
-                    if (!e.Control && !e.Alt && !e.Shift && GizmoShortcuts.Count >= 1)
-                        GizmoShortcuts[0](this, EventArgs.Empty);
-                    break;
-                case Keys.W:
-                    if (!e.Control && !e.Alt && !e.Shift && GizmoShortcuts.Count >= 2)
-                        GizmoShortcuts[1](this, EventArgs.Empty);
-                    break;
-                case Keys.E:
-                    if (!e.Control && !e.Alt && !e.Shift && GizmoShortcuts.Count >= 3)
-                        GizmoShortcuts[2](this, EventArgs.Empty);
-                    break;
-                case Keys.R:
-                    if (!e.Control && !e.Alt && !e.Shift && GizmoShortcuts.Count >= 4)
-                        GizmoShortcuts[3](this, EventArgs.Empty);
-                    break;
-                case Keys.T:
-                    if (!e.Control && !e.Alt && !e.Shift && GizmoShortcuts.Count >= 5)
-                        GizmoShortcuts[4](this, EventArgs.Empty);
-                    break;
-                default:
-                    break;
-            }
         }
         #endregion
 
@@ -337,6 +309,38 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
         #endregion
 
         #region Mouse and KeyboardEvents
+        private void MapEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Focused)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.Q:
+                        if (!e.Control && !e.Alt && !e.Shift && GizmoShortcuts.Count >= 1)
+                            GizmoShortcuts[0](this, EventArgs.Empty);
+                        break;
+                    case Keys.W:
+                        if (!e.Control && !e.Alt && !e.Shift && GizmoShortcuts.Count >= 2)
+                            GizmoShortcuts[1](this, EventArgs.Empty);
+                        break;
+                    case Keys.E:
+                        if (!e.Control && !e.Alt && !e.Shift && GizmoShortcuts.Count >= 3)
+                            GizmoShortcuts[2](this, EventArgs.Empty);
+                        break;
+                    case Keys.R:
+                        if (!e.Control && !e.Alt && !e.Shift && GizmoShortcuts.Count >= 4)
+                            GizmoShortcuts[3](this, EventArgs.Empty);
+                        break;
+                    case Keys.T:
+                        if (!e.Control && !e.Alt && !e.Shift && GizmoShortcuts.Count >= 5)
+                            GizmoShortcuts[4](this, EventArgs.Empty);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
         private void MapPreview_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)

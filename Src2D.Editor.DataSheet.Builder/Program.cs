@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Src2D.Data;
 using Src2D.Editor.EnityData;
+using Src2D.Editor.SchemaData;
 using System;
 using System.IO;
 using System.Linq;
@@ -17,28 +18,28 @@ namespace Src2D.Editor.DataSheet.Builder
             try
             {
                 Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
-            {
-                options.ProjectFile = options.ProjectFile.Trim();
-                options.Configuration = options.Configuration.Trim();
-                options.OutputFolder = options.OutputFolder.Trim();
-
-                if (File.Exists(options.ProjectFile))
                 {
-                    if (Path.GetExtension(options.ProjectFile) == ".src2d")
+                    options.ProjectFile = options.ProjectFile.Trim();
+                    options.Configuration = options.Configuration.Trim();
+                    options.OutputFolder = options.OutputFolder.Trim();
+
+                    if (File.Exists(options.ProjectFile))
                     {
-                        LoadFile(options);
+                        if (Path.GetExtension(options.ProjectFile) == ".src2d")
+                        {
+                            LoadFile(options);
+                        }
+                        else
+                        {
+                            throw new Exception($"File {options.ProjectFile} is not a src2d file. It is a {Path.GetExtension(options.ProjectFile)} file");
+                        }
                     }
                     else
                     {
-                        throw new Exception($"File {options.ProjectFile} is not a src2d file. It is a {Path.GetExtension(options.ProjectFile)} file");
+                        throw new Exception($"File {options.ProjectFile} doesn't exist.");
                     }
-                }
-                else
-                {
-                    throw new Exception($"File {options.ProjectFile} doesn't exist.");
-                }
 
-            });
+                });
             }
             catch (Exception e)
             {
@@ -59,32 +60,9 @@ namespace Src2D.Editor.DataSheet.Builder
             {
                 var assembly = Assembly.LoadFrom(Path.Combine(Path.GetDirectoryName(options.ProjectFile), bc.DLL));
 
-                try
-                {
-                    EntityDataSheetBuilder.FromAssemblies(typeof(Src2DGame).Assembly, assembly);
-                }
-                catch (ReflectionTypeLoadException ex)
-                {
-                    StringBuilder sb = new StringBuilder();
-                    foreach (Exception exSub in ex.LoaderExceptions)
-                    {
-                        sb.AppendLine(exSub.Message);
-                        FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
-                        if (exFileNotFound != null)
-                        {
-                            if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
-                            {
-                                sb.AppendLine("Fusion Log:");
-                                sb.AppendLine(exFileNotFound.FusionLog);
-                            }
-                        }
-                        sb.AppendLine();
-                    }
-                    string errorMessage = sb.ToString();
-                    throw new Exception(errorMessage);
-                }
-
                 var esd = EntityDataSheetBuilder.FromAssemblies(typeof(Src2DGame).Assembly, assembly);
+
+                var ssd = SchemaDataSheetBuilder.FromAssemblies(typeof(Src2DGame).Assembly, assembly);
 
                 string dir = Path.Combine(Path.GetDirectoryName(options.ProjectFile), options.OutputFolder);
 
@@ -92,6 +70,7 @@ namespace Src2D.Editor.DataSheet.Builder
                     Directory.CreateDirectory(dir);
 
                 File.WriteAllText(Path.Combine(dir, "Enities.ds"), JsonConvert.SerializeObject(esd));
+                File.WriteAllText(Path.Combine(dir, "Schemas.ds"), JsonConvert.SerializeObject(ssd));
             }
             else
             {

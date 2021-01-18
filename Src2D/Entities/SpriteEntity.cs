@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Src2D.Attributes;
+using Src2D.Data;
 using System;
 using System.Collections.Generic;
 using System.Text;

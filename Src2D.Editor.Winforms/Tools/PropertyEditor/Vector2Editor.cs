@@ -9,22 +9,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Src2D.Editor.Winforms.Tools.MapEditor
+namespace Src2D.Editor.Winforms.Tools.PropertyEditor
 {
     public partial class Vector2Editor : UserControl
     {
         private Action<Vector2> onChange;
 
-        public Vector2Editor(Vector2 initial, Action<Vector2> onChange)
+        public Vector2Editor(Vector2 initial, Action<Vector2> onChange, 
+            Action commitChanges)
         {
             InitializeComponent();
             X.Minimum = decimal.MinValue;
             X.Maximum = decimal.MaxValue;
             X.Value = (decimal)initial.X;
+            X.KeyDown += (o, e) => { if (e.KeyCode == Keys.Enter) commitChanges(); };
+            X.LostFocus += (o, e) => commitChanges();
 
             Y.Minimum = decimal.MinValue;
             Y.Maximum = decimal.MaxValue;
             Y.Value = (decimal)initial.Y;
+            Y.KeyDown += (o, e) => { if (e.KeyCode == Keys.Enter) commitChanges(); };
+            Y.LostFocus += (o, e) => commitChanges();
 
             this.onChange = onChange;
         }

@@ -20,10 +20,10 @@ namespace Src2D.Editor.EnityData
 
         public string Sprite;
 
-        public Dictionary<string, DataSheetProperty> Properties;
-        public Dictionary<string, DataSheetAsset> Assets;
-        public Dictionary<string, DataSheetEvent> Events;
-        public Dictionary<string, DataSheetEvent> Actions;
+        public Dictionary<string, PropertyData> Properties;
+        public Dictionary<string, AssetData> Assets;
+        public Dictionary<string, EventData> Events;
+        public Dictionary<string, EventData> Actions;
 
         public MapEntity ToMapEntity(string entityType)
         {
@@ -44,23 +44,4 @@ namespace Src2D.Editor.EnityData
     }
 }
 
-public struct DataSheetProperty
-{
-    public SrcPropertyType PropertyType;
-    public string Description;
-    public object DefaultValue;
-}
 
-public struct DataSheetAsset
-{
-    public SrcAssetType AssetType;
-    public string Description;
-}
-
-public struct DataSheetEvent
-{
-    public bool ExportsParam;
-    public EventParamType ParamType;
-    public string[] ParamOptions;
-    public string Description;
-}

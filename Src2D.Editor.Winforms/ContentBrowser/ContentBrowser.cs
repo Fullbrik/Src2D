@@ -1,4 +1,5 @@
 ﻿using Src2D.Attributes;
+using Src2D.Data;
 using Src2D.Editor.Content;
 using Src2D.Editor.EnityData;
 using System;
@@ -93,7 +94,7 @@ namespace Src2D.Editor.Winforms.ContentBrowser
             {
                 if (!UseFilter ||
                     AllowedTypes.Contains(
-                        SrcAssetAttribute.GetSrcAssetTypeFor(
+                        AssetData.GetSrcAssetTypeFor(
                             Path.GetExtension(item.FileName))))
                 {
                     var lvi = new ListViewItem(item.Name, GetIconIndexFor(item))
@@ -109,7 +110,7 @@ namespace Src2D.Editor.Winforms.ContentBrowser
 
         private int GetIconIndexFor(ContentItem item)
         {
-            switch (SrcAssetAttribute.GetSrcAssetTypeFor(Path.GetExtension(item.FileName)))
+            switch (AssetData.GetSrcAssetTypeFor(Path.GetExtension(item.FileName)))
             {
                 case SrcAssetType.None:
                     return 0;

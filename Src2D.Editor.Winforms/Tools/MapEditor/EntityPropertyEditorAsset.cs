@@ -1,4 +1,5 @@
 ﻿using Src2D.Attributes;
+using Src2D.Data;
 using Src2D.Editor.Content;
 using Src2D.Editor.EnityData;
 using Src2D.Editor.Previews.MapEditor;
@@ -27,7 +28,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
 
         public event EventHandler OnShowDescription;
 
-        public EntityPropertyEditorAsset(MapEditorPreview preveiw, ContentFile contentFile, string name, DataSheetAsset asset, MapEditorEntity entity)
+        public EntityPropertyEditorAsset(MapEditorPreview preveiw, ContentFile contentFile, string name, AssetData asset, MapEditorEntity entity)
         {
             InitializeComponent();
 

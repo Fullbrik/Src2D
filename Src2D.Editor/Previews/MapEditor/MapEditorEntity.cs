@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace Src2D.Editor.Previews.MapEditor
 {
-    public class MapEditorEntity
+    public class MapEditorEntity : IPropertyEditable
     {
         public DataSheetEntity Data { get; }
 
@@ -73,20 +73,7 @@ namespace Src2D.Editor.Previews.MapEditor
                 if (properties.ContainsKey(prop.Key))
                     value = properties[prop.Key];
 
-                value = SrcPropertyAttribute.FixValue(value, prop.Value.PropertyType);
-
-                //if (value is JObject jObject)
-                //    value = SrcPropertyAttribute
-                //        .PropertyFromJObject(jObject, prop.Value.PropertyType);
-                //else if (value is string str)
-                //    value = SrcPropertyAttribute
-                //        .PropertyFromString(str, prop.Value.PropertyType);
-
-                //if(prop.Value.PropertyType == SrcPropertyType.Int && value is long l)
-                //    value = (int)l;
-                //else if (prop.Value.PropertyType == SrcPropertyType.Float && value is int i)
-                //    value = (float)i;
-
+                value = PropertyData.FixValue(value, prop.Value.PropertyType);
 
                 switch (prop.Key)
                 {
@@ -173,6 +160,11 @@ namespace Src2D.Editor.Previews.MapEditor
             }
         }
 
+        public Dictionary<string, PropertyData> GetAllProperties()
+        {
+            return Data.Properties;
+        }
+
         public object GetProperty(string name)
         {
             switch (name)
@@ -203,9 +195,14 @@ namespace Src2D.Editor.Previews.MapEditor
 
         public void SetProperty(string name, object value)
         {
+            SetProperty(name, value, false);
+        }
+
+        public void SetProperty(string name, object value, bool doAsAction)
+        {
             var old = GetProperty(name);
 
-            preveiw.DoAction(() =>
+            Action action = () =>
             {
                 switch (name)
                 {
@@ -229,32 +226,42 @@ namespace Src2D.Editor.Previews.MapEditor
                         OtherProperties[name].Value = value;
                         break;
                 }
-            },
-            () =>
+
+            };
+
+            if (doAsAction)
             {
-                switch (name)
+                preveiw.DoAction(action,
+                () =>
                 {
-                    case "Name":
-                        Name = (string)old;
-                        OnNameChanged?.Invoke(Name);
-                        break;
-                    case "Position":
-                        Position = (Vector2)old;
-                        break;
-                    case "Rotation":
-                        Rotation = (float)old;
-                        break;
-                    case "Scale":
-                        Scale = (Vector2)old;
-                        break;
-                    case "Origin":
-                        Origin = (Vector2)old;
-                        break;
-                    default:
-                        OtherProperties[name].Value = old;
-                        break;
-                }
-            });
+                    switch (name)
+                    {
+                        case "Name":
+                            Name = (string)old;
+                            OnNameChanged?.Invoke(Name);
+                            break;
+                        case "Position":
+                            Position = (Vector2)old;
+                            break;
+                        case "Rotation":
+                            Rotation = (float)old;
+                            break;
+                        case "Scale":
+                            Scale = (Vector2)old;
+                            break;
+                        case "Origin":
+                            Origin = (Vector2)old;
+                            break;
+                        default:
+                            OtherProperties[name].Value = old;
+                            break;
+                    }
+                });
+            }
+            else
+            {
+                action();
+            }
         }
 
         public string GetAsset(string name)

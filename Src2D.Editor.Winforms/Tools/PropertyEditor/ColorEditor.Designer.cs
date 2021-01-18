@@ -1,5 +1,5 @@
 ﻿
-namespace Src2D.Editor.Winforms.Tools.MapEditor
+namespace Src2D.Editor.Winforms.Tools.PropertyEditor
 {
     partial class ColorEditor
     {

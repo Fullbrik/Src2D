@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Src2D.Attributes;
+using Src2D.Data;
 
 namespace Src2D.Entities
 {
@@ -190,8 +191,8 @@ namespace Src2D.Entities
         {
             var prop = srcProperties[name];
 
-            value = SrcPropertyAttribute.FixValue(value,
-                SrcPropertyAttribute.GetSrcPropertyTypeFor(prop));
+            value = PropertyData.FixValue(value,
+                PropertyData.GetSrcPropertyTypeFor(prop));
 
             prop.SetValue(this, value);
         }

@@ -51,7 +51,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
         {
             ActionName.Items.Clear();
             ActionName.Items.AddRange(preveiw.Entities
-                .Where(ent => Regex.IsMatch(ent.Name, OtherEntity.Text))
+                .Where(ent => ent.Name != null && Regex.IsMatch(ent.Name, OtherEntity.Text))
                 .Select(ent => ent.Data.Actions.Keys)
                 .Flatten()
                 .ToArray());
@@ -60,7 +60,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
         private void ActionName_SelectedIndexChanged(object sender, EventArgs e)
         {
             var options = preveiw.Entities
-                .Where(ent => Regex.IsMatch(ent.Name, OtherEntity.Text))
+                .Where(ent => ent.Name != null && Regex.IsMatch(ent.Name, OtherEntity.Text))
                 .Select(ent => ent.Data.Actions)
                 .Flatten()
                 .Where(kvp => kvp.Key == ActionName.Text)

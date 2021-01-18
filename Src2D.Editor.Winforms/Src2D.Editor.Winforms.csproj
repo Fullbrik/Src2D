@@ -95,6 +95,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tools\PropertyEditor\PropertyEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Tools\PropertyEditor\PropertyEditor.Designer.cs">
+      <DependentUpon>PropertyEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\MapEditor\BindingEditorDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,10 +110,10 @@
     <Compile Include="BufferedTableLayout.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Tools\MapEditor\ColorEditor.cs">
+    <Compile Include="Tools\PropertyEditor\ColorEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Tools\MapEditor\ColorEditor.Designer.cs">
+    <Compile Include="Tools\PropertyEditor\ColorEditor.Designer.cs">
       <DependentUpon>ColorEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="ContentBrowser\ContentBrowser.cs">
@@ -144,11 +150,17 @@
     <Compile Include="Tools\MapEditor\EntityPropertyEditorAsset.Designer.cs">
       <DependentUpon>EntityPropertyEditorAsset.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\MapEditor\EntityPropertyEditorProperty.cs">
+    <Compile Include="Tools\PropertyEditor\PropertyEditorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\PropertyEditor\PropertyEditorDialog.Designer.cs">
+      <DependentUpon>PropertyEditorDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\PropertyEditor\PropertyEditorProperty.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Tools\MapEditor\EntityPropertyEditorProperty.Designer.cs">
-      <DependentUpon>EntityPropertyEditorProperty.cs</DependentUpon>
+    <Compile Include="Tools\PropertyEditor\PropertyEditorProperty.Designer.cs">
+      <DependentUpon>PropertyEditorProperty.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\ImageViewer.cs">
       <SubType>Form</SubType>
@@ -175,6 +187,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecentFiles.cs" />
     <Compile Include="Strings.cs" />
+    <Compile Include="Tools\PropertyEditor\PropertyListEditorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\PropertyEditor\PropertyListEditorDialog.Designer.cs">
+      <DependentUpon>PropertyListEditorDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\ToolLauncher.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,22 +200,22 @@
       <DependentUpon>ToolLauncher.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\ToolsManager.cs" />
-    <Compile Include="Tools\MapEditor\Vector3Editor.cs">
+    <Compile Include="Tools\PropertyEditor\Vector3Editor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Tools\MapEditor\Vector3Editor.Designer.cs">
+    <Compile Include="Tools\PropertyEditor\Vector3Editor.Designer.cs">
       <DependentUpon>Vector3Editor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\MapEditor\Vector2Editor.cs">
+    <Compile Include="Tools\PropertyEditor\Vector2Editor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Tools\MapEditor\Vector2Editor.Designer.cs">
+    <Compile Include="Tools\PropertyEditor\Vector2Editor.Designer.cs">
       <DependentUpon>Vector2Editor.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Tools\MapEditor\BindingEditorDialog.resx">
       <DependentUpon>BindingEditorDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\MapEditor\ColorEditor.resx">
+    <EmbeddedResource Include="Tools\PropertyEditor\ColorEditor.resx">
       <DependentUpon>ColorEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ContentBrowser\ContentBrowser.resx">
@@ -215,8 +233,14 @@
     <EmbeddedResource Include="Tools\MapEditor\EntityPropertyEditorAsset.resx">
       <DependentUpon>EntityPropertyEditorAsset.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\MapEditor\EntityPropertyEditorProperty.resx">
-      <DependentUpon>EntityPropertyEditorProperty.cs</DependentUpon>
+    <EmbeddedResource Include="Tools\PropertyEditor\PropertyEditor.resx">
+      <DependentUpon>PropertyEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\PropertyEditor\PropertyEditorDialog.resx">
+      <DependentUpon>PropertyEditorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tools\PropertyEditor\PropertyEditorProperty.resx">
+      <DependentUpon>PropertyEditorProperty.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\ImageViewer.resx">
       <DependentUpon>ImageViewer.cs</DependentUpon>
@@ -237,13 +261,16 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Tools\PropertyEditor\PropertyListEditorDialog.resx">
+      <DependentUpon>PropertyListEditorDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Tools\ToolLauncher.resx">
       <DependentUpon>ToolLauncher.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\MapEditor\Vector3Editor.resx">
+    <EmbeddedResource Include="Tools\PropertyEditor\Vector3Editor.resx">
       <DependentUpon>Vector3Editor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tools\MapEditor\Vector2Editor.resx">
+    <EmbeddedResource Include="Tools\PropertyEditor\Vector2Editor.resx">
       <DependentUpon>Vector2Editor.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />

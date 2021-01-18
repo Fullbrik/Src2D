@@ -1,5 +1,6 @@
 ﻿using Src2D.Editor.Content;
 using Src2D.Editor.Previews.MapEditor;
+using Src2D.Editor.Winforms.Tools.PropertyEditor;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,11 +22,21 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             {
                 if (entity != null) entity.OnNameChanged -= Entity_OnNameChanged;
                 entity = value;
+                PropertyEditor.PropertyEditable = value;
                 SetupEntity();
             }
         }
 
-        public MapEditorPreview Preview { get; set; }
+        public MapEditorPreview Preview
+        {
+            get => preview;
+            set
+            {
+                preview = value;
+                PropertyEditor.Preview = value;
+            }
+        }
+        private MapEditorPreview preview;
         public ContentFile ContentFile { get; set; }
 
         private MapEditorEntity entity;
@@ -37,8 +48,8 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
 
         private void SetupEntity()
         {
-            PropertyList.SuspendLayout();
-            PropertyList.Controls.Clear();
+            //PropertyList.SuspendLayout();
+            //PropertyList.Controls.Clear();
             AssetList.SuspendLayout();
             AssetList.Controls.Clear();
             EntityName.Text = "";
@@ -56,11 +67,11 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             }
             else
             {
-                PropertyList.RowCount = 1;
+                //PropertyList.RowCount = 1;
                 AssetList.RowCount = 1;
                 BindingsList.Items.Clear();
             }
-            PropertyList.ResumeLayout(true);
+            //PropertyList.ResumeLayout(true);
             AssetList.ResumeLayout(true);
         }
 
@@ -71,23 +82,23 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
 
         private void SetupPropertyList()
         {
-            PropertyList.RowCount = Entity.Data.Properties.Count;
+            //PropertyList.RowCount = Entity.Data.Properties.Count;
 
-            foreach (var property in Entity.Data.Properties)
-            {
-                EntityPropertyEditorProperty entityPropertyEditorProperty
-                    = new EntityPropertyEditorProperty(Preview, property.Key, property.Value, Entity);
-                entityPropertyEditorProperty.OnShowDescription
-                    += EntityPropertyEditorProperty_OnShowDescription;
-                PropertyList.Controls.Add(entityPropertyEditorProperty);
-            }
+            //foreach (var property in Entity.Data.Properties)
+            //{
+            //    PropertyEditorProperty entityPropertyEditorProperty
+            //        = new PropertyEditorProperty(Preview, property.Key, property.Value, Entity);
+            //    entityPropertyEditorProperty.OnShowDescription
+            //        += EntityPropertyEditorProperty_OnShowDescription;
+            //    PropertyList.Controls.Add(entityPropertyEditorProperty);
+            //}
         }
 
         private void EntityPropertyEditorProperty_OnShowDescription(object sender, EventArgs e)
         {
-            DescriptionGB.Text = $"Description: ({(sender as EntityPropertyEditorProperty).PropertyName})";
+            DescriptionGB.Text = $"Description: ({(sender as PropertyEditorProperty).PropertyName})";
             DescriptionText.Text =
-                (sender as EntityPropertyEditorProperty).Description;
+                (sender as PropertyEditorProperty).Description;
         }
 
         private void SetupAssetList()

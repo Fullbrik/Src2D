@@ -2,6 +2,7 @@
 using Src2D.Data;
 using Src2D.Editor.Content;
 using Src2D.Editor.EnityData;
+using Src2D.Editor.SchemaData;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -41,8 +42,11 @@ namespace Src2D.Editor.Winforms.Tools
                 gameInfo = JsonConvert.DeserializeObject<GameInfo>(text);
 
                 string eds = Path.Combine(rootFolder, gameInfo.DataSheetDirectory, "Enities.ds");
+                string sds = Path.Combine(rootFolder, gameInfo.DataSheetDirectory, "Schemas.ds");
                 text = File.ReadAllText(eds);
                 EntityDataSheetManager.CurrentSheet = JsonConvert.DeserializeObject<EntityDataSheet>(text);
+                text = File.ReadAllText(sds);
+                SchemaDataSheetManager.CurrentSheet = JsonConvert.DeserializeObject<SchemaDataSheet>(text);
             }
             else
             {

@@ -32,14 +32,14 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.PropertiesTab = new System.Windows.Forms.TabPage();
             this.AssetsTab = new System.Windows.Forms.TabPage();
+            this.AssetList = new Src2D.Editor.Winforms.BufferedTableLayout();
             this.EventsTab = new System.Windows.Forms.TabPage();
+            this.BindingsList = new System.Windows.Forms.ListView();
             this.EntityName = new System.Windows.Forms.GroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.DescriptionGB = new System.Windows.Forms.GroupBox();
             this.DescriptionText = new System.Windows.Forms.TextBox();
-            this.PropertyList = new Src2D.Editor.Winforms.BufferedTableLayout();
-            this.AssetList = new Src2D.Editor.Winforms.BufferedTableLayout();
-            this.BindingsList = new System.Windows.Forms.ListView();
+            this.PropertyEditor = new Src2D.Editor.Winforms.Tools.PropertyEditor.PropertyEditor();
             this.tabControl1.SuspendLayout();
             this.PropertiesTab.SuspendLayout();
             this.AssetsTab.SuspendLayout();
@@ -66,7 +66,7 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             // 
             // PropertiesTab
             // 
-            this.PropertiesTab.Controls.Add(this.PropertyList);
+            this.PropertiesTab.Controls.Add(this.PropertyEditor);
             this.PropertiesTab.Location = new System.Drawing.Point(4, 22);
             this.PropertiesTab.Name = "PropertiesTab";
             this.PropertiesTab.Padding = new System.Windows.Forms.Padding(3);
@@ -86,6 +86,20 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.AssetsTab.Text = "Assets";
             this.AssetsTab.UseVisualStyleBackColor = true;
             // 
+            // AssetList
+            // 
+            this.AssetList.AutoScroll = true;
+            this.AssetList.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.AssetList.ColumnCount = 1;
+            this.AssetList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.AssetList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.AssetList.Location = new System.Drawing.Point(3, 3);
+            this.AssetList.Name = "AssetList";
+            this.AssetList.RowCount = 1;
+            this.AssetList.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.AssetList.Size = new System.Drawing.Size(356, 225);
+            this.AssetList.TabIndex = 0;
+            // 
             // EventsTab
             // 
             this.EventsTab.Controls.Add(this.BindingsList);
@@ -95,6 +109,20 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.EventsTab.TabIndex = 2;
             this.EventsTab.Text = "Events";
             this.EventsTab.UseVisualStyleBackColor = true;
+            // 
+            // BindingsList
+            // 
+            this.BindingsList.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BindingsList.HideSelection = false;
+            this.BindingsList.LabelWrap = false;
+            this.BindingsList.Location = new System.Drawing.Point(3, 3);
+            this.BindingsList.MultiSelect = false;
+            this.BindingsList.Name = "BindingsList";
+            this.BindingsList.Size = new System.Drawing.Size(356, 225);
+            this.BindingsList.TabIndex = 0;
+            this.BindingsList.UseCompatibleStateImageBehavior = false;
+            this.BindingsList.View = System.Windows.Forms.View.List;
+            this.BindingsList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.BindingsList_MouseDoubleClick);
             // 
             // EntityName
             // 
@@ -145,47 +173,15 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.DescriptionText.Size = new System.Drawing.Size(364, 92);
             this.DescriptionText.TabIndex = 0;
             // 
-            // PropertyList
+            // PropertyEditor
             // 
-            this.PropertyList.AutoScroll = true;
-            this.PropertyList.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.PropertyList.ColumnCount = 1;
-            this.PropertyList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.PropertyList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PropertyList.Location = new System.Drawing.Point(3, 3);
-            this.PropertyList.Name = "PropertyList";
-            this.PropertyList.RowCount = 1;
-            this.PropertyList.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.PropertyList.Size = new System.Drawing.Size(356, 225);
-            this.PropertyList.TabIndex = 0;
-            // 
-            // AssetList
-            // 
-            this.AssetList.AutoScroll = true;
-            this.AssetList.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.AssetList.ColumnCount = 1;
-            this.AssetList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.AssetList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.AssetList.Location = new System.Drawing.Point(3, 3);
-            this.AssetList.Name = "AssetList";
-            this.AssetList.RowCount = 1;
-            this.AssetList.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.AssetList.Size = new System.Drawing.Size(356, 225);
-            this.AssetList.TabIndex = 0;
-            // 
-            // BindingsList
-            // 
-            this.BindingsList.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BindingsList.HideSelection = false;
-            this.BindingsList.LabelWrap = false;
-            this.BindingsList.Location = new System.Drawing.Point(3, 3);
-            this.BindingsList.MultiSelect = false;
-            this.BindingsList.Name = "BindingsList";
-            this.BindingsList.Size = new System.Drawing.Size(356, 225);
-            this.BindingsList.TabIndex = 0;
-            this.BindingsList.UseCompatibleStateImageBehavior = false;
-            this.BindingsList.View = System.Windows.Forms.View.List;
-            this.BindingsList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.BindingsList_MouseDoubleClick);
+            this.PropertyEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PropertyEditor.Location = new System.Drawing.Point(3, 3);
+            this.PropertyEditor.Preview = null;
+            this.PropertyEditor.Name = "PropertyEditor";
+            this.PropertyEditor.PropertyEditable = null;
+            this.PropertyEditor.Size = new System.Drawing.Size(356, 225);
+            this.PropertyEditor.TabIndex = 0;
             // 
             // EntityPropertyEditor
             // 
@@ -215,12 +211,12 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
         private System.Windows.Forms.TabPage PropertiesTab;
         private System.Windows.Forms.TabPage AssetsTab;
         private System.Windows.Forms.TabPage EventsTab;
-        private Src2D.Editor.Winforms.BufferedTableLayout PropertyList;
         private System.Windows.Forms.GroupBox EntityName;
         private Src2D.Editor.Winforms.BufferedTableLayout AssetList;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox DescriptionGB;
         private System.Windows.Forms.TextBox DescriptionText;
         private System.Windows.Forms.ListView BindingsList;
+        private PropertyEditor.PropertyEditor PropertyEditor;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Src2D.Attributes;
+using Src2D.Data;
 using Src2D.Editor.Content;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Src2D.Editor.Winforms.Tools
         public static void Open(string file, ContentFile content)
         {
             string ext = Path.GetExtension(file);
-            SrcAssetType assetType = SrcAssetAttribute.GetSrcAssetTypeFor(ext);
+            SrcAssetType assetType = AssetData.GetSrcAssetTypeFor(ext);
 
             var tools = ToolAttribute.Get(assetType);
 

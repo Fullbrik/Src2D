@@ -1,17 +1,10 @@
-﻿using System;
+﻿using Src2D.Data;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Src2D.Attributes
 {
-    public enum EventParamType
-    {
-        String,
-        Int,
-        Float,
-        Bool,
-    }
-
     public delegate void SrcEvent(string input);
 
     [AttributeUsage(AttributeTargets.Event, Inherited = true, AllowMultiple = false)]

@@ -1,7 +1,7 @@
 ﻿
-namespace Src2D.Editor.Winforms.Tools.MapEditor
+namespace Src2D.Editor.Winforms.Tools.PropertyEditor
 {
-    partial class EntityPropertyEditorProperty
+    partial class PropertyEditorProperty
     {
         /// <summary> 
         /// Required designer variable.
@@ -55,13 +55,13 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             this.PropertyValueEditor.Size = new System.Drawing.Size(1245, 20);
             this.PropertyValueEditor.TabIndex = 1;
             // 
-            // EntityPropertyEditorProperty
+            // PropertyEditorProperty
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.PropertyValueEditor);
             this.Controls.Add(this.PropetyLabel);
-            this.Name = "EntityPropertyEditorProperty";
+            this.Name = "PropertyEditorProperty";
             this.Size = new System.Drawing.Size(1300, 20);
             this.Load += new System.EventHandler(this.EntityPropertyEditorProperty_Load);
             this.MouseEnter += new System.EventHandler(this.EntityPropertyEditorProperty_MouseEnter);
