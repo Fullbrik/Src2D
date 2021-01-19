@@ -46,7 +46,7 @@ namespace Src2D.Editor.Previews.MapEditor
 
         public string[] EntityNames
         {
-            get => Entities.Select(e => e.Name).ToArray();
+            get => Entities.Where(e => !string.IsNullOrWhiteSpace(e.Name)).Select(e => e.Name).ToArray();
         }
         #endregion
 

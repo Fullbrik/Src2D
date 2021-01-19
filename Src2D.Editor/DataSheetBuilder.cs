@@ -49,7 +49,17 @@ namespace Src2D.Editor
 
                     property.Description = srcProp.Description;
                     property.PropertyType = PropertyData.GetSrcPropertyTypeFor(prop);
+                    property.DefaultValue = srcProp.DefaultValue ?? PropertyData.GetDefaultValueFor(property.PropertyType);
 
+                    if(property.PropertyType == SrcPropertyType.MultiOption)
+                    {
+                        if(prop.PropertyType.TryExecuteEmptyConstructor(out object obj)
+                            && obj is SrcMultiOption mo)
+                        {
+                            property.Options = mo.GetOptions();
+                            property.DefaultValue = property.DefaultValue.ToString();
+                        }
+                    }
                     if (property.PropertyType == SrcPropertyType.Misc)
                     {
                         if (Attribute.IsDefined(prop.PropertyType, typeof(SrcSchemaAttribute)))
@@ -80,8 +90,6 @@ namespace Src2D.Editor
                             property.SchemaType = srcSchema.Name;
                         }
                     }
-
-                    property.DefaultValue = srcProp.DefaultValue ?? PropertyData.GetDefaultValueFor(property.PropertyType);
 
                     retVal.Add(name, property);
                 }

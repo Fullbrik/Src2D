@@ -22,8 +22,12 @@ namespace Src2D.Editor.Winforms.Tools.PropertyEditor
             get => propertyEditable;
             set
             {
+                var propScroll = PropertyList.VerticalScroll.Value;
+
                 propertyEditable = value;
                 SetupPropertyList();
+
+                PropertyList.VerticalScroll.Value = propScroll;
             }
         }
         IPropertyEditable propertyEditable;

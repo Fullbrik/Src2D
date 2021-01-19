@@ -10,7 +10,6 @@ using Src2D.Data;
 
 namespace Src2D.Entities
 {
-    [SrcEntity("Entity", Description = "A basic entity. doesn't do anything bat has the basic code all entities rely on")]
     public class BaseEntity
     {
         public bool IsActive { get => hasStarted && isActive; set => isActive = value; }
@@ -231,15 +230,27 @@ namespace Src2D.Entities
             value = PropertyData.FixValue(value,
                 PropertyData.GetSrcPropertyTypeFor(prop));
 
-            if (prop.PropertyType.IsSubclassOf(typeof(SrcSchema)))
+            var propType = PropertyData.GetSrcPropertyTypeFor(prop);
+            switch (propType)
             {
-                prop.PropertyType
-                    .GetMethod("PopulateFromDictionary")
-                    .Invoke(prop.GetValue(this), new object[] { value });
-            }
-            else
-            {
-                prop.SetValue(this, value);
+                case SrcPropertyType.MultiOption:
+                    prop.PropertyType
+                        .GetProperty("Value")
+                        .SetValue(prop.GetValue(this), value);
+                    break;
+                case SrcPropertyType.List:
+                    prop.PropertyType
+                        .GetMethod("AddRangeWithoutT")
+                        .Invoke(prop.GetValue(this), new object[]{ value });
+                    break;
+                case SrcPropertyType.Misc:
+                    prop.PropertyType
+                        .GetMethod("PopulateFromDictionary")
+                        .Invoke(prop.GetValue(this), new object[] { value });
+                    break;
+                default:
+                    prop.SetValue(this, value);
+                    break;
             }
         }
 

@@ -20,6 +20,7 @@ namespace Src2D.Data
         Vector3,
         Color,
         EntityReferance,
+        MultiOption,
         List,
         Misc,
     }
@@ -28,6 +29,7 @@ namespace Src2D.Data
     {
         public SrcPropertyType PropertyType;
         public string SchemaType;
+        public string[] Options;
         public string Description;
         public object DefaultValue;
 
@@ -54,9 +56,11 @@ namespace Src2D.Data
                 return SrcPropertyType.Color;
             else if (type == typeof(EntityReference))
                 return SrcPropertyType.EntityReferance;
-            else if(type.IsSubclassOf(typeof(SrcSchema)))
+            else if (type.IsSubclassOf(typeof(SrcMultiOption)))
+                return SrcPropertyType.MultiOption;
+            else if (type.IsSubclassOf(typeof(SrcSchema)))
                 return SrcPropertyType.Misc;
-            else if(type.IsSubclassOf(typeof(InternalSrcListBaseClass)))
+            else if (type.IsSubclassOf(typeof(InternalSrcListBaseClass)))
                 return SrcPropertyType.List;
             else return SrcPropertyType.None;
         }
@@ -83,6 +87,8 @@ namespace Src2D.Data
                     return Color.White;
                 case SrcPropertyType.EntityReferance:
                     return new EntityReference("");
+                case SrcPropertyType.MultiOption:
+                    return "";
                 case SrcPropertyType.Misc:
                     return new Dictionary<string, object>();
                 case SrcPropertyType.List:
@@ -114,6 +120,8 @@ namespace Src2D.Data
                     throw new NotImplementedException();
                 case SrcPropertyType.EntityReferance:
                     return new EntityReference(str);
+                case SrcPropertyType.MultiOption:
+                    return str;
                 case SrcPropertyType.Misc:
                     return new NotImplementedException();
                 case SrcPropertyType.List:
@@ -123,7 +131,7 @@ namespace Src2D.Data
             }
         }
 
-        public static object PropertyFromJObject(JObject jObject, 
+        public static object PropertyFromJObject(JObject jObject,
             SrcPropertyType propertyType)
         {
             switch (propertyType)
@@ -146,10 +154,12 @@ namespace Src2D.Data
                     return new Color(jObject["R"].ToObject<float>(), jObject["G"].ToObject<float>(), jObject["B"].ToObject<float>(), jObject["A"].ToObject<float>());
                 case SrcPropertyType.EntityReferance:
                     throw new NotImplementedException();
+                case SrcPropertyType.MultiOption:
+                    throw new NotImplementedException();
                 case SrcPropertyType.Misc:
                     return jObject.ToObject<Dictionary<string, object>>();
-                    case SrcPropertyType.List:
-                        return jObject.ToObject<JArray>().ToList();
+                case SrcPropertyType.List:
+                    return jObject.ToObject<JArray>().ToList();
                 default:
                     throw new NotImplementedException();
             }

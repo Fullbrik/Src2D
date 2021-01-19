@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Src2D
@@ -24,6 +25,19 @@ namespace Src2D
         public void Add(T item)
         {
             list.Add(item);
+        }
+
+        public void AddRange(IEnumerable<T> collection)
+        {
+            list.AddRange(collection);
+        }
+
+        public void AddRangeWithoutT(IEnumerable collection)
+        {
+            var filtered = collection.Cast<object>()
+                //.Where(obj => obj is T)
+                .Select(obj => obj as T);
+            list.AddRange(filtered);
         }
 
         public void Clear()

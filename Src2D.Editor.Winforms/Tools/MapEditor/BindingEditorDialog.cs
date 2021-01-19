@@ -34,6 +34,8 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
 
             OtherEntity.Text = binding.OtherEntityName;
             OtherEntity.AutoCompleteCustomSource.AddRange(preveiw.EntityNames);
+            OtherEntity.AutoCompleteMode = AutoCompleteMode.Suggest;
+            OtherEntity.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
             ActionName.Text = binding.ActionName;
 

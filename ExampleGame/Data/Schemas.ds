@@ -1,1 +1,1 @@
-{"Schemas":{"MySchema":{"Properties":{"MyInt":{"PropertyType":2,"SchemaType":null,"Description":"","DefaultValue":0},"MyBool":{"PropertyType":4,"SchemaType":null,"Description":"","DefaultValue":false}}}}}
+{"Schemas":{"MySchema":{"Properties":{"MyInt":{"PropertyType":2,"SchemaType":null,"Options":null,"Description":"","DefaultValue":0},"MyBool":{"PropertyType":4,"SchemaType":null,"Options":null,"Description":"","DefaultValue":false}}}}}

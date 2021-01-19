@@ -22,6 +22,7 @@ namespace Src2D.Editor.Winforms.Tools.PropertyEditor
         public string Description { get; }
         public string PropertyName { get; }
         public SrcPropertyType PropertyType { get; }
+        public string[] Options { get; set; }
         public IPropertyEditable PropertyEditable { get; }
         public bool CanCommitChanges { get; }
 
@@ -44,6 +45,7 @@ namespace Src2D.Editor.Winforms.Tools.PropertyEditor
 
             PropertyName = name;
             PropertyType = property.PropertyType;
+            Options = property.Options;
 
             Description = property.Description;
             PropertyEditable = propertyEditable;
@@ -76,6 +78,7 @@ namespace Src2D.Editor.Winforms.Tools.PropertyEditor
             TextBox textBox;
             CheckBox checkbox;
             NumericUpDown numericUpDown;
+            ComboBox comboBox;
             Button button;
             switch (PropertyType)
             {
@@ -174,6 +177,16 @@ namespace Src2D.Editor.Winforms.Tools.PropertyEditor
                         textBox.Dock = DockStyle.Fill;
                     }
                     break;
+                case SrcPropertyType.MultiOption:
+                    comboBox = new ComboBox();
+                    comboBox.Text = (string)(PropertyEditable.GetProperty(PropertyName));
+                    comboBox.Items.AddRange(Options);
+                    comboBox.TextChanged += ComboBox_TextChanged;
+                    comboBox.KeyDown += (o, e) => { if (e.KeyCode == Keys.Enter) CommitChanges(); };
+                    comboBox.LostFocus += (o, e) => CommitChanges();
+                    PropertyValueEditor.Controls.Add(comboBox);
+                    comboBox.Dock = DockStyle.Fill;
+                    break;
                 case SrcPropertyType.List:
                     button = new Button();
                     button.Text = $"Edit {(startingValue as List<IPropertyEditable>).Count} items";
@@ -252,6 +265,12 @@ namespace Src2D.Editor.Winforms.Tools.PropertyEditor
             valueChanged = true;
         }
 
+        private void ComboBox_TextChanged(object sender, EventArgs e)
+        {
+            PropertyEditable.SetProperty(PropertyName, (sender as ComboBox).Text);
+            valueChanged = true;
+        }
+
         private void Button_List_Click(object sender, EventArgs e)
         {
             var schema = PropertyEditable.GetAllProperties()[PropertyName].SchemaType;
@@ -271,7 +290,7 @@ namespace Src2D.Editor.Winforms.Tools.PropertyEditor
             {
                 for (int i = 0; i < editables.Count; i++)
                 {
-                    if(editables[i] != (startingValue as List<IPropertyEditable>)[i])
+                    if (editables[i] != (startingValue as List<IPropertyEditable>)[i])
                     {
                         valueChanged = true;
                         break;

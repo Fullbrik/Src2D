@@ -21,5 +21,12 @@ namespace ExampleGame
             Sprite = "Sprites/Motercycle";
             base.Start();
         }
+
+        public override void Update(float deltaTime)
+        {
+            base.Update(deltaTime);
+
+            Console.WriteLine("My list count: " + MyList.Count.ToString());
+        }
     }
 }

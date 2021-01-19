@@ -37,7 +37,8 @@ namespace Src2D.Editor.Winforms.Tools.MapEditor
             {
                 listView1.Items.Add(new ListViewItem(entity.Key)
                 {
-                    Tag = entity.Value
+                    Tag = entity.Value,
+                    ToolTipText = entity.Value.Description,
                 });
             }
         }
