@@ -213,19 +213,6 @@ namespace Src2D.Entities
             srcActions[action].Invoke(param);
         }
 
-        //public void Bind(string ourActionName, BaseEntity them, string theirEvent, bool overideParam, string paramOveride)
-        //{
-        //    if (them.srcEvents.ContainsKey(theirEvent))
-        //    {
-        //        var ourAction = (overideParam) ? (str) => srcActions[ourActionName](paramOveride)
-        //                                       : srcActions[ourActionName];
-
-        //        them.srcEvents[theirEvent].AddEventHandler(them, ourAction);
-
-        //        bindings.Add(new Binding(ourAction, them, theirEvent));
-        //    }
-        //}
-
         private void UnbindAllActions()
         {
             bindings.ForEach(b => UnbindActionWithoutRemove(b.OurAction, b.Them, b.TheirEvent));
@@ -260,7 +247,7 @@ namespace Src2D.Entities
         {
             var asset = srcAssets[name];
 
-            asset.SetValue(this, assetName);
+            asset.FieldType.GetProperty("AssetName").SetValue(asset.GetValue(this), assetName);
         }
     }
 }

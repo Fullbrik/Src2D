@@ -28,12 +28,13 @@ namespace Src2D.Editor.Previews.MapEditor
         public Texture2D SpritePreview { get => spritePreview; }
         private Texture2D spritePreview;
 
+        private bool useDynamicSpritePreview;
+
+        private ContentManager content;
+        private ContentManager editorContent;
+
         public Vector2 SpriteSize => new Vector2(SpritePreview.Width, SpritePreview.Height);
         public Vector2 SpriteOrgin => Origin * SpriteSize;
-
-        //public Rectangle Bounds => new Rectangle(
-        //    (int)(Position.X - SpriteOrgin.X), (int)(Position.Y - SpriteOrgin.Y),
-        //    (int)(Scale.X * SpritePreview.Width), (int)(Scale.Y * SpritePreview.Height));
 
         public Dictionary<string, MapPreviewEntityProperty> OtherProperties
             = new Dictionary<string, MapPreviewEntityProperty>();
@@ -47,19 +48,25 @@ namespace Src2D.Editor.Previews.MapEditor
         public MapEditorPreview Preview { get => preveiw; }
         private MapEditorPreview preveiw;
 
-        public MapEditorEntity(MapEditorPreview preveiw, MapEntity entity, ContentManager content)
+        public MapEditorEntity(MapEditorPreview preveiw, MapEntity entity,
+            ContentManager content,
+            ContentManager editorContent)
         {
             this.preveiw = preveiw;
+            this.content = content;
+            this.editorContent = editorContent;
 
             EntityType = entity.EntityType;
 
             Data = EntityDataSheetManager.CurrentSheet.Entities[entity.EntityType];
 
+            useDynamicSpritePreview = Data.Icon == null && Data.SpriteAsset != null;
+
             PopulateProperties(entity.Properties);
             PopulateAssets(entity.Assets);
             PopulateBindings(entity.Bindings);
 
-            ReloadAssets(content);
+            ReloadAssets(content, editorContent);
         }
 
         private void PopulateProperties(Dictionary<string, object> properties)
@@ -277,21 +284,36 @@ namespace Src2D.Editor.Previews.MapEditor
             var old = GetAsset(name);
 
             preveiw.DoAction(
-                () => Assets[name].AssetName = assetName,
-                () => Assets[name].AssetName = old);
+                () => InternalSetAsset(name, assetName),
+                () => InternalSetAsset(name, old));
         }
 
-        public void ReloadAssets(ContentManager content)
+        private void InternalSetAsset(string name, string assetName)
         {
-            if (!string.IsNullOrWhiteSpace(Data.Sprite))
+            Assets[name].AssetName = assetName;
+
+            if (useDynamicSpritePreview && name == Data.SpriteAsset)
+                ReloadAssets(content, editorContent);
+        }
+
+        public void ReloadAssets(ContentManager content, ContentManager editorContent)
+        {
+            string spriteName = Data.Icon;
+
+            if (useDynamicSpritePreview) spriteName = GetAsset(Data.SpriteAsset);
+
+            if (!string.IsNullOrWhiteSpace(spriteName))
             {
                 try
                 {
-                    spritePreview = content.Load<Texture2D>(Data.Sprite);
+                    if (!useDynamicSpritePreview && Data.UseEditorAsset)
+                        spritePreview = editorContent.Load<Texture2D>(spriteName);
+                    else
+                        spritePreview = content.Load<Texture2D>(spriteName);
                 }
                 catch (Exception)
                 {
-                    throw new Exception($"Could not find sprite {Data.Sprite} in content.");
+                    throw new Exception($"Could not find sprite {spriteName} in content.");
                 }
             }
         }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,7 +43,7 @@ namespace Src2D.Editor.Winforms.ContentBrowser
 
         private void CB_OnDoubleClickFile(object sender, ContentItemSelectEventArgs e)
         {
-            asset = e.Item.FileName;
+            asset = Path.ChangeExtension(e.Item.FileName, null);
             DialogResult = DialogResult.OK;
         }
     }

@@ -18,7 +18,9 @@ namespace Src2D.Editor.EnityData
 
         public string[] Gizmos;
 
-        public string Sprite;
+        public string SpriteAsset;
+        public string Icon;
+        public bool UseEditorAsset;
 
         public Dictionary<string, PropertyData> Properties;
         public Dictionary<string, AssetData> Assets;

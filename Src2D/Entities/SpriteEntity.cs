@@ -8,7 +8,6 @@ using System.Text;
 
 namespace Src2D.Entities
 {
-    [SrcEntity("Sprite", Description = "A sprite with a position and rotation")]
     [Gizmo("Position2d")]
     [Gizmo("Rotation1d")]
     [Gizmo("Scale2d")]

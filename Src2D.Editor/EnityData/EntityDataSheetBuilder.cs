@@ -44,7 +44,9 @@ namespace Src2D.Editor.EnityData
                 .Where(attr => attr is GizmoAttribute)
                 .Select(attr => (attr as GizmoAttribute).Name)
                 .ToArray();
-            retVal.Sprite = srcEnt.Sprite;
+            retVal.Icon = srcEnt.Icon;
+            retVal.UseEditorAsset = srcEnt.UseEditorAsset;
+            retVal.SpriteAsset = srcEnt.SpriteAsset;
 
             retVal.Properties = GetPropertiesFromType(type);
             retVal.Assets = GetAssetsFromType(type);

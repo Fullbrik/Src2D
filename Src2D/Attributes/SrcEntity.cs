@@ -16,6 +16,17 @@ namespace Src2D.Attributes
 
         public string Name { get => name; }
         public string Description { get; set; } = "";
-        public string Sprite { get; set; } = "";
+        /// <summary>
+        /// What is the name of the icon asset to be rendered in the editor viewport
+        /// </summary>
+        public string Icon { get; set; } = null;
+        /// <summary>
+        /// Used internally by the engine to load icons that are included in the editor, but not the game.
+        /// </summary>
+        public bool UseEditorAsset { get; set; } = false;
+        /// <summary>
+        /// What is the name of the assignable asset to be rendered in the editor viewport. Will use if Icon isn't assigned.
+        /// </summary>
+        public string SpriteAsset { get; set; } = null;
     }
 }

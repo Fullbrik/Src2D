@@ -43,6 +43,7 @@
     <None Update="Gizmos\Scale2d.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Remove="Content/bin"></None>
   </ItemGroup>
 
 </Project>

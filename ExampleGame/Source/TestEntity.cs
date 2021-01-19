@@ -12,7 +12,7 @@ using System.Text;
 
 namespace ExampleGame
 {
-    [SrcEntity("Test", Sprite = "Sprites/Gordon")]
+    [SrcEntity("prop_test", Icon = "Sprites/Gordon")]
     public class TestEntity : SpriteEntity
     {
         [SrcProperty("MyInt", DefaultValue = 1, Description = "An int")]

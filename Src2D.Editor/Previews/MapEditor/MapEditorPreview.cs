@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using Src2D.Editor.Gizmos;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
 
 namespace Src2D.Editor.Previews.MapEditor
 {
@@ -55,6 +56,8 @@ namespace Src2D.Editor.Previews.MapEditor
         public event Action OnSelectedEntityChanged;
 
         private Point lastMousePosition = Point.Zero;
+
+        private ContentManager editorContent;
         #endregion
 
         #region Life Cycle
@@ -177,6 +180,8 @@ namespace Src2D.Editor.Previews.MapEditor
             isLoaded = false;
 
             ContentManager.RootDirectory = content.ContentFolder + "\\" + content.OutputDir;
+            editorContent = new ContentManager(ContentManager.ServiceProvider, "Content");
+
 
             PopulateEntities(map, out errors);
 
@@ -193,7 +198,7 @@ namespace Src2D.Editor.Previews.MapEditor
 
                 if (EntityDataSheetManager.CurrentSheet.Entities.ContainsKey(entity.EntityType))
                 {
-                    Entities.Add(new MapEditorEntity(this, entity, ContentManager));
+                    Entities.Add(new MapEditorEntity(this, entity, ContentManager, editorContent));
                 }
                 else
                 {
@@ -221,7 +226,7 @@ namespace Src2D.Editor.Previews.MapEditor
         #region Actions
         public void CreateEntity(MapEntity entity)
         {
-            MapEditorEntity newEnt = new MapEditorEntity(this, entity, ContentManager);
+            MapEditorEntity newEnt = new MapEditorEntity(this, entity, ContentManager, editorContent);
 
             DoAction(() => AddEntity(newEnt), () => RemoveEntity(newEnt));
         }
@@ -283,7 +288,7 @@ namespace Src2D.Editor.Previews.MapEditor
         {
             isLoaded = false;
             ContentManager.Unload();
-            Entities.ForEach(ent => ent.ReloadAssets(ContentManager));
+            Entities.ForEach(ent => ent.ReloadAssets(ContentManager, editorContent));
             isLoaded = true;
         }
     }

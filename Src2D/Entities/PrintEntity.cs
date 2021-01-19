@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Src2D.Entities
 {
-    [SrcEntity("Print")]
+    [SrcEntity("func_print")]
     public class PrintEntity : BaseEntity
     {
         [SrcAction("Print", HasParam = true)]

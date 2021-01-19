@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ExampleGame
 {
-    [SrcEntity("Test2", Sprite = "Sprites/Motercycle")]
+    [SrcEntity("prop_test2", Icon = "Sprites/Motercycle")]
     public class TestEntity2 : SpriteEntity
     {
         [SrcProperty("MySchema")]
