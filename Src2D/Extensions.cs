@@ -109,5 +109,16 @@ namespace Src2D
                 yield return selector(item);
             }
         }
+
+        public static Vector2 Rotate(this Vector2 vector, float rotationInRadians)
+        {
+            var x = vector.X;
+            var y = vector.Y;
+            var rot = rotationInRadians;
+
+            return new Vector2(
+                (float)(x * Math.Cos(rot) - y * Math.Sin(rot)),
+                (float)(x * Math.Sin(rot) + y * Math.Cos(rot)));
+        }
     }
 }

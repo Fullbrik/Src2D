@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Src2D.Input;
 
 namespace Src2D
 {
@@ -43,6 +44,7 @@ namespace Src2D
 
         protected override void Update(GameTime gameTime)
         {
+            InputManager.Update();
             SceneManager.ActiveScene?.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             base.Update(gameTime);
@@ -52,14 +54,7 @@ namespace Src2D
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            var vp = GraphicsDevice.Viewport;
-            var CameraScale = Vector2.One; //Temporary until we implement an actual camera
-
-            var baseTrans = Matrix.CreateTranslation(
-                ((vp.Width / CameraScale.X) / 2f), ((vp.Height / CameraScale.Y) / 2f), 1);
-            SpriteBatch.Begin(transformMatrix: baseTrans);
-            SceneManager.ActiveScene?.Draw2D(SpriteBatch);
-            SpriteBatch.End();
+            SceneManager.ActiveScene?.Render2D(spriteBatch);
 
             base.Draw(gameTime);
         }

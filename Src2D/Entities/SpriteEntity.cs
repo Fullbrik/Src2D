@@ -26,13 +26,16 @@ namespace Src2D.Entities
         {
             base.Draw(spriteBatch);
 
-            Vector2 spriteSize = new Vector2(Sprite.Value.Width, Sprite.Value.Height);
+            if (Sprite.Value != null)
+            {
+                Vector2 spriteSize = new Vector2(Sprite.Value.Width, Sprite.Value.Height);
 
-            SpriteEffects effect = SpriteEffects.None;
-            if(FlipX) effect |= SpriteEffects.FlipHorizontally;
-            if(FlipY) effect |= SpriteEffects.FlipVertically;
+                SpriteEffects effect = SpriteEffects.None;
+                if (FlipX) effect |= SpriteEffects.FlipHorizontally;
+                if (FlipY) effect |= SpriteEffects.FlipVertically;
 
-            spriteBatch.Draw(Sprite, Position, null, Color, MathHelper.ToRadians(Rotation), Origin * spriteSize, Scale, effect, 0);
+                spriteBatch.Draw(Sprite, Position, null, Color, MathHelper.ToRadians(Rotation), Origin * spriteSize, Scale, effect, 0);
+            }
         }
     }
 }

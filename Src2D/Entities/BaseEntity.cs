@@ -31,26 +31,49 @@ namespace Src2D.Entities
         }
         private string name;
 
-        [SrcProperty("Position", Description = "The position of the sprite")]
+        [SrcProperty("Position", Description = "The position of the sprite", DefaultValue = "0, 0")]
         public virtual Vector2 Position { get; set; } = Vector2.Zero;
-        [SrcProperty("Rotation", Description = "The rotation of the sprite")]
+
+
+        [SrcProperty("Rotation", Description = "The rotation of the sprite", DefaultValue = 0)]
         public virtual float Rotation { get; set; }
-        [SrcProperty("Scale", Description = "The scale of the sprite")]
+
+
+        [SrcProperty("Scale", Description = "The scale of the sprite", DefaultValue = "1, 1")]
         public virtual Vector2 Scale { get; set; } = Vector2.One;
+
+
         [SrcProperty("FlipX", Description = "Weather to flip the sprite sideways")]
         public virtual bool FlipX { get; set; }
+
+
         [SrcProperty("FlipY", Description = "Weather to flip the sprite up and down")]
         public virtual bool FlipY { get; set; }
-        [SrcProperty("Origin", Description = "The origin of the sprite (where to rotate it from, from 0-1. Use .5 to rotate from the center)")]
+
+
+        [SrcProperty("Origin", Description = "The origin of the sprite (where to rotate it from, from 0-1. Use .5 to rotate from the center)", DefaultValue = "0.5, 0.5")]
         public virtual Vector2 Origin { get; set; } = new Vector2(.5f, .5f);
+
+
         [SrcProperty("Color", Description = "The color to tint the sprite. Set it to white for no tint")]
         public virtual Color Color { get; set; } = Color.White;
+
+        public Vector2 Up
+        {
+            get => Vector2.UnitY.Rotate(MathHelper.ToRadians(Rotation));
+        }
+
+        public Vector2 Right
+        {
+            get => Vector2.UnitX.Rotate(MathHelper.ToRadians(Rotation));
+        }
+
 
         public bool HasStarted { get => hasStarted; }
         private bool hasStarted;
 
-        public Scene Owner { get => owner; }
-        private Scene owner;
+        public Scene Scene { get => scene; }
+        private Scene scene;
 
         private readonly Dictionary<string, EventInfo> srcEvents = new Dictionary<string, EventInfo>();
         private readonly Dictionary<string, SrcEvent> srcActions = new Dictionary<string, SrcEvent>();
@@ -59,9 +82,9 @@ namespace Src2D.Entities
 
         private readonly List<Binding> bindings = new List<Binding>();
 
-        internal void Initialize(Scene owner, string id)
+        internal void Initialize(Scene scene, string id)
         {
-            this.owner = owner;
+            this.scene = scene;
             this.id = id;
 
             BuildProperties();
@@ -143,10 +166,10 @@ namespace Src2D.Entities
 
         public void RealeseAllQueries()
         {
-            var queries = Owner.EntityQuerys.Keys;
+            var queries = Scene.EntityQuerys.Keys;
             foreach (var query in queries)
             {
-                Owner.EntityQuerys[query].Remove(this);
+                Scene.EntityQuerys[query].Remove(this);
             }
         }
 
@@ -154,11 +177,11 @@ namespace Src2D.Entities
         {
             if (Name != null)
             {
-                var queries = Owner.EntityQuerys.Keys;
+                var queries = Scene.EntityQuerys.Keys;
                 foreach (var query in queries)
                 {
                     if (Regex.IsMatch(Name, query))
-                        Owner.EntityQuerys[query].Add(this);
+                        Scene.EntityQuerys[query].Add(this);
                 }
             }
         }
@@ -175,13 +198,10 @@ namespace Src2D.Entities
             hasStarted = true;
         }
 
-        [SrcEvent("OnEnd", ExportsParam = false, Description = "When the entity ends, right before getting destroyed")]
-        public event SrcEvent OnEnd;
         public virtual void End()
         {
             hasStarted = false;
-            OnEnd?.Invoke("");
-            owner = null;
+            scene = null;
             UnbindAllActions();
         }
 
@@ -199,7 +219,7 @@ namespace Src2D.Entities
 
             var evnt = srcEvents[eventName];
             EntityReference reff = new EntityReference(themQuery);
-            reff.Setup(Owner);
+            reff.Setup(Scene);
 
             evnt.AddEventHandler(this, new SrcEvent((string param) =>
             {

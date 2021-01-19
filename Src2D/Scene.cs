@@ -19,6 +19,8 @@ namespace Src2D
         public SceneEnityColection Entities { get => entities; }
         private SceneEnityColection entities;
 
+        public Camera Camera { get; set; }
+
         public Dictionary<string, List<BaseEntity>> EntityQuerys { get => entityQuerys; }
         private readonly Dictionary<string, List<BaseEntity>> entityQuerys
             = new Dictionary<string, List<BaseEntity>>();
@@ -51,15 +53,9 @@ namespace Src2D
             });
         }
 
-        public void Draw2D(SpriteBatch spriteBatch)
+        public void Render2D(SpriteBatch spriteBatch)
         {
-            Entities?.ForEach(ent =>
-            {
-                if (ent is IDraw2DEntity draw2DEntity && ent.HasStarted)
-                {
-                    draw2DEntity.Draw(spriteBatch);
-                }
-            });
+            Camera?.RenderEntities(spriteBatch, Entities);
         }
 
         public void End()
@@ -107,7 +103,7 @@ namespace Src2D
 
         public void Add(BaseEntity item, Action<BaseEntity> builder)
         {
-            if (item != null && item.Owner == null)
+            if (item != null && item.Scene == null)
             {
                 item.Initialize(owner, GetNewID());
 
@@ -166,7 +162,7 @@ namespace Src2D
 
         public void Insert(int index, BaseEntity item)
         {
-            if (item != null && item.Owner == null)
+            if (item != null && item.Scene == null)
             {
                 item.Initialize(owner, GetNewID());
 

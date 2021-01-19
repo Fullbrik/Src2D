@@ -31,7 +31,8 @@ namespace Src2D
 
         public void Precache()
         {
-            value = Assets.ContentManager.Load<T>(AssetName);
+            if (!string.IsNullOrWhiteSpace(AssetName))
+                value = Assets.ContentManager.Load<T>(AssetName);
         }
 
         public override string ToString()

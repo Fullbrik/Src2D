@@ -51,44 +51,51 @@ namespace Src2D.Editor
                     property.PropertyType = PropertyData.GetSrcPropertyTypeFor(prop);
                     property.DefaultValue = srcProp.DefaultValue ?? PropertyData.GetDefaultValueFor(property.PropertyType);
 
-                    if(property.PropertyType == SrcPropertyType.MultiOption)
+                    switch (property.PropertyType)
                     {
-                        if(prop.PropertyType.TryExecuteEmptyConstructor(out object obj)
-                            && obj is SrcMultiOption mo)
-                        {
-                            property.Options = mo.GetOptions();
-                            property.DefaultValue = property.DefaultValue.ToString();
-                        }
-                    }
-                    if (property.PropertyType == SrcPropertyType.Misc)
-                    {
-                        if (Attribute.IsDefined(prop.PropertyType, typeof(SrcSchemaAttribute)))
-                        {
-                            var srcSchema 
-                                = (SrcSchemaAttribute)Attribute
-                                .GetCustomAttribute(
-                                    prop.PropertyType, 
-                                    typeof(SrcSchemaAttribute));
+                        case SrcPropertyType.MultiOption:
+                            {
+                                if (prop.PropertyType.TryExecuteEmptyConstructor(out object obj)
+                                    && obj is SrcMultiOption mo)
+                                {
+                                    property.Options = mo.GetOptions();
+                                    property.DefaultValue = property.DefaultValue.ToString();
+                                }
+                            }
+                            break;
+                        case SrcPropertyType.List:
+                            {
+                                var pt = prop.PropertyType;
 
-                            property.SchemaType = srcSchema.Name;
+                                if (pt.IsGenericType && pt.GenericTypeArguments.Length > 0
+                                    && Attribute.IsDefined(pt.GenericTypeArguments[0], typeof(SrcSchemaAttribute)))
+                                {
+                                    var srcSchema
+                                        = (SrcSchemaAttribute)Attribute
+                                        .GetCustomAttribute(
+                                            pt.GenericTypeArguments[0],
+                                            typeof(SrcSchemaAttribute));
 
-                        }
-                    }
-                    else if (property.PropertyType == SrcPropertyType.List)
-                    {
-                        var pt = prop.PropertyType;
+                                    property.SchemaType = srcSchema.Name;
+                                }
+                            }
+                            break;
+                        case SrcPropertyType.Misc:
+                            {
+                                if (Attribute.IsDefined(prop.PropertyType, typeof(SrcSchemaAttribute)))
+                                {
+                                    var srcSchema
+                                        = (SrcSchemaAttribute)Attribute
+                                        .GetCustomAttribute(
+                                            prop.PropertyType,
+                                            typeof(SrcSchemaAttribute));
 
-                        if(pt.IsGenericType && pt.GenericTypeArguments.Length > 0
-                            && Attribute.IsDefined(pt.GenericTypeArguments[0], typeof(SrcSchemaAttribute)))
-                        {
-                            var srcSchema 
-                                = (SrcSchemaAttribute)Attribute
-                                .GetCustomAttribute(
-                                    pt.GenericTypeArguments[0], 
-                                    typeof(SrcSchemaAttribute));
-
-                            property.SchemaType = srcSchema.Name;
-                        }
+                                    property.SchemaType = srcSchema.Name;
+                                }
+                            }
+                            break;
+                        default:
+                            break;
                     }
 
                     retVal.Add(name, property);
