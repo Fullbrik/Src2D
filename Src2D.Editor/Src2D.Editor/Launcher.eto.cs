@@ -28,11 +28,11 @@ namespace Src2D.Editor
                     new GroupBox()
                     {
                         Text = "Recent projects:",
-                        Font = new Font("Segoe UI", 15),
+                        Font = new Font(SystemFont.Label, 15),
                         Content = new ListBox()
                         {
                             Size = new Size(400, 500),
-                            Font = new Font("Segoe UI", 15)
+                            Font = new Font(SystemFont.Label, 15)
                         }.Export(out RecentFilesList)
                     },
                     new Panel()
@@ -50,7 +50,7 @@ namespace Src2D.Editor
                             new Button()
                             {
                                 Text = "New",
-                                Font = new Font("Segoe UI", 20),
+                                Font = new Font(SystemFont.Label, 20),
                                 MinimumSize = new Size(200, 60),
                             }.Export(out NewButton),
                             new Panel()
@@ -60,7 +60,7 @@ namespace Src2D.Editor
                             new Button()
                             {
                                 Text = "Open",
-                                Font = new Font("Segoe UI", 20),
+                                Font = new Font(SystemFont.Label, 20),
                                 MinimumSize = new Size(200, 60)
                             }.Export(out OpenButton)
                         }

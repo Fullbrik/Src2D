@@ -12,7 +12,7 @@ using System.Text;
 
 namespace ExampleGame
 {
-    [SrcEntity("prop_test", Icon = "Sprites/Gordon")]
+    [SrcEntity("prop_test", Icon = "Sprites/gordon")]
     public class TestEntity : SpriteEntity
     {
         [SrcProperty("MyInt", DefaultValue = 1, Description = "An int")]
@@ -38,7 +38,7 @@ namespace ExampleGame
 
         public override void Start()
         {
-            Sprite = "Sprites/Gordon";
+            Sprite = "Sprites/gordon";
             base.Start();
         }
 

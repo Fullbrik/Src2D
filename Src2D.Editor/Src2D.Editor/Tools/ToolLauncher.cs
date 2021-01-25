@@ -29,6 +29,7 @@ namespace Src2D.Editor.Tools
             else if (tools.Length > 1)
             {
                 using (var dialog = new ItemSelectionDialog(
+                    "Select a tool: ",
                     (tool) => ((ToolAttribute.Data)tool).Attr.Name, tools.Cast<object>()))
                 {
                     dialog.ShowModal();

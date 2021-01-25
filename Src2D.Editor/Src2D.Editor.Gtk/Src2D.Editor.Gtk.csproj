@@ -6,11 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Src2D.Editor.CoreHacks\Src2D.Editor.CoreHacks.csproj" />
     <ProjectReference Include="..\Src2D.Editor\Src2D.Editor.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Eto.Platform.Gtk" Version="2.5.10" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
   </ItemGroup>
 	
 </Project>

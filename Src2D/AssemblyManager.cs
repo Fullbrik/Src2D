@@ -27,10 +27,15 @@ namespace Src2D
 
         public static void LoadAssembly(Assembly assembly)
         {
-            GetEntities(assembly);
+            GetEntities(assembly, false);
         }
 
-        private static void GetEntities(Assembly assembly)
+        public static void UnloadAssembly(Assembly assembly)
+        {
+            GetEntities(assembly, false);
+        }
+
+        private static void GetEntities(Assembly assembly, bool remove)
         {
             var types = assembly.GetTypes();
 
@@ -39,7 +44,11 @@ namespace Src2D
                 if((type.IsSubclassOf(typeof(BaseEntity)) || type == typeof(BaseEntity)) && Attribute.IsDefined(type, typeof(SrcEntityAttribute)))
                 {
                     var srcEntity = (SrcEntityAttribute)Attribute.GetCustomAttribute(type, typeof(SrcEntityAttribute));
-                    Entities.Add(srcEntity.Name, type);
+
+                    if(remove)
+                        Entities.Remove(srcEntity.Name);
+                    else
+                        Entities.Add(srcEntity.Name, type);
                 }
             }
         }

@@ -23,13 +23,14 @@ namespace Src2D.Editor.Dialogs
         private IEnumerable<object> items;
         private Func<object, string> toString;
 
-        public ItemSelectionDialog(IEnumerable<object> items) : this(null, items)
+        public ItemSelectionDialog(string title, IEnumerable<object> items) : this(title, null, items)
         {
         }
 
-        public ItemSelectionDialog(Func<object, string> toString, IEnumerable<object> items)
+        public ItemSelectionDialog(string title, Func<object, string> toString, IEnumerable<object> items)
         {
             InitializeComponent();
+            TitleLabel.Text = title;
 
             this.items = items;
             this.toString = toString ?? ((t) => t.ToString());
@@ -41,7 +42,7 @@ namespace Src2D.Editor.Dialogs
             Cancel.Click += Cancel_Click;
         }
 
-        public ItemSelectionDialog(params string[] items) : this(null, items)
+        public ItemSelectionDialog(string title, params string[] items) : this(title, null, items)
         {
 
         }

@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Icons\Entity.png" />
     <None Remove="Icons\FolderClosed.png" />
   </ItemGroup>
 

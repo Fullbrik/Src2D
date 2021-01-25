@@ -34,6 +34,7 @@ namespace Src2D.Editor.Tools.MapEditor
         private void MapEditor_Load(object sender, EventArgs e)
         {
             HasPendingChanges = false;
+            ContentBrowser.Refresh(true, true);
         }
     }
 }

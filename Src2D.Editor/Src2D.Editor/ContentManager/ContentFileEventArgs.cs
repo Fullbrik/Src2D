@@ -4,13 +4,15 @@ using System.Text;
 
 namespace Src2D.Editor.ContentManager
 {
-    public class ContentFileOpenEventArgs : EventArgs
+    public class ContentFileEventArgs : EventArgs
     {
         public string FileName { get; }
+        public bool IsDirectory { get; }
 
-        public ContentFileOpenEventArgs(string filename)
+        public ContentFileEventArgs(string filename, bool isDirectory)
         {
             FileName = filename;
+            IsDirectory = isDirectory;
         }
     }
 }
